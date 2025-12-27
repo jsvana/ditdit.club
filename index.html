@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continuous Wave Order | ditdit.club</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink: #E87A9F;
+            --pink-dark: #D4587D;
+            --black: #1a1a1a;
+            --cream: #FAF8F5;
+            --gray: #6B6B6B;
+            --gray-light: #E8E6E3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--cream);
+            color: var(--black);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            position: relative;
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .logo {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            box-shadow: 
+                0 20px 60px rgba(232, 122, 159, 0.3),
+                0 0 0 4px var(--black);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: rotate(-5deg) scale(1.02);
+        }
+
+        .tagline {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+        }
+
+        .tagline .highlight {
+            color: var(--pink-dark);
+            display: inline-block;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .morse-decoration {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            letter-spacing: 0.3em;
+            color: var(--pink);
+            margin-top: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        /* Section styling */
+        section {
+            margin: 3rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .section-header::after {
+            content: '';
+            flex: 1;
+            height: 3px;
+            background: linear-gradient(90deg, var(--black) 0%, transparent 100%);
+        }
+
+        /* Links Grid */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+        }
+
+        .link-card {
+            background: white;
+            border: 2px solid var(--black);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--pink);
+            transform: translateY(100%);
+            transition: transform 0.25s ease;
+            z-index: 0;
+        }
+
+        .link-card:hover::before {
+            transform: translateY(0);
+        }
+
+        .link-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .link-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-card:hover .link-card-content {
+            color: white;
+        }
+
+        .link-card h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .link-card h3::after {
+            content: '→';
+            transition: transform 0.2s ease;
+        }
+
+        .link-card:hover h3::after {
+            transform: translateX(4px);
+        }
+
+        .link-card p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.4;
+        }
+
+        .link-card:hover p {
+            color: rgba(255,255,255,0.85);
+        }
+
+        /* Audio Books Grid */
+        .audio-books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .book-card {
+            background: white;
+            border: 2px solid var(--black);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .book-card h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .speed-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .speed-links a {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            background: var(--gray-light);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-decoration: none;
+            color: var(--black);
+            transition: all 0.15s ease;
+        }
+
+        .speed-links a:hover {
+            background: var(--pink);
+            color: white;
+        }
+
+        .speed-links.single {
+            margin-bottom: 0.75rem;
+        }
+
+        .speed-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .folder-link {
+            font-size: 0.85rem;
+            color: var(--pink-dark);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .folder-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            border-top: 2px solid var(--gray-light);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        footer .morse {
+            font-size: 1.1rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 0.5rem;
+            color: var(--pink);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 2rem 0;
+            }
+
+            .logo {
+                width: 160px;
+                height: 160px;
+            }
+
+            .book-card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="hero">
+            <div class="logo-container">
+                <img src="logo.png" alt="Continuous Wave Order Logo" class="logo">
+            </div>
+            <h1 class="tagline">
+                <span class="highlight">Continuous Wave</span> Order
+            </h1>
+            <p class="description">
+                Buncha dickheads talking shit and spending money we don't need to while waxing poetic about Morse code.
+            </p>
+            <div class="morse-decoration">-.-. .-- ---</div>
+        </header>
+
+        <p style="color: var(--gray); margin-bottom: 2rem; text-align: center;">Links compiled by CWO members. <a href="https://ditdit.club/data/members.txt" style="color: var(--pink-dark);">Members list</a> (also works as a Ham2K PoLo callsign notes file!)</p>
+
+        <section>
+            <div class="section-header">
+                <h2>YouTube Channels</h2>
+            </div>
+            <div class="links-grid">
+                <a href="https://youtube.com/@utahforrest" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Forrest KI7QCF</h3>
+                        <p>CW journey, POTA activations, and gear reviews</p>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/@not.that.dude_banks" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Ryan Banks AC4NK</h3>
+                        <p>Ham radio content and CW adventures</p>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/@Tim-K5OHY" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Tim K5OHY</h3>
+                        <p>CW operating and ham radio tips</p>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/@Critical_Frequency" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Conor KF8CNK</h3>
+                        <p>Critical Frequency — ham radio content</p>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/@ZeusK8CES" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Jesus K8CES</h3>
+                        <p>Zeus on the air</p>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/@SOTA-plus" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>KO6BTM</h3>
+                        <p>SOTA+ summit activations</p>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/@N7BUH" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Dan N7BUH</h3>
+                        <p>Ham radio and CW content</p>
+                    </div>
+                </a>
+                <a href="https://www.youtube.com/@N8JMS" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Justin N8JMS</h3>
+                        <p>Ham radio adventures</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2>Applications</h2>
+            </div>
+            <div class="links-grid">
+                <a href="https://groups.io/g/MorseRunnerCE" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Morse Runner CE</h3>
+                        <p>Community Edition of the classic contest simulator</p>
+                    </div>
+                </a>
+                <a href="https://training.vailmorse.com/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Vail Training Tools</h3>
+                        <p>Many useful training tools for ICR</p>
+                    </div>
+                </a>
+                <a href="https://tools.hamradioduo.com/cw-checker/?ref=hamradioduo.com" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Code Checker</h3>
+                        <p>Fine tune your bug or see how good your fist really is</p>
+                    </div>
+                </a>
+                <a href="https://www.rufzxp.net/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>RufzXP</h3>
+                        <p>Callsign drill that pushes speed and scores your errors</p>
+                    </div>
+                </a>
+                <a href="https://hamalert.org/triggers" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>HamAlert</h3>
+                        <p>Push notifications for spots, band openings, and specific callsigns</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2>Websites & Online Tools</h2>
+            </div>
+            <div class="links-grid">
+                <a href="https://www.bug.date/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Bug.date</h3>
+                        <p>Tool to identify and age Vibroplex bugs</p>
+                    </div>
+                </a>
+                <a href="https://prop.kc2g.com/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Prop.kc2g</h3>
+                        <p>MUF and FoF2 maps for DX and NVIS</p>
+                    </div>
+                </a>
+                <a href="https://www.voacap.com/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>VOACAP</h3>
+                        <p>HF propagation modeling by band, time, and antenna</p>
+                    </div>
+                </a>
+                <a href="https://www.ve2dbe.com/rmonline_s.asp" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Radio Mobile Online</h3>
+                        <p>RF propagation estimates, great for VHF/UHF</p>
+                    </div>
+                </a>
+                <a href="https://www.scadacore.com/tools/rf-path/rf-line-of-sight/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>SCADACore RF Line of Sight</h3>
+                        <p>Map terrain between two points for simplex</p>
+                    </div>
+                </a>
+                <a href="https://pskreporter.info/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>PSKReporter</h3>
+                        <p>Spots across CW, digi, and more</p>
+                    </div>
+                </a>
+                <a href="https://www.reversebeacon.net/main.php" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Reverse Beacon Network</h3>
+                        <p>Biggest CW spotting network</p>
+                    </div>
+                </a>
+                <a href="https://rbn.telegraphy.de/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>CW Club RBN Spotter</h3>
+                        <p>RBN with club membership overlay</p>
+                    </div>
+                </a>
+                <a href="https://www.qrz.com/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>QRZ</h3>
+                        <p>Callsign lookup and ham profiles</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2>CW Learning Tools</h2>
+            </div>
+            <div class="links-grid">
+                <a href="https://lcwo.net/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>LCWO</h3>
+                        <p>Lessons, callsign training, word training, and MP3 generator</p>
+                    </div>
+                </a>
+                <a href="https://morsecode.world/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>MorseCodeWorld</h3>
+                        <p>Trainer, decoder, and word list trainer</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2>Classes</h2>
+            </div>
+            <div class="links-grid">
+                <a href="https://cwops.org/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>CWops</h3>
+                        <p>CW Academy courses from beginner to advanced</p>
+                    </div>
+                </a>
+                <a href="https://longislandcwclub.org/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Long Island CW Club</h3>
+                        <p>Classes, nets, and a welcoming CW community</p>
+                    </div>
+                </a>
+                <a href="https://cwinnovations.net/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>CW Innovations</h3>
+                        <p>CW instruction and training resources</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2>Clubs</h2>
+            </div>
+            <div class="links-grid">
+                <a href="https://www.qrqcrew.club/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>QRQ Crew</h3>
+                        <p>High-speed CW enthusiasts</p>
+                    </div>
+                </a>
+                <a href="https://fists.co.uk/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>FISTS</h3>
+                        <p>International Morse Preservation Society</p>
+                    </div>
+                </a>
+                <a href="https://naqcc.info/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>NAQCC</h3>
+                        <p>North American QRP CW Club</p>
+                    </div>
+                </a>
+                <a href="https://skccgroup.com/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>SKCC</h3>
+                        <p>Straight Key Century Club</p>
+                    </div>
+                </a>
+                <a href="https://www.qsl.net/soc/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Second Class Operators</h3>
+                        <p>SOC — celebrating imperfect CW</p>
+                    </div>
+                </a>
+                <a href="https://cwops.org/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>CWops</h3>
+                        <p>CW Operators Club</p>
+                    </div>
+                </a>
+                <a href="https://longislandcwclub.org/" target="_blank" rel="noopener" class="link-card">
+                    <div class="link-card-content">
+                        <h3>Long Island CW Club</h3>
+                        <p>Active CW community with nets and events</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2>Practice Audio</h2>
+            </div>
+            <p style="color: var(--gray); margin-bottom: 0.5rem;">Classic books read in CW at various speeds. Pick your poison.</p>
+            <p style="font-size: 0.85rem; color: var(--gray); margin-bottom: 0.5rem;">Speeds in WPM, following the ARRL code bulletin structure: Farnsworth at 15 character speed up to 15 WPM effective, no Farnsworth at/above 15 WPM.</p>
+            <p style="font-size: 0.85rem; color: var(--gray); margin-bottom: 1.5rem;">Thanks to <strong>Andy AJ7CM</strong> for creating these practice files!</p>
+            
+            <div class="audio-books-grid">
+                <div class="book-card">
+                    <h3>Alice in Wonderland</h3>
+                    <div class="speed-links">
+                        <a href="https://drive.google.com/drive/folders/1_Scx5DA4cKLSHzuwMMGMJE_3mOfAct9W" target="_blank">5</a>
+                        <a href="https://drive.google.com/drive/folders/1Dux59dk-zY6aTMNAoyi5f2cAEo0dNHIL" target="_blank">7.5</a>
+                        <a href="https://drive.google.com/drive/folders/1AqtJGdo5NJrL-0lTpU1klVVPorSYy5AH" target="_blank">10</a>
+                        <a href="https://drive.google.com/drive/folders/1MNvLW_kQh8-3brajda4P8wqf79Hb1Ha4" target="_blank">13</a>
+                        <a href="https://drive.google.com/drive/folders/1U5STx-wYxxX2Q3OKy7vKapk9fsXdMoQA" target="_blank">15</a>
+                        <a href="https://drive.google.com/drive/folders/1uk0nIaiT6OFZpF74ECMwSQ0Aym7I0Pkt" target="_blank">18</a>
+                        <a href="https://drive.google.com/drive/folders/17Nq5P7CHb8giz6HQiqc_ot8sSp8NO8JR" target="_blank">20</a>
+                        <a href="https://drive.google.com/drive/folders/1czzfTNdwzRHX36JSS2lrNGlWHnJbwhf4" target="_blank">25</a>
+                        <a href="https://drive.google.com/drive/folders/1hb6vRzA334IMHH3v_ca5JWTqHd6KOMr8" target="_blank">30</a>
+                        <a href="https://drive.google.com/drive/folders/13AZsXtAnBIy26BG8gOkr-7M3STWCXRY9" target="_blank">35</a>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1d4aXwybsyqFd4eE-SpZdOS-_On7Zs41v" target="_blank" class="folder-link">All files →</a>
+                </div>
+
+                <div class="book-card">
+                    <h3>Peter Pan</h3>
+                    <div class="speed-links">
+                        <a href="https://drive.google.com/drive/folders/137a-0w_l65_rWIycOuMfVa8QO2_wSA3x" target="_blank">5</a>
+                        <a href="https://drive.google.com/drive/folders/1KrWqcn2io72iX6ofyd1XZPqozMlt_-G_" target="_blank">7</a>
+                        <a href="https://drive.google.com/drive/folders/1TXsNrZmCpkiJ3C1pC_nQ6OdkQv3TCrvr" target="_blank">10</a>
+                        <a href="https://drive.google.com/drive/folders/14jSmpzAcKSafdPlpbbJuMgF8XHuz6uKg" target="_blank">13</a>
+                        <a href="https://drive.google.com/drive/folders/1WR5VUiG4hKeonK8j1p1u7avvCVhntRPq" target="_blank">15</a>
+                        <a href="https://drive.google.com/drive/folders/1LqcGC4S8ENhC2H8HYizvoO-Xv2VgiF2Y" target="_blank">18</a>
+                        <a href="https://drive.google.com/drive/folders/1X0BdpQebj2g70mrAWkJDOBEXrLlSjvbd" target="_blank">20</a>
+                        <a href="https://drive.google.com/drive/folders/1S7d9ZTa3IvnuMdCUFW0OWUaN5xMG9zfb" target="_blank">25</a>
+                        <a href="https://drive.google.com/drive/folders/1DOFoM06xLRO7nUy3y5IWERNY__CabZ8P" target="_blank">30</a>
+                        <a href="https://drive.google.com/drive/folders/1euSkNSRFiHrDE2B2Rs3v0oDKdB9RxsBb" target="_blank">35</a>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1TC8PUPW9tJEJhDmgp6TKL_smmlWyxPyb" target="_blank" class="folder-link">All files →</a>
+                </div>
+
+                <div class="book-card">
+                    <h3>Winnie the Pooh</h3>
+                    <div class="speed-links">
+                        <a href="https://drive.google.com/drive/folders/1TnLGLLCq-djoMAnHygGVp-jhgpJ30e1A" target="_blank">5</a>
+                        <a href="https://drive.google.com/drive/folders/1y3tTKtzYH46Dqufma8pGYVeco71By_mN" target="_blank">7</a>
+                        <a href="https://drive.google.com/drive/folders/1M-bl00Eh-2EicCQWm4RvULgE0-IYm5Rj" target="_blank">10</a>
+                        <a href="https://drive.google.com/drive/folders/1aTzvI__hLW2QQNklvS38mfG7_vgan9-c" target="_blank">13</a>
+                        <a href="https://drive.google.com/drive/folders/1DPMzWuRdOsWMO5RqaOLUP9DT1JURtZC0" target="_blank">15</a>
+                        <a href="https://drive.google.com/drive/folders/1gSsolhXS_ZHh195j5WpvQHukCEMqcFA0" target="_blank">18</a>
+                        <a href="https://drive.google.com/drive/folders/1mTNOpX4U-UEe6qk6WXB53pQSarmN9ww1" target="_blank">20</a>
+                        <a href="https://drive.google.com/drive/folders/1ZVoyx26gkWyqwTPrK8nS77nr5XHwwIbM" target="_blank">25</a>
+                        <a href="https://drive.google.com/drive/folders/1huMFqamUqhrnq6T9eiPxyNCl_yXk5jlG" target="_blank">30</a>
+                        <a href="https://drive.google.com/drive/folders/1kssl8jTGTyxag2aipbdkDG-jnCRq8anD" target="_blank">35</a>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1GCgkrBx32c7QmYDJMmwxZJ_mCl9lkdRN" target="_blank" class="folder-link">All files →</a>
+                </div>
+
+                <div class="book-card">
+                    <h3>Wizard of Oz</h3>
+                    <div class="speed-links">
+                        <a href="https://drive.google.com/drive/folders/17qtFXqjAQojt44EZHLc5sQlluyI2JxJI" target="_blank">5</a>
+                        <a href="https://drive.google.com/drive/folders/1A3-LAPzpVkjclguSGgpnENGcGm84Z0K_" target="_blank">7</a>
+                        <a href="https://drive.google.com/drive/folders/1TeuO2yN1eAIpw0pAaGFqaTJ_dmiuP_sF" target="_blank">10</a>
+                        <a href="https://drive.google.com/drive/folders/1aUrVjJWU9ghzGZ05QCYce2MrgqIT9CFK" target="_blank">13</a>
+                        <a href="https://drive.google.com/drive/folders/1H7-GQQLhiOx5jFT-f3T5sB7hGv4-GAsc" target="_blank">15</a>
+                        <a href="https://drive.google.com/drive/folders/1gRQw-BgQlL7E7XRjY9gn3mFSJFj2tTa6" target="_blank">18</a>
+                        <a href="https://drive.google.com/drive/folders/1SYa-N3E-UqPdHRbV5w6H73NnRYAuc0N6" target="_blank">20</a>
+                        <a href="https://drive.google.com/drive/folders/1D9IjOF7Kj-CQYjU6v4x8GYHCfD-cctqV" target="_blank">25</a>
+                        <a href="https://drive.google.com/drive/folders/1G9lO8fR6jOWnpaqdFMAbv3w5_t2NS7yw" target="_blank">30</a>
+                        <a href="https://drive.google.com/drive/folders/1_2iz6vxgh_ZhkzgKWyRvwC7TLABm4RUt" target="_blank">35</a>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1x1_a8v0F68zIDq6J6HATperiJ5z6RH4B" target="_blank" class="folder-link">All files →</a>
+                </div>
+
+                <div class="book-card">
+                    <h3>Treasury of Beatrix Potter</h3>
+                    <div class="speed-links">
+                        <a href="https://drive.google.com/drive/folders/1Pnykhug0HGX0v55oygYm2o6LuwsUeAnw" target="_blank">5</a>
+                        <a href="https://drive.google.com/drive/folders/15-5ozi5OT1zCO8wNkBNBQDq2t6w0fau9" target="_blank">7.5</a>
+                        <a href="https://drive.google.com/drive/folders/1QB4dDVianwQsKVFGQYlSXDzpDulqAcwB" target="_blank">10</a>
+                        <a href="https://drive.google.com/drive/folders/1n65TZqwHcGRkzq2_TCiUsngrv0OUXg35" target="_blank">13</a>
+                        <a href="https://drive.google.com/drive/folders/1PUmp5GcC3bMEDcul0WehYPil4zNRwxTv" target="_blank">15</a>
+                        <a href="https://drive.google.com/drive/folders/1QgiMsOYxugwQ8tjS9IVZMYU7mZeRFnzY" target="_blank">18</a>
+                        <a href="https://drive.google.com/drive/folders/17UgJNIFRo8idcziESqtjcSq6SVr7kg2_" target="_blank">20</a>
+                        <a href="https://drive.google.com/drive/folders/1reqZDS2OlwPQKh5Wn6edsGcMRgLThAb0" target="_blank">25</a>
+                        <a href="https://drive.google.com/drive/folders/1DjizCe0bgjKviw7LpDUQrP7C7-rDTQLQ" target="_blank">30</a>
+                        <a href="https://drive.google.com/drive/folders/1tznKwXhyjMxAKlwrrs-PV9m62f4CUAPy" target="_blank">35</a>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1wgrcwionoHYpXSf3S8IJ1THiFvlMGDfL" target="_blank" class="folder-link">All files →</a>
+                </div>
+
+                <div class="book-card">
+                    <h3>30 WPM Early Readers</h3>
+                    <div class="speed-links">
+                        <a href="https://drive.google.com/file/d/1zOUA1ojwsKJ5dXs3aL5ZtMyGUaZ60oBN/view" target="_blank">A Box of Hats</a>
+                        <a href="https://drive.google.com/file/d/1tu5xYwkZX77cOlc3zcv0kyZTDW-IJWjv/view" target="_blank">A Trip to the Home Store</a>
+                        <a href="https://drive.google.com/file/d/1XYxZOrK_sdD7WCgytu8ZtnoL_815lmcT/view" target="_blank">A Trip to the Pacific Northwest</a>
+                        <a href="https://drive.google.com/file/d/1nnGXJo2eJe9Uj_MOdI05me82MbaOxWHB/view" target="_blank">Arno and Bart</a>
+                        <a href="https://drive.google.com/file/d/1dq-cougqe5MdDWtJEpK9tBe6s27GbmfP/view" target="_blank">Bertha and Nora</a>
+                        <a href="https://drive.google.com/file/d/1hiNYw4ltKhL9FKsso2kk9HThZmekIJg6/view" target="_blank">Caleb's Cookbook</a>
+                        <a href="https://drive.google.com/file/d/17MljN09OGKk94VCZEqmn8e7sglfrdm3P/view" target="_blank">Caps and Bags</a>
+                        <a href="https://drive.google.com/file/d/1IShfJ8KGUibaadUt68GQ5wM4bFiRB9td/view" target="_blank">Cathy and Vicki</a>
+                        <a href="https://drive.google.com/file/d/12JoI6FOriqZ2TLw51yomE-iGZBsNQHJF/view" target="_blank">Chaos at the Castle</a>
+                        <a href="https://drive.google.com/file/d/1pfcP9DMMY5wpMCSuZi6YKEkTYKvkTfOj/view" target="_blank">The Big Ball</a>
+                        <a href="https://drive.google.com/file/d/1sT_5I7cflv5wKm6TpjDGagkiAjZIl_nr/view" target="_blank">Watching the Frog</a>
+                    </div>
+                    <a href="https://drive.google.com/drive/folders/1LxhDZVwf7lqCGpEyppOBKYZCCiskjtDi" target="_blank" class="folder-link">All files →</a>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p class="morse">· ··· · <span style="letter-spacing: 0">─────</span> ·</p>
+            <p>© Continuous Wave Order · ditdit.club</p>
+        </footer>
+    </div>
+</body>
+</html>
