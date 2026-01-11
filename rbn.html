@@ -104,6 +104,67 @@
             margin-bottom: 6px;
         }
 
+        .callsign-input {
+            margin-top: 8px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .callsign-input input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            background: rgba(30, 40, 70, 0.5);
+            color: #fff;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            text-transform: uppercase;
+        }
+
+        .callsign-input input::placeholder {
+            color: #667788;
+            text-transform: none;
+        }
+
+        .callsign-input input:focus {
+            outline: none;
+            border-color: #7eb8ff;
+            background: rgba(40, 50, 90, 0.6);
+        }
+
+        .callsign-input button {
+            padding: 8px 14px;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            background: rgba(80, 100, 180, 0.4);
+            color: #7eb8ff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .callsign-input button:hover {
+            background: rgba(100, 120, 200, 0.5);
+            border-color: #7eb8ff;
+        }
+
+        .mycall-status {
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: rgba(50, 200, 100, 0.15);
+            border: 1px solid rgba(50, 200, 100, 0.3);
+            border-radius: 6px;
+            font-size: 12px;
+            color: #50c864;
+        }
+
+        .mycall-status.no-call {
+            background: rgba(255, 180, 50, 0.15);
+            border-color: rgba(255, 180, 50, 0.3);
+            color: #ffb432;
+        }
+
         .filter-btn {
             padding: 6px 12px;
             border: 1px solid rgba(100, 150, 255, 0.3);
@@ -153,6 +214,7 @@
         .legend-item {
             display: flex;
             align-items: center;
+            justify-content: flex-start;
             gap: 6px;
             font-size: 12px;
         }
@@ -161,6 +223,7 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .recent-spots {
@@ -398,7 +461,18 @@
             </div>
         </div>
         <div class="filters">
-            <div class="filter-label">Mode</div>
+            <div class="filter-label">View</div>
+            <div class="filter-row">
+                <button class="filter-btn view-btn active" data-view="drops">Raindrops</button>
+                <button class="filter-btn view-btn" data-view="heatmap">Heatmap</button>
+                <button class="filter-btn view-btn" data-view="mycall">My Call</button>
+            </div>
+            <div class="callsign-input" id="callsign-input" style="display: none;">
+                <input type="text" id="my-callsign" placeholder="Enter callsign (e.g. W6JSV)" />
+                <button id="save-callsign">Save</button>
+            </div>
+            <div class="mycall-status" id="mycall-status" style="display: none;"></div>
+            <div class="filter-label" style="margin-top: 10px;">Mode</div>
             <div class="filter-row">
                 <button class="filter-btn active" data-mode="all">All</button>
                 <button class="filter-btn" data-mode="CW">CW</button>
@@ -443,6 +517,17 @@
                 <span>RTTY</span>
             </div>
         </div>
+        <div class="legend-title" style="margin-top: 10px;">Size = SNR</div>
+        <div class="legend-items">
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #888; width: 6px; height: 6px;"></div>
+                <span>Weak</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #888; width: 24px; height: 24px;"></div>
+                <span>Strong</span>
+            </div>
+        </div>
     </div>
 
     <div class="recent-spots ui-panel">
@@ -459,6 +544,7 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/@joergdietrich/leaflet.terminator@1.0.0/L.Terminator.js"></script>
+    <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
     <script>
         // Callsign prefix to approximate lat/lon mapping
         // This provides rough locations without needing an API
@@ -703,11 +789,18 @@
         let map;
         let terminator;
         let seenSpotIds = new Set();
+        let callsignLastSeen = new Map(); // For debouncing: callsign -> timestamp
+        const CALLSIGN_DEBOUNCE_MS = 10000; // 10 second window
         let totalSpots = 0;
         let spotsLastMinute = [];
         let activeBands = new Set();
         let currentModeFilter = 'all';
         let currentBandFilter = 'all';
+        let currentViewMode = 'drops'; // 'drops', 'heatmap', or 'mycall'
+        let myCallsign = localStorage.getItem('rbn-my-callsign') || '';
+        let heatmapLayer = null;
+        let heatmapData = []; // Array of [lat, lng, intensity]
+        const HEATMAP_DECAY_MS = 60000; // Points fade over 60 seconds
 
         // Initialize map
         function initMap() {
@@ -821,14 +914,28 @@
 
             const point = map.latLngToContainerPoint([lat, lon]);
             
+            // Size based on SNR: typically ranges from -20 to +50 dB
+            // Map to dramatic size range of 6px to 50px with exponential scaling
+            const snr = spot.snr || 0;
+            const snrMin = -20;
+            const snrMax = 50;
+            const normalized = Math.max(0, Math.min(1, (snr - snrMin) / (snrMax - snrMin)));
+            // Use exponential curve for more dramatic difference
+            const curved = Math.pow(normalized, 0.6);
+            const minSize = 6;
+            const maxSize = 50;
+            const size = minSize + (maxSize - minSize) * curved;
+            
             const drop = document.createElement('div');
             drop.className = 'raindrop';
             drop.style.left = point.x + 'px';
             drop.style.top = point.y + 'px';
-            drop.style.width = '16px';
-            drop.style.height = '16px';
+            drop.style.width = size + 'px';
+            drop.style.height = size + 'px';
             drop.style.background = color;
-            drop.style.boxShadow = `0 0 12px ${color}, 0 0 24px ${color}80`;
+            // More dramatic glow for larger drops
+            const glowSize = size * (0.5 + normalized * 0.5);
+            drop.style.boxShadow = `0 0 ${glowSize}px ${color}, 0 0 ${glowSize * 2}px ${color}60, 0 0 ${glowSize * 3}px ${color}30`;
             
             spotOverlay.appendChild(drop);
 
@@ -862,7 +969,9 @@
                     if (spot) {
                         // Add tiny random delay for more organic feel
                         setTimeout(() => {
-                            const location = getLocationFromCall(spot.callsign);
+                            // In mycall mode, show spotter location; otherwise show callsign location
+                            const locationCall = currentViewMode === 'mycall' ? spot.spotter : spot.callsign;
+                            const location = getLocationFromCall(locationCall);
                             if (location) {
                                 const color = getModeColor(spot.mode);
                                 createSpotMarker(location[0], location[1], color, spot);
@@ -877,6 +986,100 @@
         function queueSpot(spot) {
             spotQueue.push(spot);
             startDripQueue();
+        }
+
+        // Heatmap functions
+        function initHeatmap() {
+            heatmapLayer = L.heatLayer([], {
+                radius: 25,
+                blur: 15,
+                maxZoom: 10,
+                max: 1.0,
+                gradient: {
+                    0.0: '#000033',
+                    0.2: '#0033ff',
+                    0.4: '#00ffff',
+                    0.6: '#00ff00',
+                    0.8: '#ffff00',
+                    1.0: '#ff0000'
+                }
+            });
+        }
+
+        function updateHeatmap() {
+            if (!heatmapLayer) return;
+            
+            const now = Date.now();
+            
+            // Remove old data points and calculate intensity based on age
+            heatmapData = heatmapData.filter(point => now - point.timestamp < HEATMAP_DECAY_MS);
+            
+            // Convert to heatmap format with intensity based on recency and SNR
+            const heatData = heatmapData.map(point => {
+                const age = now - point.timestamp;
+                const ageIntensity = 1 - (age / HEATMAP_DECAY_MS); // Newer = more intense
+                
+                // SNR factor: map -20 to +50 dB to 0.3 to 1.0 multiplier
+                const snr = point.snr || 0;
+                const snrNormalized = Math.max(0, Math.min(1, (snr + 20) / 70));
+                const snrFactor = 0.3 + snrNormalized * 0.7;
+                
+                return [point.lat, point.lng, ageIntensity * snrFactor];
+            });
+            
+            heatmapLayer.setLatLngs(heatData);
+        }
+
+        function setViewMode(mode) {
+            currentViewMode = mode;
+            
+            // Show/hide callsign input and status
+            const callsignInput = document.getElementById('callsign-input');
+            const mycallStatus = document.getElementById('mycall-status');
+            
+            if (mode === 'mycall') {
+                callsignInput.style.display = 'flex';
+                mycallStatus.style.display = 'block';
+                updateMycallStatus();
+            } else {
+                callsignInput.style.display = 'none';
+                mycallStatus.style.display = 'none';
+            }
+            
+            if (mode === 'heatmap') {
+                // Hide drops overlay, show heatmap
+                if (spotOverlay) spotOverlay.style.display = 'none';
+                if (heatmapLayer && !map.hasLayer(heatmapLayer)) {
+                    map.addLayer(heatmapLayer);
+                }
+                updateHeatmap();
+            } else if (mode === 'mycall') {
+                // Show drops overlay for mycall (raindrops for your spots)
+                if (spotOverlay) spotOverlay.style.display = 'block';
+                if (heatmapLayer && map.hasLayer(heatmapLayer)) {
+                    map.removeLayer(heatmapLayer);
+                }
+                // Clear existing data when switching to mycall
+                document.getElementById('spot-list').innerHTML = '';
+                heatmapData = [];
+            } else {
+                // Show drops overlay, hide heatmap
+                if (spotOverlay) spotOverlay.style.display = 'block';
+                if (heatmapLayer && map.hasLayer(heatmapLayer)) {
+                    map.removeLayer(heatmapLayer);
+                }
+            }
+        }
+
+        function updateMycallStatus() {
+            const mycallStatus = document.getElementById('mycall-status');
+            if (myCallsign) {
+                mycallStatus.className = 'mycall-status';
+                mycallStatus.innerHTML = `Watching for <strong>${myCallsign}</strong> spots`;
+            } else {
+                mycallStatus.className = 'mycall-status no-call';
+                mycallStatus.textContent = 'Enter your callsign above to see your spots';
+            }
         }
 
         // Add spot to list
@@ -921,10 +1124,25 @@
         // Process new spots - queue them for organic dripping
         function processSpots(spots) {
             let newCount = 0;
+            const now = Date.now();
+            
+            // Clean up old callsign debounce entries
+            for (const [call, timestamp] of callsignLastSeen) {
+                if (now - timestamp > CALLSIGN_DEBOUNCE_MS) {
+                    callsignLastSeen.delete(call);
+                }
+            }
             
             for (const spot of spots) {
-                // Skip if already seen
+                // Skip if already seen by ID
                 if (seenSpotIds.has(spot.id)) continue;
+                
+                // In mycall mode, only show spots for my callsign
+                if (currentViewMode === 'mycall') {
+                    if (!myCallsign || spot.callsign.toUpperCase() !== myCallsign.toUpperCase()) {
+                        continue;
+                    }
+                }
                 
                 // Check mode filter
                 if (currentModeFilter !== 'all' && spot.mode !== currentModeFilter) continue;
@@ -933,14 +1151,47 @@
                 const spotBand = getBand(spot.frequency);
                 if (currentBandFilter !== 'all' && spotBand !== currentBandFilter) continue;
 
+                // Debounce by callsign - skip if seen in last 10 seconds
+                // (but don't debounce in mycall mode - show all spots for the user's call)
+                if (currentViewMode !== 'mycall') {
+                    const lastSeen = callsignLastSeen.get(spot.callsign);
+                    if (lastSeen && (now - lastSeen) < CALLSIGN_DEBOUNCE_MS) {
+                        seenSpotIds.add(spot.id); // Still mark as seen to avoid reprocessing
+                        continue;
+                    }
+                }
+                
+                // Update callsign last seen time
+                callsignLastSeen.set(spot.callsign, now);
+
                 seenSpotIds.add(spot.id);
                 totalSpots++;
                 newCount++;
-                spotsLastMinute.push(Date.now());
+                spotsLastMinute.push(now);
                 activeBands.add(spotBand);
 
-                // Queue the spot for organic release
-                queueSpot(spot);
+                // Get location for this spot
+                // In mycall mode, show where skimmers are hearing you (spotter location)
+                // In other modes, show where the transmitting station is (callsign location)
+                const locationCall = currentViewMode === 'mycall' ? spot.spotter : spot.callsign;
+                const location = getLocationFromCall(locationCall);
+                if (location) {
+                    // Add to heatmap data with SNR for intensity
+                    heatmapData.push({
+                        lat: location[0],
+                        lng: location[1],
+                        timestamp: now,
+                        snr: spot.snr || 0
+                    });
+                }
+
+                // In drops or mycall mode, queue for organic release (drip queue handles list)
+                // In heatmap mode, add directly to list
+                if (currentViewMode === 'drops' || currentViewMode === 'mycall') {
+                    queueSpot(spot);
+                } else {
+                    addSpotToList(spot);
+                }
             }
 
             // Limit seenSpotIds size to prevent memory bloat
@@ -987,6 +1238,36 @@
 
         // Filter button handlers
         function setupFilters() {
+            // View mode toggle
+            document.querySelectorAll('.filter-btn[data-view]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn[data-view]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    setViewMode(btn.dataset.view);
+                });
+            });
+
+            // My callsign input
+            const callsignInputEl = document.getElementById('my-callsign');
+            const saveCallsignBtn = document.getElementById('save-callsign');
+            
+            // Load saved callsign
+            if (myCallsign) {
+                callsignInputEl.value = myCallsign;
+            }
+            
+            // Save callsign on button click
+            saveCallsignBtn.addEventListener('click', () => {
+                saveMyCallsign();
+            });
+            
+            // Save callsign on Enter key
+            callsignInputEl.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    saveMyCallsign();
+                }
+            });
+
             // Mode filters
             document.querySelectorAll('.filter-btn[data-mode]').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -994,8 +1275,10 @@
                     btn.classList.add('active');
                     currentModeFilter = btn.dataset.mode;
                     
-                    // Clear spot list when filter changes
+                    // Clear spot list and heatmap data when filter changes
                     document.getElementById('spot-list').innerHTML = '';
+                    heatmapData = [];
+                    updateHeatmap();
                 });
             });
 
@@ -1006,10 +1289,38 @@
                     btn.classList.add('active');
                     currentBandFilter = btn.dataset.band;
                     
-                    // Clear spot list when filter changes
+                    // Clear spot list and heatmap data when filter changes
                     document.getElementById('spot-list').innerHTML = '';
+                    heatmapData = [];
+                    updateHeatmap();
                 });
             });
+        }
+
+        function saveMyCallsign() {
+            const callsignInputEl = document.getElementById('my-callsign');
+            myCallsign = callsignInputEl.value.trim().toUpperCase();
+            callsignInputEl.value = myCallsign;
+            
+            if (myCallsign) {
+                localStorage.setItem('rbn-my-callsign', myCallsign);
+            } else {
+                localStorage.removeItem('rbn-my-callsign');
+            }
+            
+            // Update status display
+            updateMycallStatus();
+            
+            // Clear existing spots and refresh
+            document.getElementById('spot-list').innerHTML = '';
+            heatmapData = [];
+            seenSpotIds.clear();
+            callsignLastSeen.clear();
+            
+            // Visual feedback
+            const btn = document.getElementById('save-callsign');
+            btn.textContent = 'Saved!';
+            setTimeout(() => { btn.textContent = 'Save'; }, 1500);
         }
 
         // UI toggle
@@ -1025,6 +1336,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             initMap();
             initSpotOverlay();
+            initHeatmap();
             setupFilters();
             setupToggle();
             
@@ -1036,6 +1348,9 @@
             
             // Update stats display every second
             setInterval(updateStats, 1000);
+            
+            // Update heatmap every 2 seconds (for smooth decay animation)
+            setInterval(updateHeatmap, 2000);
         });
     </script>
 </body>
