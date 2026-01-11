@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RBN Spot Map - Live CW/FT8 Activity</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+
+        #map {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .leaflet-container {
+            background: #0a0a0f;
+        }
+
+        /* Custom dark map tiles overlay */
+        .leaflet-tile-pane {
+            filter: brightness(0.6) saturate(0.8);
+        }
+
+        /* Night overlay styling */
+        .leaflet-terminator {
+            transition: d 1s ease-out;
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 60px;
+            z-index: 1000;
+            background: rgba(15, 15, 25, 0.95);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            backdrop-filter: blur(10px);
+            min-width: 280px;
+        }
+
+        .controls h1 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #7eb8ff;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .stat {
+            background: rgba(50, 70, 120, 0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .stat-label {
+            color: #8899aa;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .filters {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(100, 150, 255, 0.15);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 11px;
+            color: #8899aa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            background: rgba(50, 70, 120, 0.2);
+            color: #aabbcc;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: rgba(80, 100, 160, 0.4);
+        }
+
+        .filter-btn.active {
+            background: rgba(100, 150, 255, 0.4);
+            border-color: #7eb8ff;
+            color: #fff;
+        }
+
+        .legend {
+            position: fixed;
+            bottom: 20px;
+            left: 60px;
+            z-index: 1000;
+            background: rgba(15, 15, 25, 0.95);
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .legend-title {
+            font-size: 12px;
+            color: #8899aa;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .legend-items {
+            display: flex;
+            gap: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .recent-spots {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(15, 15, 25, 0.95);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            backdrop-filter: blur(10px);
+            width: 320px;
+            max-height: calc(100vh - 40px);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recent-spots h2 {
+            font-size: 14px;
+            color: #7eb8ff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .spot-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .spot-item {
+            padding: 8px 10px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            font-size: 12px;
+            animation: slideIn 0.3s ease-out;
+            border-left: 3px solid;
+        }
+
+        .spot-item.cw { 
+            background: rgba(255, 180, 50, 0.15); 
+            border-color: #ffb432;
+        }
+        .spot-item.ft8 { 
+            background: rgba(50, 200, 255, 0.15); 
+            border-color: #32c8ff;
+        }
+        .spot-item.ft4 { 
+            background: rgba(150, 100, 255, 0.15); 
+            border-color: #9664ff;
+        }
+        .spot-item.rtty { 
+            background: rgba(255, 100, 150, 0.15); 
+            border-color: #ff6496;
+        }
+
+        .spot-call {
+            font-weight: 600;
+            font-family: 'Monaco', 'Consolas', monospace;
+        }
+
+        .spot-info {
+            color: #8899aa;
+            margin-top: 2px;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Raindrop spot markers - CSS animated for GPU acceleration */
+        .spot-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 500;
+        }
+
+        .raindrop {
+            position: absolute;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            animation: raindrop 3.5s ease-out forwards;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
+        @keyframes raindrop {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            15% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        .raindrop::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40%;
+            height: 40%;
+            background: inherit;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            filter: brightness(1.5);
+        }
+
+        .connection-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .connection-status.connected {
+            background: rgba(50, 200, 100, 0.2);
+            border: 1px solid rgba(50, 200, 100, 0.4);
+            color: #50c864;
+        }
+
+        .connection-status.disconnected {
+            background: rgba(255, 100, 100, 0.2);
+            border: 1px solid rgba(255, 100, 100, 0.4);
+            color: #ff6464;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        .connected .status-dot { background: #50c864; }
+        .disconnected .status-dot { background: #ff6464; }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .toggle-ui {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: rgba(15, 15, 25, 0.9);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            color: #7eb8ff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .toggle-ui:hover {
+            background: rgba(30, 40, 70, 0.95);
+            border-color: #7eb8ff;
+        }
+
+        .ui-panel {
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        body.ui-hidden .ui-panel {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body.ui-hidden .controls {
+            transform: translateX(-20px);
+        }
+
+        body.ui-hidden .legend {
+            transform: translateY(20px);
+        }
+
+        body.ui-hidden .recent-spots {
+            transform: translateX(20px);
+        }
+
+        body.ui-hidden .connection-status {
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <div class="controls ui-panel">
+        <h1>🌍 RBN Live Spot Map</h1>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Spots/min</div>
+                <div class="stat-value" id="spots-per-min">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Total Seen</div>
+                <div class="stat-value" id="total-spots">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Active Bands</div>
+                <div class="stat-value" id="active-bands">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Last Update</div>
+                <div class="stat-value" id="last-update">--:--</div>
+            </div>
+        </div>
+        <div class="filters">
+            <div class="filter-label">Mode</div>
+            <div class="filter-row">
+                <button class="filter-btn active" data-mode="all">All</button>
+                <button class="filter-btn" data-mode="CW">CW</button>
+                <button class="filter-btn" data-mode="FT8">FT8</button>
+                <button class="filter-btn" data-mode="FT4">FT4</button>
+                <button class="filter-btn" data-mode="RTTY">RTTY</button>
+            </div>
+            <div class="filter-label" style="margin-top: 10px;">Band</div>
+            <div class="filter-row">
+                <button class="filter-btn active" data-band="all">All</button>
+                <button class="filter-btn" data-band="160m">160</button>
+                <button class="filter-btn" data-band="80m">80</button>
+                <button class="filter-btn" data-band="40m">40</button>
+                <button class="filter-btn" data-band="30m">30</button>
+                <button class="filter-btn" data-band="20m">20</button>
+                <button class="filter-btn" data-band="17m">17</button>
+                <button class="filter-btn" data-band="15m">15</button>
+                <button class="filter-btn" data-band="12m">12</button>
+                <button class="filter-btn" data-band="10m">10</button>
+                <button class="filter-btn" data-band="6m">6</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="legend ui-panel">
+        <div class="legend-title">Mode Colors</div>
+        <div class="legend-items">
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #ffb432;"></div>
+                <span>CW</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #32c8ff;"></div>
+                <span>FT8</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #9664ff;"></div>
+                <span>FT4</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #ff6496;"></div>
+                <span>RTTY</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="recent-spots ui-panel">
+        <h2>📡 Recent Spots</h2>
+        <div class="spot-list" id="spot-list"></div>
+    </div>
+
+    <div class="connection-status connected ui-panel" id="connection-status">
+        <div class="status-dot"></div>
+        <span>Connected</span>
+    </div>
+
+    <button class="toggle-ui" id="toggle-ui" title="Toggle UI">☰</button>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/@joergdietrich/leaflet.terminator@1.0.0/L.Terminator.js"></script>
+    <script>
+        // Callsign prefix to approximate lat/lon mapping
+        // This provides rough locations without needing an API
+        const PREFIX_LOCATIONS = {
+            // USA by call area
+            'W1': [42.0, -72.0], 'K1': [42.0, -72.0], 'N1': [42.0, -72.0], 'AA1': [42.0, -72.0], 'AB1': [42.0, -72.0],
+            'W2': [40.7, -74.0], 'K2': [40.7, -74.0], 'N2': [40.7, -74.0], 'AA2': [40.7, -74.0], 'AB2': [40.7, -74.0],
+            'W3': [40.0, -76.0], 'K3': [40.0, -76.0], 'N3': [40.0, -76.0], 'AA3': [40.0, -76.0], 'AB3': [40.0, -76.0],
+            'W4': [34.0, -84.0], 'K4': [34.0, -84.0], 'N4': [34.0, -84.0], 'AA4': [34.0, -84.0], 'AB4': [34.0, -84.0],
+            'W5': [32.0, -97.0], 'K5': [32.0, -97.0], 'N5': [32.0, -97.0], 'AA5': [32.0, -97.0], 'AB5': [32.0, -97.0],
+            'W6': [37.0, -120.0], 'K6': [37.0, -120.0], 'N6': [37.0, -120.0], 'AA6': [37.0, -120.0], 'AB6': [37.0, -120.0],
+            'W7': [45.0, -115.0], 'K7': [45.0, -115.0], 'N7': [45.0, -115.0], 'AA7': [45.0, -115.0], 'AB7': [45.0, -115.0],
+            'W8': [42.0, -83.0], 'K8': [42.0, -83.0], 'N8': [42.0, -83.0], 'AA8': [42.0, -83.0], 'AB8': [42.0, -83.0],
+            'W9': [41.0, -88.0], 'K9': [41.0, -88.0], 'N9': [41.0, -88.0], 'AA9': [41.0, -88.0], 'AB9': [41.0, -88.0],
+            'W0': [40.0, -100.0], 'K0': [40.0, -100.0], 'N0': [40.0, -100.0], 'AA0': [40.0, -100.0], 'AB0': [40.0, -100.0],
+            
+            // Canada
+            'VE1': [45.0, -63.0], 'VA1': [45.0, -63.0],
+            'VE2': [46.8, -71.2], 'VA2': [46.8, -71.2],
+            'VE3': [44.0, -79.0], 'VA3': [44.0, -79.0],
+            'VE4': [50.0, -97.0], 'VA4': [50.0, -97.0],
+            'VE5': [52.0, -106.0], 'VA5': [52.0, -106.0],
+            'VE6': [53.5, -113.5], 'VA6': [53.5, -113.5],
+            'VE7': [49.3, -123.0], 'VA7': [49.3, -123.0],
+            'VE8': [62.5, -114.0],
+            'VE9': [46.0, -66.0],
+            'VO1': [47.5, -52.7], 'VO2': [53.0, -60.0],
+            'VY1': [60.7, -135.0], 'VY2': [46.2, -63.0],
+            
+            // Europe
+            'G': [52.0, -1.0], 'M': [52.0, -1.0], '2E': [52.0, -1.0],
+            'GM': [56.0, -4.0], 'MM': [56.0, -4.0],
+            'GW': [52.0, -3.5], 'MW': [52.0, -3.5],
+            'GI': [54.5, -6.5], 'MI': [54.5, -6.5],
+            'EI': [53.3, -6.3],
+            'F': [46.5, 2.5],
+            'DL': [51.0, 10.0], 'DA': [51.0, 10.0], 'DB': [51.0, 10.0], 'DC': [51.0, 10.0], 'DD': [51.0, 10.0], 'DF': [51.0, 10.0], 'DG': [51.0, 10.0], 'DH': [51.0, 10.0], 'DJ': [51.0, 10.0], 'DK': [51.0, 10.0], 'DM': [51.0, 10.0], 'DN': [51.0, 10.0], 'DO': [51.0, 10.0], 'DP': [51.0, 10.0], 'DQ': [51.0, 10.0], 'DR': [51.0, 10.0],
+            'PA': [52.3, 5.5], 'PB': [52.3, 5.5], 'PC': [52.3, 5.5], 'PD': [52.3, 5.5], 'PE': [52.3, 5.5], 'PH': [52.3, 5.5], 'PI': [52.3, 5.5],
+            'ON': [50.8, 4.4], 'OO': [50.8, 4.4], 'OP': [50.8, 4.4], 'OQ': [50.8, 4.4], 'OR': [50.8, 4.4], 'OS': [50.8, 4.4], 'OT': [50.8, 4.4],
+            'HB9': [47.0, 8.0], 'HB0': [47.1, 9.5],
+            'OE': [48.0, 14.0],
+            'I': [42.5, 12.5], 'IK': [42.5, 12.5], 'IZ': [42.5, 12.5], 'IT': [42.5, 12.5], 'IW': [42.5, 12.5], 'IU': [42.5, 12.5], 'II': [42.5, 12.5],
+            'EA': [40.4, -3.7], 'EB': [40.4, -3.7], 'EC': [40.4, -3.7], 'ED': [40.4, -3.7], 'EE': [40.4, -3.7], 'EF': [40.4, -3.7], 'EG': [40.4, -3.7], 'EH': [40.4, -3.7],
+            'CT': [39.5, -8.0], 'CS': [39.5, -8.0], 'CR': [39.5, -8.0], 'CQ': [39.5, -8.0],
+            'SM': [62.0, 15.0], 'SA': [62.0, 15.0], 'SB': [62.0, 15.0], 'SC': [62.0, 15.0], 'SD': [62.0, 15.0], 'SE': [62.0, 15.0], 'SF': [62.0, 15.0], 'SG': [62.0, 15.0], 'SH': [62.0, 15.0], 'SI': [62.0, 15.0], 'SJ': [62.0, 15.0], 'SK': [62.0, 15.0], 'SL': [62.0, 15.0], 'SM': [62.0, 15.0],
+            'LA': [62.0, 10.0], 'LB': [62.0, 10.0], 'LC': [62.0, 10.0], 'LD': [62.0, 10.0], 'LE': [62.0, 10.0], 'LF': [62.0, 10.0], 'LG': [62.0, 10.0], 'LH': [62.0, 10.0], 'LI': [62.0, 10.0], 'LJ': [62.0, 10.0], 'LK': [62.0, 10.0], 'LL': [62.0, 10.0], 'LM': [62.0, 10.0], 'LN': [62.0, 10.0],
+            'OH': [62.0, 26.0], 'OF': [62.0, 26.0], 'OG': [62.0, 26.0], 'OI': [62.0, 26.0],
+            'OZ': [56.0, 10.0], 'OU': [56.0, 10.0], 'OV': [56.0, 10.0], 'OW': [56.0, 10.0], 'OX': [56.0, 10.0], '5P': [56.0, 10.0], '5Q': [56.0, 10.0],
+            'SP': [52.0, 20.0], 'SO': [52.0, 20.0], 'SN': [52.0, 20.0], 'SQ': [52.0, 20.0], '3Z': [52.0, 20.0],
+            'OK': [50.0, 14.5], 'OL': [50.0, 14.5], 'OM': [48.7, 19.7],
+            'HA': [47.5, 19.0], 'HG': [47.5, 19.0],
+            'YO': [46.0, 25.0], 'YP': [46.0, 25.0], 'YQ': [46.0, 25.0], 'YR': [46.0, 25.0],
+            'LZ': [42.7, 25.5],
+            'SV': [38.0, 23.7], 'SW': [38.0, 23.7], 'SX': [38.0, 23.7], 'SY': [38.0, 23.7], 'SZ': [38.0, 23.7], 'J4': [38.0, 23.7],
+            'YU': [44.8, 20.5], 'YT': [44.8, 20.5],
+            '9A': [45.8, 16.0],
+            'S5': [46.1, 14.5],
+            'E7': [44.0, 18.0],
+            '4O': [42.5, 19.3],
+            'Z3': [41.5, 21.5],
+            
+            // Russia/CIS
+            'UA': [55.7, 37.6], 'RA': [55.7, 37.6], 'RK': [55.7, 37.6], 'RN': [55.7, 37.6], 'RU': [55.7, 37.6], 'RV': [55.7, 37.6], 'RW': [55.7, 37.6], 'RX': [55.7, 37.6], 'RZ': [55.7, 37.6], 'R': [55.7, 37.6],
+            'UA0': [60.0, 100.0], 'RA0': [60.0, 100.0], 'R0': [60.0, 100.0],
+            'UA9': [55.0, 73.0], 'RA9': [55.0, 73.0], 'R9': [55.0, 73.0],
+            'UT': [50.4, 30.5], 'UR': [50.4, 30.5], 'US': [50.4, 30.5], 'UX': [50.4, 30.5], 'UY': [50.4, 30.5], 'UZ': [50.4, 30.5],
+            'EU': [53.9, 27.6], 'EV': [53.9, 27.6], 'EW': [53.9, 27.6],
+            'LY': [54.7, 25.3],
+            'ES': [59.4, 24.7],
+            'YL': [57.0, 24.0],
+            
+            // Asia
+            'JA': [36.0, 138.0], 'JE': [36.0, 138.0], 'JF': [36.0, 138.0], 'JG': [36.0, 138.0], 'JH': [36.0, 138.0], 'JI': [36.0, 138.0], 'JJ': [36.0, 138.0], 'JK': [36.0, 138.0], 'JL': [36.0, 138.0], 'JM': [36.0, 138.0], 'JN': [36.0, 138.0], 'JO': [36.0, 138.0], 'JP': [36.0, 138.0], 'JQ': [36.0, 138.0], 'JR': [36.0, 138.0], 'JS': [36.0, 138.0], '7J': [36.0, 138.0], '7K': [36.0, 138.0], '7L': [36.0, 138.0], '7M': [36.0, 138.0], '7N': [36.0, 138.0], '8J': [36.0, 138.0], '8K': [36.0, 138.0], '8L': [36.0, 138.0], '8M': [36.0, 138.0], '8N': [36.0, 138.0],
+            'HL': [37.5, 127.0], 'DS': [37.5, 127.0], '6K': [37.5, 127.0], '6L': [37.5, 127.0], '6M': [37.5, 127.0], '6N': [37.5, 127.0],
+            'BV': [25.0, 121.5],
+            'BY': [35.0, 105.0], 'BA': [35.0, 105.0], 'BD': [35.0, 105.0], 'BG': [35.0, 105.0], 'BH': [35.0, 105.0], 'BI': [35.0, 105.0], 'BJ': [35.0, 105.0], 'BL': [35.0, 105.0], 'BM': [35.0, 105.0], 'BO': [35.0, 105.0], 'BP': [35.0, 105.0], 'BQ': [35.0, 105.0], 'BR': [35.0, 105.0], 'BS': [35.0, 105.0], 'BT': [35.0, 105.0], 'BU': [35.0, 105.0], 'BW': [35.0, 105.0], 'BX': [35.0, 105.0], 'BZ': [35.0, 105.0],
+            'VU': [20.0, 77.0],
+            'HS': [14.0, 100.5],
+            '9V': [1.3, 103.8],
+            '9M': [3.0, 101.5],
+            'DU': [14.5, 121.0], 'DV': [14.5, 121.0], 'DW': [14.5, 121.0], 'DX': [14.5, 121.0], 'DY': [14.5, 121.0], 'DZ': [14.5, 121.0], '4D': [14.5, 121.0], '4E': [14.5, 121.0], '4F': [14.5, 121.0], '4G': [14.5, 121.0], '4H': [14.5, 121.0], '4I': [14.5, 121.0],
+            'YB': [-5.0, 115.0], 'YC': [-5.0, 115.0], 'YD': [-5.0, 115.0], 'YE': [-5.0, 115.0], 'YF': [-5.0, 115.0], 'YG': [-5.0, 115.0], 'YH': [-5.0, 115.0], '7A': [-5.0, 115.0], '7B': [-5.0, 115.0], '7C': [-5.0, 115.0], '7D': [-5.0, 115.0], '7E': [-5.0, 115.0], '7F': [-5.0, 115.0], '7G': [-5.0, 115.0], '7H': [-5.0, 115.0], '7I': [-5.0, 115.0], '8A': [-5.0, 115.0], '8B': [-5.0, 115.0], '8C': [-5.0, 115.0], '8D': [-5.0, 115.0], '8E': [-5.0, 115.0], '8F': [-5.0, 115.0], '8G': [-5.0, 115.0], '8H': [-5.0, 115.0], '8I': [-5.0, 115.0],
+            
+            // Middle East
+            '4X': [32.0, 35.0], '4Z': [32.0, 35.0],
+            'A4': [23.6, 58.5],
+            'A6': [24.5, 54.4],
+            'A7': [25.3, 51.5],
+            'A9': [26.2, 50.6],
+            'HZ': [24.7, 46.7], '7Z': [24.7, 46.7],
+            'OD': [33.9, 35.5],
+            'YK': [33.5, 36.3],
+            'EP': [32.4, 53.7], 'EQ': [32.4, 53.7],
+            'TA': [39.9, 32.9], 'TB': [39.9, 32.9], 'TC': [39.9, 32.9], 'YM': [39.9, 32.9],
+            
+            // Oceania
+            'VK': [-25.0, 135.0],
+            'VK1': [-35.3, 149.1],
+            'VK2': [-33.9, 151.2],
+            'VK3': [-37.8, 145.0],
+            'VK4': [-27.5, 153.0],
+            'VK5': [-34.9, 138.6],
+            'VK6': [-32.0, 115.9],
+            'VK7': [-42.9, 147.3],
+            'VK8': [-12.5, 130.8],
+            'ZL': [-41.3, 174.8],
+            'KH6': [21.3, -157.8],
+            'KH0': [15.2, 145.7],
+            'KH2': [13.5, 144.8],
+            'FK': [-22.3, 166.5],
+            'FO': [-17.5, -149.5],
+            'T3': [1.5, 173.0],
+            'V7': [7.1, 171.2],
+            '3D2': [-18.0, 179.0],
+            '5W': [-13.8, -171.8],
+            'A3': [-21.2, -175.2],
+            'E5': [-21.2, -159.8],
+            'ZK3': [-9.2, -171.8],
+            
+            // Africa
+            'ZS': [-30.0, 25.0],
+            '5Z': [-1.3, 36.8],
+            '5H': [-6.2, 35.7],
+            '5X': [1.0, 32.0],
+            '9J': [-15.4, 28.3],
+            '9Q': [-4.3, 15.3],
+            '7Q': [-13.3, 33.8],
+            'A2': [-22.3, 27.1],
+            '3DA': [-26.3, 31.1],
+            'V5': [-22.6, 17.1],
+            'ZD7': [-15.9, -5.7],
+            'ZD8': [-7.9, -14.4],
+            'ZD9': [-37.1, -12.3],
+            'ST': [15.6, 32.5],
+            'SU': [26.8, 30.8],
+            'CN': [34.0, -6.8],
+            '7X': [36.8, 3.0],
+            '5T': [18.1, -15.9],
+            '6W': [14.7, -17.4],
+            'TU': [6.8, -5.3],
+            '5V': [6.1, 1.2],
+            '5U': [13.5, 2.1],
+            'TJ': [3.9, 11.5],
+            'TL': [4.4, 18.6],
+            'TT': [12.1, 15.0],
+            'TR': [-0.4, 9.5],
+            '9G': [5.6, -0.2],
+            '3C': [3.8, 8.8],
+            'EL': [6.3, -10.8],
+            '5A': [32.9, 13.2],
+            'D6': [-11.7, 43.3],
+            '5R': [-18.9, 47.5],
+            '3B8': [-20.2, 57.5],
+            'FR': [-21.1, 55.5],
+            'S7': [-4.6, 55.5],
+            'C9': [-25.0, 33.0],
+            '6Y': [18.1, -77.3],
+            
+            // South America
+            'LU': [-34.6, -58.4],
+            'PY': [-15.8, -47.9], 'PP': [-15.8, -47.9], 'PQ': [-15.8, -47.9], 'PR': [-15.8, -47.9], 'PS': [-15.8, -47.9], 'PT': [-15.8, -47.9], 'PU': [-15.8, -47.9], 'PV': [-15.8, -47.9], 'PW': [-15.8, -47.9], 'PX': [-15.8, -47.9], 'ZV': [-15.8, -47.9], 'ZW': [-15.8, -47.9], 'ZX': [-15.8, -47.9], 'ZY': [-15.8, -47.9], 'ZZ': [-15.8, -47.9],
+            'CE': [-33.4, -70.6],
+            'OA': [-12.0, -77.0],
+            'HC': [-0.2, -78.5],
+            'HK': [4.6, -74.1],
+            'YV': [10.5, -66.9], '4M': [10.5, -66.9],
+            'CX': [-34.9, -56.2],
+            'ZP': [-25.3, -57.6],
+            'CP': [-16.5, -68.2],
+            'OA': [-12.0, -77.0],
+            '8P': [13.1, -59.6],
+            '8R': [6.8, -58.2],
+            'PJ': [12.2, -68.9],
+            'PZ': [5.8, -55.2],
+            'FY': [4.9, -52.3],
+            'VP8': [-51.7, -59.0],
+            
+            // Central America/Caribbean
+            'XE': [19.4, -99.1], 'XA': [19.4, -99.1], 'XB': [19.4, -99.1], 'XC': [19.4, -99.1], 'XD': [19.4, -99.1], 'XF': [19.4, -99.1], 'XG': [19.4, -99.1], 'XH': [19.4, -99.1], '4A': [19.4, -99.1], '4B': [19.4, -99.1], '4C': [19.4, -99.1], '6D': [19.4, -99.1], '6E': [19.4, -99.1], '6F': [19.4, -99.1], '6G': [19.4, -99.1], '6H': [19.4, -99.1], '6I': [19.4, -99.1], '6J': [19.4, -99.1],
+            'TI': [9.9, -84.1], 'TE': [9.9, -84.1],
+            'HP': [9.0, -79.5], 'H3': [9.0, -79.5], 'HO': [9.0, -79.5], '3E': [9.0, -79.5], '3F': [9.0, -79.5],
+            'HR': [14.1, -87.2], 'HQ': [14.1, -87.2],
+            'YS': [13.7, -89.2], 'HU': [13.7, -89.2],
+            'TG': [14.6, -90.5], 'TD': [14.6, -90.5],
+            'YN': [12.1, -86.3], 'H6': [12.1, -86.3], 'H7': [12.1, -86.3], 'HT': [12.1, -86.3],
+            'V3': [17.5, -88.2],
+            'CO': [23.0, -82.4], 'CM': [23.0, -82.4], 'CL': [23.0, -82.4], 'T4': [23.0, -82.4],
+            'HI': [18.5, -69.9],
+            'HH': [18.5, -72.3], '4V': [18.5, -72.3],
+            '6Y': [18.1, -77.3],
+            'VP2M': [16.7, -62.2],
+            'VP2E': [18.2, -63.1],
+            'VP2V': [18.4, -64.6],
+            'VP5': [21.8, -72.2],
+            'FG': [16.3, -61.5],
+            'FM': [14.6, -61.0],
+            'FS': [18.1, -63.0],
+            'FJ': [18.1, -62.8],
+            'J3': [12.1, -61.7],
+            'J6': [13.9, -61.0],
+            'J7': [15.3, -61.4],
+            'J8': [13.3, -61.2],
+            'V2': [17.1, -61.8],
+            'V4': [17.3, -62.7],
+            '9Y': [10.5, -61.3],
+            'PJ2': [12.2, -68.9],
+            'PJ4': [12.2, -68.3],
+            'PJ5': [17.5, -63.0],
+            'PJ6': [17.5, -63.0],
+            'PJ7': [18.0, -63.1],
+            'C6': [25.0, -77.4],
+            'ZF': [19.3, -81.3],
+            'VP9': [32.3, -64.8],
+            
+            // US Territories
+            'KP1': [18.1, -65.4],
+            'KP2': [18.3, -64.9],
+            'KP3': [18.2, -65.6],
+            'KP4': [18.5, -66.1], 'NP4': [18.5, -66.1], 'WP4': [18.5, -66.1],
+            'KG4': [19.9, -75.1],
+            'KV4': [18.3, -64.9],
+            'KL7': [64.0, -150.0], 'NL7': [64.0, -150.0], 'WL7': [64.0, -150.0], 'AL7': [64.0, -150.0],
+            
+            // Default/fallback USA
+            'W': [39.0, -98.0], 'K': [39.0, -98.0], 'N': [39.0, -98.0], 'A': [39.0, -98.0],
+        };
+
+        // Mode colors
+        const MODE_COLORS = {
+            'CW': '#ffb432',
+            'FT8': '#32c8ff',
+            'FT4': '#9664ff',
+            'RTTY': '#ff6496',
+            'PSK31': '#64ff96',
+            'PSK63': '#64ff96',
+            'JT65': '#32c8ff',
+            'JT9': '#32c8ff',
+            'default': '#ffffff'
+        };
+
+        // Global state
+        let map;
+        let terminator;
+        let seenSpotIds = new Set();
+        let totalSpots = 0;
+        let spotsLastMinute = [];
+        let activeBands = new Set();
+        let currentModeFilter = 'all';
+        let currentBandFilter = 'all';
+
+        // Initialize map
+        function initMap() {
+            map = L.map('map', {
+                center: [30, 0],
+                zoom: 2,
+                minZoom: 2,
+                maxZoom: 10,
+                worldCopyJump: true,
+                maxBoundsViscosity: 1.0
+            });
+
+            // Dark tile layer
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19
+            }).addTo(map);
+
+            // Add day/night terminator
+            terminator = L.terminator({
+                fillColor: '#000000',
+                fillOpacity: 0.35,
+                color: '#334466',
+                weight: 1
+            }).addTo(map);
+
+            // Update terminator every 60 seconds
+            setInterval(() => {
+                terminator.setTime();
+            }, 60000);
+        }
+
+        // Get location from callsign prefix
+        function getLocationFromCall(callsign) {
+            if (!callsign) return null;
+            
+            // Clean the callsign (remove /P, /M, etc.)
+            const cleanCall = callsign.split('/')[0].toUpperCase();
+            
+            // Try progressively shorter prefixes
+            for (let len = Math.min(4, cleanCall.length); len >= 1; len--) {
+                const prefix = cleanCall.substring(0, len);
+                if (PREFIX_LOCATIONS[prefix]) {
+                    // Add some randomization to spread out markers
+                    const [lat, lon] = PREFIX_LOCATIONS[prefix];
+                    return [
+                        lat + (Math.random() - 0.5) * 3,
+                        lon + (Math.random() - 0.5) * 3
+                    ];
+                }
+            }
+            
+            // Try just the first letter for major regions
+            const firstChar = cleanCall[0];
+            if (PREFIX_LOCATIONS[firstChar]) {
+                const [lat, lon] = PREFIX_LOCATIONS[firstChar];
+                return [
+                    lat + (Math.random() - 0.5) * 5,
+                    lon + (Math.random() - 0.5) * 5
+                ];
+            }
+            
+            return null;
+        }
+
+        // Get color for mode
+        function getModeColor(mode) {
+            return MODE_COLORS[mode] || MODE_COLORS.default;
+        }
+
+        // Get band from frequency
+        function getBand(freq) {
+            if (freq >= 1800 && freq <= 2000) return '160m';
+            if (freq >= 3500 && freq <= 4000) return '80m';
+            if (freq >= 5330 && freq <= 5410) return '60m';
+            if (freq >= 7000 && freq <= 7300) return '40m';
+            if (freq >= 10100 && freq <= 10150) return '30m';
+            if (freq >= 14000 && freq <= 14350) return '20m';
+            if (freq >= 18068 && freq <= 18168) return '17m';
+            if (freq >= 21000 && freq <= 21450) return '15m';
+            if (freq >= 24890 && freq <= 24990) return '12m';
+            if (freq >= 28000 && freq <= 29700) return '10m';
+            if (freq >= 50000 && freq <= 54000) return '6m';
+            return 'other';
+        }
+
+        // Create animated marker using CSS overlay for smooth GPU animation
+        let spotOverlay = null;
+        let activeDrops = []; // Track active drops for repositioning
+
+        function initSpotOverlay() {
+            spotOverlay = document.createElement('div');
+            spotOverlay.className = 'spot-overlay';
+            map.getContainer().appendChild(spotOverlay);
+
+            // Reposition drops when map moves or zooms
+            map.on('move zoom viewreset', updateDropPositions);
+        }
+
+        function updateDropPositions() {
+            for (const drop of activeDrops) {
+                const point = map.latLngToContainerPoint([drop.lat, drop.lng]);
+                drop.element.style.left = point.x + 'px';
+                drop.element.style.top = point.y + 'px';
+            }
+        }
+
+        function createSpotMarker(lat, lon, color, spot) {
+            if (!spotOverlay) return;
+
+            const point = map.latLngToContainerPoint([lat, lon]);
+            
+            const drop = document.createElement('div');
+            drop.className = 'raindrop';
+            drop.style.left = point.x + 'px';
+            drop.style.top = point.y + 'px';
+            drop.style.width = '16px';
+            drop.style.height = '16px';
+            drop.style.background = color;
+            drop.style.boxShadow = `0 0 12px ${color}, 0 0 24px ${color}80`;
+            
+            spotOverlay.appendChild(drop);
+
+            // Track this drop for repositioning
+            const dropData = { element: drop, lat: lat, lng: lon };
+            activeDrops.push(dropData);
+
+            // Remove after animation completes
+            setTimeout(() => {
+                drop.remove();
+                const idx = activeDrops.indexOf(dropData);
+                if (idx > -1) activeDrops.splice(idx, 1);
+            }, 3500);
+        }
+
+        // Drip queue - releases spots organically like raindrops
+        const spotQueue = [];
+        let dripInterval = null;
+
+        function startDripQueue() {
+            if (dripInterval) return;
+            
+            dripInterval = setInterval(() => {
+                if (spotQueue.length === 0) return;
+                
+                // Release 1-3 spots at a time with slight randomization
+                const releaseCount = Math.min(spotQueue.length, Math.floor(Math.random() * 3) + 1);
+                
+                for (let i = 0; i < releaseCount; i++) {
+                    const spot = spotQueue.shift();
+                    if (spot) {
+                        // Add tiny random delay for more organic feel
+                        setTimeout(() => {
+                            const location = getLocationFromCall(spot.callsign);
+                            if (location) {
+                                const color = getModeColor(spot.mode);
+                                createSpotMarker(location[0], location[1], color, spot);
+                            }
+                            addSpotToList(spot);
+                        }, Math.random() * 150);
+                    }
+                }
+            }, 200); // Base interval between drips
+        }
+
+        function queueSpot(spot) {
+            spotQueue.push(spot);
+            startDripQueue();
+        }
+
+        // Add spot to list
+        function addSpotToList(spot) {
+            const list = document.getElementById('spot-list');
+            const modeClass = spot.mode.toLowerCase();
+            
+            const item = document.createElement('div');
+            item.className = `spot-item ${modeClass}`;
+            item.innerHTML = `
+                <div class="spot-call">${spot.callsign}</div>
+                <div class="spot-info">
+                    ${spot.frequency} kHz ${spot.mode} | ${spot.snr} dB${spot.wpm ? ` | ${spot.wpm} WPM` : ''}<br>
+                    by ${spot.spotter}
+                </div>
+            `;
+
+            list.insertBefore(item, list.firstChild);
+
+            // Limit list size
+            while (list.children.length > 50) {
+                list.removeChild(list.lastChild);
+            }
+        }
+
+        // Update stats
+        function updateStats() {
+            const now = Date.now();
+            spotsLastMinute = spotsLastMinute.filter(t => now - t < 60000);
+            
+            document.getElementById('spots-per-min').textContent = spotsLastMinute.length;
+            document.getElementById('total-spots').textContent = totalSpots.toLocaleString();
+            document.getElementById('active-bands').textContent = activeBands.size;
+            document.getElementById('last-update').textContent = new Date().toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false 
+            });
+        }
+
+        // Process new spots - queue them for organic dripping
+        function processSpots(spots) {
+            let newCount = 0;
+            
+            for (const spot of spots) {
+                // Skip if already seen
+                if (seenSpotIds.has(spot.id)) continue;
+                
+                // Check mode filter
+                if (currentModeFilter !== 'all' && spot.mode !== currentModeFilter) continue;
+                
+                // Check band filter
+                const spotBand = getBand(spot.frequency);
+                if (currentBandFilter !== 'all' && spotBand !== currentBandFilter) continue;
+
+                seenSpotIds.add(spot.id);
+                totalSpots++;
+                newCount++;
+                spotsLastMinute.push(Date.now());
+                activeBands.add(spotBand);
+
+                // Queue the spot for organic release
+                queueSpot(spot);
+            }
+
+            // Limit seenSpotIds size to prevent memory bloat
+            if (seenSpotIds.size > 10000) {
+                const arr = [...seenSpotIds];
+                seenSpotIds = new Set(arr.slice(-5000));
+            }
+
+            updateStats();
+        }
+
+        // Fetch spots from API (try https first, fallback to http)
+        const API_URLS = [
+            'https://vailrerbn.com/api/v1/spots?limit=100',
+            'http://vailrerbn.com/api/v1/spots?limit=100'
+        ];
+        let workingApiUrl = API_URLS[0];
+
+        async function fetchSpots() {
+            try {
+                const response = await fetch(workingApiUrl);
+                if (!response.ok) throw new Error(`API error: ${response.status}`);
+                
+                const data = await response.json();
+                console.log(`Fetched ${data.spots?.length || 0} spots from API`);
+                processSpots(data.spots || []);
+                
+                document.getElementById('connection-status').className = 'connection-status connected';
+                document.getElementById('connection-status').innerHTML = '<div class="status-dot"></div><span>Connected</span>';
+            } catch (error) {
+                console.error('Error fetching spots:', error);
+                
+                // Try alternate URL if primary fails
+                if (workingApiUrl === API_URLS[0] && API_URLS[1]) {
+                    console.log('Trying alternate API URL...');
+                    workingApiUrl = API_URLS[1];
+                    return fetchSpots();
+                }
+                
+                document.getElementById('connection-status').className = 'connection-status disconnected';
+                document.getElementById('connection-status').innerHTML = '<div class="status-dot"></div><span>Disconnected</span>';
+            }
+        }
+
+        // Filter button handlers
+        function setupFilters() {
+            // Mode filters
+            document.querySelectorAll('.filter-btn[data-mode]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn[data-mode]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentModeFilter = btn.dataset.mode;
+                    
+                    // Clear spot list when filter changes
+                    document.getElementById('spot-list').innerHTML = '';
+                });
+            });
+
+            // Band filters
+            document.querySelectorAll('.filter-btn[data-band]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn[data-band]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentBandFilter = btn.dataset.band;
+                    
+                    // Clear spot list when filter changes
+                    document.getElementById('spot-list').innerHTML = '';
+                });
+            });
+        }
+
+        // UI toggle
+        function setupToggle() {
+            const btn = document.getElementById('toggle-ui');
+            btn.addEventListener('click', () => {
+                document.body.classList.toggle('ui-hidden');
+                btn.textContent = document.body.classList.contains('ui-hidden') ? '☰' : '✕';
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            initSpotOverlay();
+            setupFilters();
+            setupToggle();
+            
+            // Initial fetch
+            fetchSpots();
+            
+            // Poll every 5 seconds (gives queue time to drain organically)
+            setInterval(fetchSpots, 5000);
+            
+            // Update stats display every second
+            setInterval(updateStats, 1000);
+        });
+    </script>
+</body>
+</html>
