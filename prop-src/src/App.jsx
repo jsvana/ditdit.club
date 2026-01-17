@@ -1711,7 +1711,7 @@ export default function App() {
       </div>
 
       <div style={{ marginTop: '24px', paddingTop: '12px', borderTop: '1px solid rgba(148,163,184,0.1)', display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#64748b' }}>
-        <div>Data: <a href="https://vailrerbn.com" style={{ color: '#94a3b8' }}>VailReRBN</a> • <a href="https://pskreporter.info" style={{ color: '#94a3b8' }}>PSK Reporter</a></div>
+        <div>Data: <a href="https://vailrerbn.com" style={{ color: '#94a3b8' }}>VailReRBN</a> • <a href="https://pskreporter.info" style={{ color: '#94a3b8' }}>PSK Reporter</a> • <a href="https://prop.kc2g.com" style={{ color: '#94a3b8' }}>KC2G Ionosonde</a></div>
         <div>by <a href="mailto:jaysvana@gmail.com" style={{ color: '#94a3b8' }}>W6JSV</a></div>
       </div>
     </div>
