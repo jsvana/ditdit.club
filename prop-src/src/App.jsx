@@ -896,9 +896,21 @@ const IonosondeMarkers = ({ stations, hoveredIonosonde, setHoveredIonosonde, sel
 // MAIN APP
 // ============================================================================
 
+// Load saved settings from localStorage
+const loadSavedSettings = () => {
+  try {
+    const saved = localStorage.getItem('propSettings');
+    return saved ? JSON.parse(saved) : null;
+  } catch {
+    return null;
+  }
+};
+
 export default function App() {
-  const [userCall, setUserCall] = useState('W6JSV');
-  const [userGrid, setUserGrid] = useState('CM87');
+  const savedSettings = loadSavedSettings();
+  const [showOnboarding, setShowOnboarding] = useState(!savedSettings);
+  const [userCall, setUserCall] = useState(savedSettings?.userCall || '');
+  const [userGrid, setUserGrid] = useState(savedSettings?.userGrid || '');
   const [spots, setSpots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingStatus, setLoadingStatus] = useState({
@@ -926,17 +938,46 @@ export default function App() {
   const [spotterFilter, setSpotterFilter] = useState([]);
   const [spotterFilterInput, setSpotterFilterInput] = useState('');
   const [showSpotterPicker, setShowSpotterPicker] = useState(false);
-  // Per-band antenna type: 'lowAngle', 'nvis', 'both'
-  // Default: NVIS-capable bands default to 'both', others to 'lowAngle'
+  // Per-band antenna capabilities: { standard: boolean, nvis: boolean }
+  // Default: both false (no antenna) for all bands until user configures via onboarding
   const [antennaByBand, setAntennaByBand] = useState(() => {
+    if (savedSettings?.antennaByBand) {
+      // Handle migration from old string format
+      const saved = savedSettings.antennaByBand;
+      const firstValue = Object.values(saved)[0];
+      if (typeof firstValue === 'string') {
+        // Migrate from old format
+        const migrated = {};
+        BANDS.forEach(b => {
+          const old = saved[b.name] || 'none';
+          migrated[b.name] = {
+            standard: old === 'lowAngle' || old === 'both',
+            nvis: old === 'nvis' || old === 'both',
+          };
+        });
+        return migrated;
+      }
+      return saved;
+    }
     const initial = {};
     BANDS.forEach(b => {
-      initial[b.name] = b.nvisCapable ? 'both' : 'lowAngle';
+      initial[b.name] = { standard: false, nvis: false };
     });
     return initial;
   });
 
   useEffect(() => { const i = setInterval(() => setCurrentTime(new Date()), 60000); return () => clearInterval(i); }, []);
+
+  // Save settings to localStorage when they change
+  useEffect(() => {
+    if (userCall && userGrid) {
+      localStorage.setItem('propSettings', JSON.stringify({
+        userCall,
+        userGrid,
+        antennaByBand,
+      }));
+    }
+  }, [userCall, userGrid, antennaByBand]);
 
   // Fetch ionosonde MUF data
   const fetchIonosondeData = useCallback(async () => {
@@ -1095,26 +1136,42 @@ export default function App() {
         const inZone = isStationInZone(coords, propagationZones, ba.band.name);
         const isRelevant = ba.hasNearbySpot || inZone;
 
-        // Check skip zone based on antenna type for this band
-        const antenna = antennaByBand[ba.band.name] || 'lowAngle';
+        // Check antenna capabilities for this band
+        const antenna = antennaByBand[ba.band.name] || { standard: false, nvis: false };
+        const hasNoAntenna = !antenna.standard && !antenna.nvis;
+
+        // No antenna = band unavailable
+        if (hasNoAntenna) {
+          ba.status = 'unavailable';
+          ba.noAntenna = true;
+          ba.inSkipZone = false;
+          if (ba.bestSnr > bestSnr) { bestSnr = ba.bestSnr; bestBand = ba.band; }
+          return;
+        }
+
+        // Check skip zone based on antenna capabilities
+        // - NVIS covers 0-500km on NVIS-capable bands (no skip zone)
+        // - Standard/low-angle has skip zone
         const skipZone = ba.band.skipZone;
         let inSkipZone = false;
 
         if (skipZone && distance >= skipZone.min && distance <= skipZone.max) {
           // Station is in the skip zone range
-          if (antenna === 'nvis' && ba.band.nvisCapable && distance <= 500) {
+          const nvisCoverage = antenna.nvis && ba.band.nvisCapable && distance <= 500;
+          if (nvisCoverage) {
             // NVIS antenna can reach within 500km on NVIS-capable bands
             inSkipZone = false;
-          } else if (antenna === 'both' && ba.band.nvisCapable && distance <= 500) {
-            // Both antennas available, NVIS covers this
-            inSkipZone = false;
+          } else if (antenna.standard) {
+            // Standard antenna only - skip zone applies
+            inSkipZone = true;
           } else {
-            // Low-angle only or beyond NVIS range - skip zone applies
+            // NVIS only but beyond coverage or not NVIS-capable band
             inSkipZone = true;
           }
         }
 
         ba.inSkipZone = inSkipZone;
+        ba.noAntenna = false;
 
         if (inSkipZone) {
           ba.status = 'unlikely';
@@ -1161,8 +1218,135 @@ export default function App() {
       .sort((a, b) => b.count - a.count);
   }, [spots]);
 
+  // Onboarding state for form
+  const [onboardingCall, setOnboardingCall] = useState('');
+  const [onboardingGrid, setOnboardingGrid] = useState('');
+  const [onboardingAntennas, setOnboardingAntennas] = useState(() => {
+    const initial = {};
+    BANDS.forEach(b => { initial[b.name] = { standard: false, nvis: false }; });
+    return initial;
+  });
+
+  // Auto-derive grid when callsign changes in onboarding
+  const handleOnboardingCallChange = (call) => {
+    const upperCall = call.toUpperCase();
+    setOnboardingCall(upperCall);
+    const derivedGrid = getGridFromCall(upperCall);
+    if (derivedGrid && !onboardingGrid) {
+      setOnboardingGrid(derivedGrid);
+    }
+  };
+
+  const completeOnboarding = () => {
+    if (onboardingCall && onboardingGrid) {
+      setUserCall(onboardingCall);
+      setUserGrid(onboardingGrid);
+      setAntennaByBand(onboardingAntennas);
+      setShowOnboarding(false);
+    }
+  };
+
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)', fontFamily: "system-ui, sans-serif", color: '#e2e8f0', padding: '20px' }}>
+      {/* Onboarding Modal */}
+      {showOnboarding && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
+          <div style={{ background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '16px', padding: '32px', maxWidth: '500px', width: '90%', maxHeight: '90vh', overflowY: 'auto' }}>
+            <h2 style={{ margin: '0 0 8px 0', fontSize: '24px', fontWeight: '700', background: 'linear-gradient(90deg, #f8fafc, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Welcome to Propagation Estimator</h2>
+            <p style={{ margin: '0 0 24px 0', fontSize: '13px', color: '#94a3b8' }}>Let's set up your station to show relevant propagation data.</p>
+
+            {/* Callsign */}
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ fontSize: '12px', color: '#64748b', display: 'block', marginBottom: '6px', fontWeight: '600' }}>Your Callsign</label>
+              <input
+                type="text"
+                value={onboardingCall}
+                onChange={e => handleOnboardingCallChange(e.target.value)}
+                placeholder="W1ABC"
+                style={{ width: '100%', background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '8px', padding: '12px 14px', color: '#e2e8f0', fontFamily: 'monospace', fontSize: '16px', boxSizing: 'border-box' }}
+              />
+            </div>
+
+            {/* Grid */}
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ fontSize: '12px', color: '#64748b', display: 'block', marginBottom: '6px', fontWeight: '600' }}>Your Grid Square</label>
+              <input
+                type="text"
+                value={onboardingGrid}
+                onChange={e => setOnboardingGrid(e.target.value.toUpperCase())}
+                placeholder="FN31"
+                style={{ width: '100%', background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '8px', padding: '12px 14px', color: '#e2e8f0', fontFamily: 'monospace', fontSize: '16px', boxSizing: 'border-box' }}
+              />
+              {onboardingCall && getGridFromCall(onboardingCall) && (
+                <div style={{ fontSize: '11px', color: '#22c55e', marginTop: '6px' }}>
+                  Auto-detected from callsign prefix. Edit if needed.
+                </div>
+              )}
+            </div>
+
+            {/* Antennas */}
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ fontSize: '12px', color: '#64748b', display: 'block', marginBottom: '6px', fontWeight: '600' }}>Your Antennas (check what you have for each band)</label>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                {BANDS.map(band => {
+                  const antenna = onboardingAntennas[band.name] || { standard: false, nvis: false };
+                  const hasAny = antenna.standard || antenna.nvis;
+                  return (
+                    <div key={band.name} style={{ background: 'rgba(15,23,42,0.5)', padding: '8px', borderRadius: '6px' }}>
+                      <div style={{ fontSize: '11px', color: band.color, fontWeight: '700', marginBottom: '6px' }}>{band.name}</div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '10px', color: hasAny ? '#e2e8f0' : '#64748b', cursor: 'pointer' }}>
+                          <input
+                            type="checkbox"
+                            checked={antenna.standard}
+                            onChange={e => setOnboardingAntennas(prev => ({ ...prev, [band.name]: { ...prev[band.name], standard: e.target.checked } }))}
+                            style={{ width: '14px', height: '14px', cursor: 'pointer' }}
+                          />
+                          Standard/Low-angle
+                        </label>
+                        {band.nvisCapable && (
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '10px', color: hasAny ? '#e2e8f0' : '#64748b', cursor: 'pointer' }}>
+                            <input
+                              type="checkbox"
+                              checked={antenna.nvis}
+                              onChange={e => setOnboardingAntennas(prev => ({ ...prev, [band.name]: { ...prev[band.name], nvis: e.target.checked } }))}
+                              style={{ width: '14px', height: '14px', cursor: 'pointer' }}
+                            />
+                            NVIS
+                          </label>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div style={{ fontSize: '10px', color: '#64748b', marginTop: '8px' }}>
+                Standard/Low-angle: Beams, low dipoles (DX, has skip zone) | NVIS: High dipoles, loops (regional, 0-500km, no skip zone)
+              </div>
+            </div>
+
+            {/* Submit */}
+            <button
+              onClick={completeOnboarding}
+              disabled={!onboardingCall || !onboardingGrid}
+              style={{
+                width: '100%',
+                background: onboardingCall && onboardingGrid ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 'rgba(100,116,139,0.3)',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '14px',
+                color: onboardingCall && onboardingGrid ? '#fff' : '#64748b',
+                cursor: onboardingCall && onboardingGrid ? 'pointer' : 'not-allowed',
+                fontSize: '14px',
+                fontWeight: '600'
+              }}
+            >
+              Get Started
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div style={{ marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
@@ -1215,27 +1399,42 @@ export default function App() {
                 </div>
               </div>
             )}
-            {/* Antenna Type per Band (for skip zone calculation) */}
+            {/* Antenna Capabilities per Band (for skip zone calculation) */}
             <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(148,163,184,0.2)', width: '100%' }}>
-              <div style={{ fontSize: '11px', color: '#64748b', marginBottom: '8px' }}>Antenna Type (affects skip zone calculation):</div>
+              <div style={{ fontSize: '11px', color: '#64748b', marginBottom: '8px' }}>Antenna Capabilities (affects skip zone calculation):</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                {BANDS.map(band => (
-                  <div key={band.name} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(15,23,42,0.5)', padding: '4px 8px', borderRadius: '4px' }}>
-                    <span style={{ fontSize: '10px', color: band.color, fontWeight: '600', minWidth: '32px' }}>{band.name}</span>
-                    <select
-                      value={antennaByBand[band.name]}
-                      onChange={e => setAntennaByBand(prev => ({ ...prev, [band.name]: e.target.value }))}
-                      style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '4px', padding: '2px 4px', color: '#e2e8f0', fontSize: '10px', cursor: 'pointer' }}
-                    >
-                      <option value="lowAngle">Low-angle</option>
-                      {band.nvisCapable && <option value="nvis">NVIS</option>}
-                      {band.nvisCapable && <option value="both">Both</option>}
-                    </select>
-                  </div>
-                ))}
+                {BANDS.map(band => {
+                  const antenna = antennaByBand[band.name] || { standard: false, nvis: false };
+                  const hasAny = antenna.standard || antenna.nvis;
+                  return (
+                    <div key={band.name} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(15,23,42,0.5)', padding: '4px 8px', borderRadius: '4px' }}>
+                      <span style={{ fontSize: '10px', color: band.color, fontWeight: '600', minWidth: '32px' }}>{band.name}</span>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '2px', fontSize: '9px', color: hasAny ? '#e2e8f0' : '#64748b', cursor: 'pointer' }}>
+                        <input
+                          type="checkbox"
+                          checked={antenna.standard}
+                          onChange={e => setAntennaByBand(prev => ({ ...prev, [band.name]: { ...prev[band.name], standard: e.target.checked } }))}
+                          style={{ width: '12px', height: '12px', cursor: 'pointer' }}
+                        />
+                        Std
+                      </label>
+                      {band.nvisCapable && (
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '2px', fontSize: '9px', color: hasAny ? '#e2e8f0' : '#64748b', cursor: 'pointer' }}>
+                          <input
+                            type="checkbox"
+                            checked={antenna.nvis}
+                            onChange={e => setAntennaByBand(prev => ({ ...prev, [band.name]: { ...prev[band.name], nvis: e.target.checked } }))}
+                            style={{ width: '12px', height: '12px', cursor: 'pointer' }}
+                          />
+                          NVIS
+                        </label>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
               <div style={{ fontSize: '9px', color: '#64748b', marginTop: '6px' }}>
-                Low-angle: DX antenna with skip zone | NVIS: Regional (0-500km, 160/80/40m only) | Both: Best of both
+                Std: Standard/low-angle (DX, has skip zone) | NVIS: Regional coverage (0-500km, no skip zone)
               </div>
             </div>
 
@@ -1429,8 +1628,8 @@ export default function App() {
                   <div key={name} style={{ background: `${data.band.color}22`, border: `1px solid ${data.band.color}66`, borderRadius: '6px', padding: '6px 10px', minWidth: '70px' }}>
                     <div style={{ fontSize: '12px', fontWeight: '700', color: data.band.color }}>{name}</div>
                     <div style={{ fontSize: '10px', color: '#94a3b8' }}>{data.bestSnr}dB • {data.wpm}wpm</div>
-                    <div style={{ fontSize: '9px', color: data.status === 'should' ? '#22c55e' : data.status === 'might' ? '#eab308' : '#ef4444' }}>
-                      ● {data.inSkipZone ? 'Skip zone' : data.status === 'should' ? 'Should work' : data.status === 'might' ? 'Might work' : 'Unlikely'}
+                    <div style={{ fontSize: '9px', color: data.noAntenna ? '#64748b' : data.status === 'should' ? '#22c55e' : data.status === 'might' ? '#eab308' : '#ef4444' }}>
+                      ● {data.noAntenna ? 'No antenna' : data.inSkipZone ? 'Skip zone' : data.status === 'should' ? 'Should work' : data.status === 'might' ? 'Might work' : 'Unlikely'}
                     </div>
                   </div>
                 ))}
