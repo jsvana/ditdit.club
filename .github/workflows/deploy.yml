@@ -36,13 +36,21 @@ jobs:
         working-directory: prop-src
         run: npm run build
 
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          # Copy static files (excluding source and git)
+          cp -r CNAME index.html rbn.html favicon.ico logo.png data _site/ 2>/dev/null || true
+          # Copy built prop app
+          cp -r prop _site/
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
   deploy:
     environment:
