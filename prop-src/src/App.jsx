@@ -1624,15 +1624,19 @@ export default function App() {
               </div>
               <div style={{ fontSize: '10px', color: '#64748b', marginBottom: '6px', fontWeight: '600' }}>SPOTTED ON:</div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                {Object.entries(selectedStation.bandAnalysis).sort((a, b) => b[1].bestSnr - a[1].bestSnr).map(([name, data]) => (
+                {Object.entries(selectedStation.bandAnalysis).sort((a, b) => b[1].bestSnr - a[1].bestSnr).map(([name, data]) => {
+                  const bestSpot = data.spots.reduce((best, s) => s.snr > (best?.snr ?? -999) ? s : best, null);
+                  const freq = bestSpot?.frequency;
+                  return (
                   <div key={name} style={{ background: `${data.band.color}22`, border: `1px solid ${data.band.color}66`, borderRadius: '6px', padding: '6px 10px', minWidth: '70px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: '700', color: data.band.color }}>{name}</div>
+                    <div style={{ fontSize: '12px', fontWeight: '700', color: data.band.color }}>{freq ? `${freq.toFixed(1)}` : name}</div>
                     <div style={{ fontSize: '10px', color: '#94a3b8' }}>{data.bestSnr}dB • {data.wpm}wpm</div>
                     <div style={{ fontSize: '9px', color: data.noAntenna ? '#64748b' : data.status === 'should' ? '#22c55e' : data.status === 'might' ? '#eab308' : '#ef4444' }}>
                       ● {data.noAntenna ? 'No antenna' : data.inSkipZone ? 'Skip zone' : data.status === 'should' ? 'Should work' : data.status === 'might' ? 'Might work' : 'Unlikely'}
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
