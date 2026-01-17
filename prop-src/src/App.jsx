@@ -910,6 +910,8 @@ export default function App() {
   const [spotterFilter, setSpotterFilter] = useState([]);
   const [spotterFilterInput, setSpotterFilterInput] = useState('');
   const [showSpotterPicker, setShowSpotterPicker] = useState(false);
+  const [minSnr, setMinSnr] = useState(null); // null = no minimum
+  const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => { const i = setInterval(() => setCurrentTime(new Date()), 60000); return () => clearInterval(i); }, []);
 
@@ -1043,8 +1045,9 @@ export default function App() {
   const filteredStations = useMemo(() => {
     let f = stationData.filter(s => s.call.toUpperCase() !== userCall.toUpperCase() && s.spotCount > 0);
     if (filterBand) f = f.filter(s => s.bandAnalysis[filterBand]);
+    if (minSnr !== null) f = f.filter(s => s.bestSnr >= minSnr);
     return f;
-  }, [stationData, userCall, filterBand]);
+  }, [stationData, userCall, filterBand, minSnr]);
 
   const groupedStations = useMemo(() => {
     const g = { should: [], might: [], unlikely: [] };
@@ -1093,6 +1096,7 @@ export default function App() {
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
             <div><label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>Your Callsign</label><input type="text" value={userCall} onChange={e => setUserCall(e.target.value.toUpperCase())} style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '6px', padding: '6px 10px', color: '#e2e8f0', fontFamily: 'monospace', width: '100px' }} /></div>
             <div><label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>Your Grid</label><input type="text" value={userGrid} onChange={e => setUserGrid(e.target.value.toUpperCase())} style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '6px', padding: '6px 10px', color: '#e2e8f0', fontFamily: 'monospace', width: '80px' }} /></div>
+            <div><label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>Min SNR (dB)</label><input type="text" value={minSnr === null ? '' : minSnr} onChange={e => { const v = e.target.value.trim(); setMinSnr(v === '' ? null : parseInt(v, 10) || 0); }} placeholder="None" style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '6px', padding: '6px 10px', color: '#e2e8f0', fontFamily: 'monospace', width: '70px' }} /></div>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
               <label style={{ fontSize: '11px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}><input type="checkbox" checked={showTerminator} onChange={e => setShowTerminator(e.target.checked)} style={{ accentColor: '#22c55e' }} />Day/Night</label>
               <label style={{ fontSize: '11px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}><input type="checkbox" checked={showSpots} onChange={e => setShowSpots(e.target.checked)} style={{ accentColor: '#22c55e' }} />Spots</label>
@@ -1301,7 +1305,7 @@ export default function App() {
                         <span style={{ fontFamily: 'monospace', fontWeight: '600', fontSize: '13px' }}>{s.call}</span>
                         <div style={{ display: 'flex', gap: '4px' }}>{Object.keys(s.bandAnalysis).slice(0, 3).map(b => <span key={b} style={{ fontSize: '8px', background: `${s.bandAnalysis[b].band.color}44`, color: s.bandAnalysis[b].band.color, padding: '2px 4px', borderRadius: '3px', fontWeight: '600' }}>{b}</span>)}</div>
                       </div>
-                      <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>{s.region} • {s.distance.toLocaleString()}km • {s.bestSnr}dB</div>
+                      <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>{s.region} • {s.distance.toLocaleString()}km • {s.bestSnr}dB{s.bestBand && s.bandAnalysis[s.bestBand.name]?.spots[0]?.frequency ? ` • ${(s.bandAnalysis[s.bestBand.name].spots[0].frequency / 1000).toFixed(3)} MHz` : ''}</div>
                     </div>
                   ))}
                   {status === 'should' && groupedStations.should.length === 0 && <div style={{ fontSize: '11px', color: '#64748b', fontStyle: 'italic' }}>No strong signals</div>}
@@ -1333,6 +1337,41 @@ export default function App() {
                 </>
               )}
             </div>
+          </div>
+
+          {/* Info Card */}
+          <div style={{ background: 'rgba(30,41,59,0.6)', borderRadius: '10px', border: '1px solid rgba(148,163,184,0.15)', overflow: 'hidden' }}>
+            <button
+              onClick={() => setShowInfo(!showInfo)}
+              style={{ width: '100%', background: 'transparent', border: 'none', padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', color: '#94a3b8' }}
+            >
+              <span style={{ fontSize: '11px', fontWeight: '600' }}>How This Works</span>
+              <span style={{ fontSize: '12px' }}>{showInfo ? '▲' : '▼'}</span>
+            </button>
+            {showInfo && (
+              <div style={{ padding: '0 14px 14px', fontSize: '10px', color: '#94a3b8', lineHeight: '1.5' }}>
+                <div style={{ marginBottom: '10px' }}>
+                  <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>Data Sources</div>
+                  <div>Spots are fetched from the <strong>Reverse Beacon Network (RBN)</strong> and <strong>PSK Reporter</strong> every 60 seconds. RBN provides CW skimmer spots; PSK Reporter adds additional reception reports.</div>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>Propagation Zones</div>
+                  <div><strong>Outbound zones</strong> (solid) show where signals from your area are being heard. <strong>Inbound zones</strong> (hatched) show where signals heard near you originate. Zones are clustered using a DBSCAN-style algorithm with 1500km threshold, then rendered as convex hulls. <strong>Bidirectional zones</strong> (glowing border) indicate two-way propagation paths.</div>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>QSO Workability</div>
+                  <div><strong>Should Work:</strong> SNR &gt; 15dB and distance &lt; 15,000km<br/><strong>Might Work:</strong> SNR &gt; 5dB<br/><strong>Weak Signals:</strong> SNR ≤ 5dB</div>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                  <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>MUF Data</div>
+                  <div>Maximum Usable Frequency (MUF) readings from <strong>ionosonde stations</strong> worldwide (via prop.kc2g.com). Colors indicate which amateur band the MUF supports. Data refreshes every 15 minutes.</div>
+                </div>
+                <div>
+                  <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>Grid Squares</div>
+                  <div>Station locations use Maidenhead grid squares from spot data when available, otherwise estimated from callsign prefix (e.g., W6 → CM87).</div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
