@@ -464,7 +464,9 @@ const GreatCirclePath = ({ fromLat, fromLon, toLat, toLon, color, isSelected, zo
   );
 };
 
-const WorldMap = ({ children, currentTime, showTerminator, zoom, setZoom, pan, setPan }) => {
+const WorldMap = ({ children, currentTime, showTerminator }) => {
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const svgRef = useRef(null);
@@ -892,63 +894,42 @@ const IonosondeMarkers = ({ stations, hoveredIonosonde, setHoveredIonosonde, sel
 // MAIN APP
 // ============================================================================
 
-// Load saved settings from localStorage
-const loadSetting = (key, defaultValue) => {
-  try {
-    const saved = localStorage.getItem(key);
-    if (saved === null) return defaultValue;
-    return JSON.parse(saved);
-  } catch { return defaultValue; }
-};
-
 export default function App() {
-  const [userCall, setUserCall] = useState(() => loadSetting('userCall', ''));
-  const [userGrid, setUserGrid] = useState(() => loadSetting('userGrid', ''));
+  const [userCall, setUserCall] = useState('W6JSV');
+  const [userGrid, setUserGrid] = useState('CM87');
   const [spots, setSpots] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingStatus, setLoadingStatus] = useState({
+    rbn: { loading: false, done: false, error: null },
+    psk: { loading: false, done: false, error: null },
+    ionosonde: { loading: false, done: false, error: null },
+  });
   const [lastUpdate, setLastUpdate] = useState(null);
   const [selectedStation, setSelectedStation] = useState(null);
-  const [showSettings, setShowSettings] = useState(() => !loadSetting('userCall', ''));
-  const [showTerminator, setShowTerminator] = useState(() => loadSetting('showTerminator', true));
-  const [showAllPaths, setShowAllPaths] = useState(() => loadSetting('showAllPaths', false));
-  const [showSpots, setShowSpots] = useState(() => loadSetting('showSpots', false));
+  const [showSettings, setShowSettings] = useState(false);
+  const [showTerminator, setShowTerminator] = useState(true);
+  const [showAllPaths, setShowAllPaths] = useState(false);
+  const [showSpots, setShowSpots] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [error, setError] = useState(null);
   const [filterBand, setFilterBand] = useState(null);
-  const [showPropagationZones, setShowPropagationZones] = useState(() => loadSetting('showPropagationZones', true));
-  const [proximityRadius, setProximityRadius] = useState(() => loadSetting('proximityRadius', 160));
+  const [showPropagationZones, setShowPropagationZones] = useState(true);
+  const [proximityRadius, setProximityRadius] = useState(160); // km (~100 miles)
   const [hoveredZone, setHoveredZone] = useState(null);
   const [selectedZone, setSelectedZone] = useState(null);
-  const [showMufLayer, setShowMufLayer] = useState(() => loadSetting('showMufLayer', true));
+  const [showMufLayer, setShowMufLayer] = useState(true);
   const [ionosondeStations, setIonosondeStations] = useState([]);
   const [hoveredIonosonde, setHoveredIonosonde] = useState(null);
   const [selectedIonosonde, setSelectedIonosonde] = useState(null);
-  const [spotterFilter, setSpotterFilter] = useState(() => loadSetting('spotterFilter', []));
-  const [spotterFilterInput, setSpotterFilterInput] = useState(() => loadSetting('spotterFilter', []).join(', '));
+  const [spotterFilter, setSpotterFilter] = useState([]);
+  const [spotterFilterInput, setSpotterFilterInput] = useState('');
   const [showSpotterPicker, setShowSpotterPicker] = useState(false);
-  const [minSnr, setMinSnr] = useState(() => loadSetting('minSnr', null));
-  const [showInfo, setShowInfo] = useState(false);
-  const [zoom, setZoom] = useState(() => loadSetting('zoom', 1));
-  const [pan, setPan] = useState(() => loadSetting('pan', { x: 0, y: 0 }));
-
-  // Save settings to localStorage when they change
-  useEffect(() => { localStorage.setItem('userCall', JSON.stringify(userCall)); }, [userCall]);
-  useEffect(() => { localStorage.setItem('userGrid', JSON.stringify(userGrid)); }, [userGrid]);
-  useEffect(() => { localStorage.setItem('showTerminator', JSON.stringify(showTerminator)); }, [showTerminator]);
-  useEffect(() => { localStorage.setItem('showAllPaths', JSON.stringify(showAllPaths)); }, [showAllPaths]);
-  useEffect(() => { localStorage.setItem('showSpots', JSON.stringify(showSpots)); }, [showSpots]);
-  useEffect(() => { localStorage.setItem('showPropagationZones', JSON.stringify(showPropagationZones)); }, [showPropagationZones]);
-  useEffect(() => { localStorage.setItem('proximityRadius', JSON.stringify(proximityRadius)); }, [proximityRadius]);
-  useEffect(() => { localStorage.setItem('showMufLayer', JSON.stringify(showMufLayer)); }, [showMufLayer]);
-  useEffect(() => { localStorage.setItem('spotterFilter', JSON.stringify(spotterFilter)); }, [spotterFilter]);
-  useEffect(() => { localStorage.setItem('minSnr', JSON.stringify(minSnr)); }, [minSnr]);
-  useEffect(() => { localStorage.setItem('zoom', JSON.stringify(zoom)); }, [zoom]);
-  useEffect(() => { localStorage.setItem('pan', JSON.stringify(pan)); }, [pan]);
 
   useEffect(() => { const i = setInterval(() => setCurrentTime(new Date()), 60000); return () => clearInterval(i); }, []);
 
   // Fetch ionosonde MUF data
   const fetchIonosondeData = useCallback(async () => {
+    setLoadingStatus(prev => ({ ...prev, ionosonde: { loading: true, done: false, error: null } }));
     try {
       const response = await fetch(`https://corsproxy.io/?${encodeURIComponent('https://prop.kc2g.com/api/stations.json')}`);
       if (response.ok) {
@@ -971,9 +952,13 @@ export default function App() {
           time: s.time
         }));
         setIonosondeStations(validStations);
+        setLoadingStatus(prev => ({ ...prev, ionosonde: { loading: false, done: true, error: null } }));
+      } else {
+        setLoadingStatus(prev => ({ ...prev, ionosonde: { loading: false, done: true, error: 'Failed to fetch' } }));
       }
     } catch (e) {
       console.error('Failed to fetch ionosonde data:', e);
+      setLoadingStatus(prev => ({ ...prev, ionosonde: { loading: false, done: true, error: e.message } }));
     }
   }, []);
 
@@ -986,7 +971,14 @@ export default function App() {
   }, [showMufLayer, fetchIonosondeData]);
 
   const fetchSpots = useCallback(async () => {
-    setLoading(true); setError(null);
+    setLoading(true);
+    setError(null);
+    setLoadingStatus(prev => ({
+      ...prev,
+      rbn: { loading: true, done: false, error: null },
+      psk: { loading: true, done: false, error: null },
+    }));
+
     try {
       // Fetch from both VailReRBN and PSKReporter in parallel
       const [rbnResponse, pskResponse] = await Promise.allSettled([
@@ -1001,6 +993,10 @@ export default function App() {
         const rbnData = await rbnResponse.value.json();
         const rbnSpots = (rbnData.spots || []).map(s => ({ ...s, source: 'rbn' }));
         allSpots = [...allSpots, ...rbnSpots];
+        setLoadingStatus(prev => ({ ...prev, rbn: { loading: false, done: true, error: null, count: rbnSpots.length } }));
+      } else {
+        const errMsg = rbnResponse.status === 'rejected' ? rbnResponse.reason?.message : 'Failed';
+        setLoadingStatus(prev => ({ ...prev, rbn: { loading: false, done: true, error: errMsg } }));
       }
 
       // Process PSKReporter data
@@ -1008,6 +1004,10 @@ export default function App() {
         const pskText = await pskResponse.value.text();
         const pskSpots = parsePskReporterXml(pskText);
         allSpots = [...allSpots, ...pskSpots];
+        setLoadingStatus(prev => ({ ...prev, psk: { loading: false, done: true, error: null, count: pskSpots.length } }));
+      } else {
+        const errMsg = pskResponse.status === 'rejected' ? pskResponse.reason?.message : 'Failed';
+        setLoadingStatus(prev => ({ ...prev, psk: { loading: false, done: true, error: errMsg } }));
       }
 
       if (allSpots.length === 0) throw new Error('No data from any source');
@@ -1083,7 +1083,13 @@ export default function App() {
         ba.wpm = ba.spots[0]?.wpm || 18;
         const inZone = isStationInZone(coords, propagationZones, ba.band.name);
         const isRelevant = ba.hasNearbySpot || inZone;
-        ba.status = isRelevant && ba.bestSnr >= 10 ? 'should' : ba.bestSnr > 5 ? 'might' : 'unlikely';
+        if (isRelevant && ba.bestSnr >= 10) {
+          ba.status = 'should';
+        } else if (isRelevant && ba.bestSnr > 5) {
+          ba.status = 'might';
+        } else {
+          ba.status = 'unlikely';
+        }
         if (ba.bestSnr > bestSnr) { bestSnr = ba.bestSnr; bestBand = ba.band; }
       });
       // Overall status is the best status across all bands
@@ -1096,9 +1102,8 @@ export default function App() {
   const filteredStations = useMemo(() => {
     let f = stationData.filter(s => s.call.toUpperCase() !== userCall.toUpperCase() && s.spotCount > 0);
     if (filterBand) f = f.filter(s => s.bandAnalysis[filterBand]);
-    if (minSnr !== null) f = f.filter(s => s.bestSnr >= minSnr);
     return f;
-  }, [stationData, userCall, filterBand, minSnr]);
+  }, [stationData, userCall, filterBand]);
 
   const groupedStations = useMemo(() => {
     const g = { should: [], might: [], unlikely: [] };
@@ -1140,7 +1145,6 @@ export default function App() {
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
             <div><label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>Your Callsign</label><input type="text" value={userCall} onChange={e => setUserCall(e.target.value.toUpperCase())} style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '6px', padding: '6px 10px', color: '#e2e8f0', fontFamily: 'monospace', width: '100px' }} /></div>
             <div><label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>Your Grid</label><input type="text" value={userGrid} onChange={e => setUserGrid(e.target.value.toUpperCase())} style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '6px', padding: '6px 10px', color: '#e2e8f0', fontFamily: 'monospace', width: '80px' }} /></div>
-            <div><label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>Min SNR (dB)</label><input type="text" value={minSnr === null ? '' : minSnr} onChange={e => { const v = e.target.value.trim(); setMinSnr(v === '' ? null : parseInt(v, 10) || 0); }} placeholder="None" style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '6px', padding: '6px 10px', color: '#e2e8f0', fontFamily: 'monospace', width: '70px' }} /></div>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
               <label style={{ fontSize: '11px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}><input type="checkbox" checked={showTerminator} onChange={e => setShowTerminator(e.target.checked)} style={{ accentColor: '#22c55e' }} />Day/Night</label>
               <label style={{ fontSize: '11px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}><input type="checkbox" checked={showSpots} onChange={e => setShowSpots(e.target.checked)} style={{ accentColor: '#22c55e' }} />Spots</label>
@@ -1272,8 +1276,42 @@ export default function App() {
             </div>
           </div>
           <div style={{ padding: '16px', position: 'relative' }}>
-            {loading && <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(15,23,42,0.9)', padding: '12px 20px', borderRadius: '8px', zIndex: 10 }}>Loading...</div>}
-            <WorldMap currentTime={currentTime} showTerminator={showTerminator} zoom={zoom} setZoom={setZoom} pan={pan} setPan={setPan}>
+            {loading && (
+              <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(15,23,42,0.95)', padding: '16px 24px', borderRadius: '10px', zIndex: 10, border: '1px solid rgba(148,163,184,0.2)', minWidth: '200px' }}>
+                <div style={{ fontSize: '13px', fontWeight: '600', marginBottom: '12px', color: '#e2e8f0' }}>Loading Data...</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px' }}>
+                    <span style={{ width: '16px', textAlign: 'center' }}>
+                      {loadingStatus.rbn.loading ? '⏳' : loadingStatus.rbn.error ? '❌' : loadingStatus.rbn.done ? '✓' : '○'}
+                    </span>
+                    <span style={{ color: loadingStatus.rbn.loading ? '#fbbf24' : loadingStatus.rbn.error ? '#ef4444' : loadingStatus.rbn.done ? '#22c55e' : '#64748b' }}>
+                      RBN Spots
+                      {loadingStatus.rbn.done && !loadingStatus.rbn.error && loadingStatus.rbn.count !== undefined && ` (${loadingStatus.rbn.count})`}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px' }}>
+                    <span style={{ width: '16px', textAlign: 'center' }}>
+                      {loadingStatus.psk.loading ? '⏳' : loadingStatus.psk.error ? '❌' : loadingStatus.psk.done ? '✓' : '○'}
+                    </span>
+                    <span style={{ color: loadingStatus.psk.loading ? '#fbbf24' : loadingStatus.psk.error ? '#ef4444' : loadingStatus.psk.done ? '#22c55e' : '#64748b' }}>
+                      PSKReporter
+                      {loadingStatus.psk.done && !loadingStatus.psk.error && loadingStatus.psk.count !== undefined && ` (${loadingStatus.psk.count})`}
+                    </span>
+                  </div>
+                  {showMufLayer && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px' }}>
+                      <span style={{ width: '16px', textAlign: 'center' }}>
+                        {loadingStatus.ionosonde.loading ? '⏳' : loadingStatus.ionosonde.error ? '❌' : loadingStatus.ionosonde.done ? '✓' : '○'}
+                      </span>
+                      <span style={{ color: loadingStatus.ionosonde.loading ? '#fbbf24' : loadingStatus.ionosonde.error ? '#ef4444' : loadingStatus.ionosonde.done ? '#22c55e' : '#64748b' }}>
+                        Ionosonde MUF
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            <WorldMap currentTime={currentTime} showTerminator={showTerminator}>
               {({ zoom }) => (
                 <>
                   {/* Propagation zones (rendered first, underneath everything) */}
@@ -1349,7 +1387,7 @@ export default function App() {
                         <span style={{ fontFamily: 'monospace', fontWeight: '600', fontSize: '13px' }}>{s.call}</span>
                         <div style={{ display: 'flex', gap: '4px' }}>{Object.keys(s.bandAnalysis).slice(0, 3).map(b => <span key={b} style={{ fontSize: '8px', background: `${s.bandAnalysis[b].band.color}44`, color: s.bandAnalysis[b].band.color, padding: '2px 4px', borderRadius: '3px', fontWeight: '600' }}>{b}</span>)}</div>
                       </div>
-                      <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>{s.region} • {s.distance.toLocaleString()}km • {s.bestSnr}dB{s.bestBand && s.bandAnalysis[s.bestBand.name]?.spots[0]?.frequency ? ` • ${(s.bandAnalysis[s.bestBand.name].spots[0].frequency / 1000).toFixed(3)} MHz` : ''}</div>
+                      <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>{s.region} • {s.distance.toLocaleString()}km • {s.bestSnr}dB</div>
                     </div>
                   ))}
                   {status === 'should' && groupedStations.should.length === 0 && <div style={{ fontSize: '11px', color: '#64748b', fontStyle: 'italic' }}>No strong signals</div>}
@@ -1381,41 +1419,6 @@ export default function App() {
                 </>
               )}
             </div>
-          </div>
-
-          {/* Info Card */}
-          <div style={{ background: 'rgba(30,41,59,0.6)', borderRadius: '10px', border: '1px solid rgba(148,163,184,0.15)', overflow: 'hidden' }}>
-            <button
-              onClick={() => setShowInfo(!showInfo)}
-              style={{ width: '100%', background: 'transparent', border: 'none', padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', color: '#94a3b8' }}
-            >
-              <span style={{ fontSize: '11px', fontWeight: '600' }}>How This Works</span>
-              <span style={{ fontSize: '12px' }}>{showInfo ? '▲' : '▼'}</span>
-            </button>
-            {showInfo && (
-              <div style={{ padding: '0 14px 14px', fontSize: '10px', color: '#94a3b8', lineHeight: '1.5' }}>
-                <div style={{ marginBottom: '10px' }}>
-                  <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>Data Sources</div>
-                  <div>Spots are fetched from the <strong>Reverse Beacon Network (RBN)</strong> and <strong>PSK Reporter</strong> every 60 seconds. RBN provides CW skimmer spots; PSK Reporter adds additional reception reports.</div>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>Propagation Zones</div>
-                  <div><strong>Outbound zones</strong> (solid) show where signals from your area are being heard. <strong>Inbound zones</strong> (hatched) show where signals heard near you originate. Zones are clustered using a DBSCAN-style algorithm with 1500km threshold, then rendered as convex hulls. <strong>Bidirectional zones</strong> (glowing border) indicate two-way propagation paths.</div>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>QSO Workability</div>
-                  <div><strong>Should Work:</strong> SNR &gt; 15dB and distance &lt; 15,000km<br/><strong>Might Work:</strong> SNR &gt; 5dB<br/><strong>Weak Signals:</strong> SNR ≤ 5dB</div>
-                </div>
-                <div style={{ marginBottom: '10px' }}>
-                  <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>MUF Data</div>
-                  <div>Maximum Usable Frequency (MUF) readings from <strong>ionosonde stations</strong> worldwide (via prop.kc2g.com). Colors indicate which amateur band the MUF supports. Data refreshes every 15 minutes.</div>
-                </div>
-                <div>
-                  <div style={{ color: '#e2e8f0', fontWeight: '600', marginBottom: '4px' }}>Grid Squares</div>
-                  <div>Station locations use Maidenhead grid squares from spot data when available, otherwise estimated from callsign prefix (e.g., W6 → CM87).</div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
