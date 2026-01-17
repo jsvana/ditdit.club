@@ -304,6 +304,15 @@ const buildPropagationZones = (spots, userCall, userCoords, proximityKm) => {
   return zones;
 };
 
+// Check if station coordinates are within any zone cluster for a given band
+const isStationInZone = (stationCoords, zones, bandName) => {
+  return zones
+    .filter(z => z.band.name === bandName)
+    .some(zone => zone.clusters.some(cluster =>
+      haversineDistance(stationCoords.lat, stationCoords.lon, cluster.centroid.lat, cluster.centroid.lon) <= 1500
+    ));
+};
+
 // ============================================================================
 // BAND CONFIGURATION
 // ============================================================================
@@ -1029,8 +1038,16 @@ export default function App() {
 
   useEffect(() => { fetchSpots(); const i = setInterval(fetchSpots, 60000); return () => clearInterval(i); }, [fetchSpots]);
 
+  const userCoords = gridToLatLon(userGrid) || { lat: 37.5, lon: -122 };
+
+  // Compute propagation zones (always, for workability analysis)
+  const propagationZones = useMemo(() => {
+    if (!spots.length) return [];
+    return buildPropagationZones(spots, userCall, userCoords, proximityRadius);
+  }, [spots, userCall, userCoords, proximityRadius]);
+
   const stationData = useMemo(() => {
-    const userCoords = gridToLatLon(userGrid); if (!userCoords) return [];
+    if (!userCoords) return [];
     // Filter spots by spotter callsigns if filter is active
     const filteredSpots = spotterFilter.length > 0
       ? spots.filter(s => {
@@ -1051,19 +1068,30 @@ export default function App() {
       const bandAnalysis = {}; let bestBand = null, bestSnr = -999;
       callSpots.forEach(spot => {
         const band = getBandFromFreq(spot.frequency); if (!band) return;
-        if (!bandAnalysis[band.name]) bandAnalysis[band.name] = { band, spots: [], bestSnr: -999 };
+        if (!bandAnalysis[band.name]) bandAnalysis[band.name] = { band, spots: [], bestSnr: -999, hasNearbySpot: false };
         bandAnalysis[band.name].spots.push(spot);
         if (spot.snr > bandAnalysis[band.name].bestSnr) bandAnalysis[band.name].bestSnr = spot.snr;
+        // Check if this spot came from a nearby skimmer
+        const spotterCall = spot.spotter || spot.de_call || '';
+        const spotterGrid = spot.spotter_grid || spot.de_grid || getGridFromCall(spotterCall);
+        const spotterCoords = spotterGrid ? gridToLatLon(spotterGrid) : null;
+        if (spotterCoords && haversineDistance(userCoords.lat, userCoords.lon, spotterCoords.lat, spotterCoords.lon) <= proximityRadius) {
+          bandAnalysis[band.name].hasNearbySpot = true;
+        }
       });
       Object.values(bandAnalysis).forEach(ba => {
         ba.wpm = ba.spots[0]?.wpm || 18;
-        ba.status = ba.bestSnr > 15 && distance < 15000 ? 'should' : ba.bestSnr > 5 ? 'might' : 'unlikely';
+        const inZone = isStationInZone(coords, propagationZones, ba.band.name);
+        const isRelevant = ba.hasNearbySpot || inZone;
+        ba.status = isRelevant && ba.bestSnr >= 10 ? 'should' : ba.bestSnr > 5 ? 'might' : 'unlikely';
         if (ba.bestSnr > bestSnr) { bestSnr = ba.bestSnr; bestBand = ba.band; }
       });
-      const status = bestSnr > 15 && distance < 15000 ? 'should' : bestSnr > 5 ? 'might' : 'unlikely';
+      // Overall status is the best status across all bands
+      const bandStatuses = Object.values(bandAnalysis).map(ba => ba.status);
+      const status = bandStatuses.includes('should') ? 'should' : bandStatuses.includes('might') ? 'might' : 'unlikely';
       return { call, grid, lat: coords.lat, lon: coords.lon, region, distance: Math.round(distance), status, bandAnalysis, bestBand, bestSnr: bestSnr > -999 ? bestSnr : 0, spotCount: callSpots.length, wpm: callSpots[0]?.wpm || 18 };
     }).filter(Boolean);
-  }, [spots, userGrid, spotterFilter]);
+  }, [spots, userGrid, spotterFilter, propagationZones, proximityRadius]);
 
   const filteredStations = useMemo(() => {
     let f = stationData.filter(s => s.call.toUpperCase() !== userCall.toUpperCase() && s.spotCount > 0);
@@ -1079,7 +1107,6 @@ export default function App() {
     return g;
   }, [filteredStations, filterBand]);
 
-  const userCoords = gridToLatLon(userGrid) || { lat: 37.5, lon: -122 };
   const activeBands = useMemo(() => { const b = new Set(); filteredStations.forEach(s => Object.keys(s.bandAnalysis).forEach(k => b.add(k))); return BANDS.filter(x => b.has(x.name)); }, [filteredStations]);
 
   // Extract unique spotters from raw spots with counts
@@ -1093,12 +1120,6 @@ export default function App() {
       .map(([call, count]) => ({ call, count }))
       .sort((a, b) => b.count - a.count);
   }, [spots]);
-
-  // Compute propagation zones
-  const propagationZones = useMemo(() => {
-    if (!showPropagationZones || !spots.length) return [];
-    return buildPropagationZones(spots, userCall, userCoords, proximityRadius);
-  }, [showPropagationZones, spots, userCall, userCoords, proximityRadius]);
 
   return (
     <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)', fontFamily: "system-ui, sans-serif", color: '#e2e8f0', padding: '20px' }}>
