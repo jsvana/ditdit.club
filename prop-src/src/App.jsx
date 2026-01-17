@@ -317,16 +317,18 @@ const isStationInZone = (stationCoords, zones, bandName) => {
 // BAND CONFIGURATION
 // ============================================================================
 
+// Skip zones represent the "dead zone" where ground wave fades but skywave hasn't landed yet.
+// NVIS (Near Vertical Incidence Skywave) uses high takeoff angles to fill in 0-500km on lower bands.
 const BANDS = [
-  { name: '160m', min: 1800, max: 2000, color: '#ef4444' },
-  { name: '80m', min: 3500, max: 4000, color: '#f97316' },
-  { name: '40m', min: 7000, max: 7300, color: '#eab308' },
-  { name: '30m', min: 10100, max: 10150, color: '#84cc16' },
-  { name: '20m', min: 14000, max: 14350, color: '#22c55e' },
-  { name: '17m', min: 18068, max: 18168, color: '#14b8a6' },
-  { name: '15m', min: 21000, max: 21450, color: '#06b6d4' },
-  { name: '12m', min: 24890, max: 24990, color: '#3b82f6' },
-  { name: '10m', min: 28000, max: 29700, color: '#8b5cf6' },
+  { name: '160m', min: 1800, max: 2000, color: '#ef4444', skipZone: { min: 80, max: 600 }, nvisCapable: true },
+  { name: '80m', min: 3500, max: 4000, color: '#f97316', skipZone: { min: 50, max: 400 }, nvisCapable: true },
+  { name: '40m', min: 7000, max: 7300, color: '#eab308', skipZone: { min: 150, max: 800 }, nvisCapable: true },
+  { name: '30m', min: 10100, max: 10150, color: '#84cc16', skipZone: { min: 250, max: 1000 }, nvisCapable: false },
+  { name: '20m', min: 14000, max: 14350, color: '#22c55e', skipZone: { min: 400, max: 1500 }, nvisCapable: false },
+  { name: '17m', min: 18068, max: 18168, color: '#14b8a6', skipZone: { min: 500, max: 1800 }, nvisCapable: false },
+  { name: '15m', min: 21000, max: 21450, color: '#06b6d4', skipZone: { min: 600, max: 2000 }, nvisCapable: false },
+  { name: '12m', min: 24890, max: 24990, color: '#3b82f6', skipZone: { min: 800, max: 2300 }, nvisCapable: false },
+  { name: '10m', min: 28000, max: 29700, color: '#8b5cf6', skipZone: { min: 1000, max: 2500 }, nvisCapable: false },
 ];
 
 const getBandFromFreq = (freq) => BANDS.find(b => freq >= b.min && freq <= b.max) || null;
@@ -924,6 +926,15 @@ export default function App() {
   const [spotterFilter, setSpotterFilter] = useState([]);
   const [spotterFilterInput, setSpotterFilterInput] = useState('');
   const [showSpotterPicker, setShowSpotterPicker] = useState(false);
+  // Per-band antenna type: 'lowAngle', 'nvis', 'both'
+  // Default: NVIS-capable bands default to 'both', others to 'lowAngle'
+  const [antennaByBand, setAntennaByBand] = useState(() => {
+    const initial = {};
+    BANDS.forEach(b => {
+      initial[b.name] = b.nvisCapable ? 'both' : 'lowAngle';
+    });
+    return initial;
+  });
 
   useEffect(() => { const i = setInterval(() => setCurrentTime(new Date()), 60000); return () => clearInterval(i); }, []);
 
@@ -1042,9 +1053,9 @@ export default function App() {
 
   // Compute propagation zones (always, for workability analysis)
   const propagationZones = useMemo(() => {
-    if (!spots.length) return [];
+    if (!spots.length || !userCoords) return [];
     return buildPropagationZones(spots, userCall, userCoords, proximityRadius);
-  }, [spots, userCall, userCoords, proximityRadius]);
+  }, [spots, userCall, userGrid, proximityRadius]); // userGrid instead of userCoords to avoid new object reference each render
 
   const stationData = useMemo(() => {
     if (!userCoords) return [];
@@ -1083,7 +1094,31 @@ export default function App() {
         ba.wpm = ba.spots[0]?.wpm || 18;
         const inZone = isStationInZone(coords, propagationZones, ba.band.name);
         const isRelevant = ba.hasNearbySpot || inZone;
-        if (isRelevant && ba.bestSnr >= 10) {
+
+        // Check skip zone based on antenna type for this band
+        const antenna = antennaByBand[ba.band.name] || 'lowAngle';
+        const skipZone = ba.band.skipZone;
+        let inSkipZone = false;
+
+        if (skipZone && distance >= skipZone.min && distance <= skipZone.max) {
+          // Station is in the skip zone range
+          if (antenna === 'nvis' && ba.band.nvisCapable && distance <= 500) {
+            // NVIS antenna can reach within 500km on NVIS-capable bands
+            inSkipZone = false;
+          } else if (antenna === 'both' && ba.band.nvisCapable && distance <= 500) {
+            // Both antennas available, NVIS covers this
+            inSkipZone = false;
+          } else {
+            // Low-angle only or beyond NVIS range - skip zone applies
+            inSkipZone = true;
+          }
+        }
+
+        ba.inSkipZone = inSkipZone;
+
+        if (inSkipZone) {
+          ba.status = 'unlikely';
+        } else if (isRelevant && ba.bestSnr >= 10) {
           ba.status = 'should';
         } else if (isRelevant && ba.bestSnr > 5) {
           ba.status = 'might';
@@ -1097,7 +1132,7 @@ export default function App() {
       const status = bandStatuses.includes('should') ? 'should' : bandStatuses.includes('might') ? 'might' : 'unlikely';
       return { call, grid, lat: coords.lat, lon: coords.lon, region, distance: Math.round(distance), status, bandAnalysis, bestBand, bestSnr: bestSnr > -999 ? bestSnr : 0, spotCount: callSpots.length, wpm: callSpots[0]?.wpm || 18 };
     }).filter(Boolean);
-  }, [spots, userGrid, spotterFilter, propagationZones, proximityRadius]);
+  }, [spots, userGrid, spotterFilter, propagationZones, proximityRadius, antennaByBand]);
 
   const filteredStations = useMemo(() => {
     let f = stationData.filter(s => s.call.toUpperCase() !== userCall.toUpperCase() && s.spotCount > 0);
@@ -1180,6 +1215,30 @@ export default function App() {
                 </div>
               </div>
             )}
+            {/* Antenna Type per Band (for skip zone calculation) */}
+            <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(148,163,184,0.2)', width: '100%' }}>
+              <div style={{ fontSize: '11px', color: '#64748b', marginBottom: '8px' }}>Antenna Type (affects skip zone calculation):</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                {BANDS.map(band => (
+                  <div key={band.name} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(15,23,42,0.5)', padding: '4px 8px', borderRadius: '4px' }}>
+                    <span style={{ fontSize: '10px', color: band.color, fontWeight: '600', minWidth: '32px' }}>{band.name}</span>
+                    <select
+                      value={antennaByBand[band.name]}
+                      onChange={e => setAntennaByBand(prev => ({ ...prev, [band.name]: e.target.value }))}
+                      style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '4px', padding: '2px 4px', color: '#e2e8f0', fontSize: '10px', cursor: 'pointer' }}
+                    >
+                      <option value="lowAngle">Low-angle</option>
+                      {band.nvisCapable && <option value="nvis">NVIS</option>}
+                      {band.nvisCapable && <option value="both">Both</option>}
+                    </select>
+                  </div>
+                ))}
+              </div>
+              <div style={{ fontSize: '9px', color: '#64748b', marginTop: '6px' }}>
+                Low-angle: DX antenna with skip zone | NVIS: Regional (0-500km, 160/80/40m only) | Both: Best of both
+              </div>
+            </div>
+
             {/* Spotter Filter */}
             <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(148,163,184,0.2)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
@@ -1340,6 +1399,8 @@ export default function App() {
                   {selectedStation && <GreatCirclePath fromLat={userCoords.lat} fromLon={userCoords.lon} toLat={selectedStation.lat} toLon={selectedStation.lon} color={selectedStation.bestBand?.color || '#22c55e'} isSelected={true} zoom={zoom} />}
                   <StationMarker lat={userCoords.lat} lon={userCoords.lon} call={userCall} isUser={true} zoom={zoom} />
                   {showSpots && filteredStations.map(s => <StationMarker key={s.call} lat={s.lat} lon={s.lon} call={s.call} bandData={s} isSelected={selectedStation?.call === s.call} onClick={() => setSelectedStation(selectedStation?.call === s.call ? null : s)} zoom={zoom} />)}
+                  {/* Always show selected station marker even if showSpots is off */}
+                  {selectedStation && !showSpots && <StationMarker lat={selectedStation.lat} lon={selectedStation.lon} call={selectedStation.call} bandData={selectedStation} isSelected={true} onClick={() => setSelectedStation(null)} zoom={zoom} />}
                 </>
               )}
             </WorldMap>
@@ -1368,7 +1429,9 @@ export default function App() {
                   <div key={name} style={{ background: `${data.band.color}22`, border: `1px solid ${data.band.color}66`, borderRadius: '6px', padding: '6px 10px', minWidth: '70px' }}>
                     <div style={{ fontSize: '12px', fontWeight: '700', color: data.band.color }}>{name}</div>
                     <div style={{ fontSize: '10px', color: '#94a3b8' }}>{data.bestSnr}dB • {data.wpm}wpm</div>
-                    <div style={{ fontSize: '9px', color: data.status === 'should' ? '#22c55e' : data.status === 'might' ? '#eab308' : '#ef4444' }}>● {data.status === 'should' ? 'Should work' : data.status === 'might' ? 'Might work' : 'Unlikely'}</div>
+                    <div style={{ fontSize: '9px', color: data.status === 'should' ? '#22c55e' : data.status === 'might' ? '#eab308' : '#ef4444' }}>
+                      ● {data.inSkipZone ? 'Skip zone' : data.status === 'should' ? 'Should work' : data.status === 'might' ? 'Might work' : 'Unlikely'}
+                    </div>
                   </div>
                 ))}
               </div>
