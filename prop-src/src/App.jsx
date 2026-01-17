@@ -1630,9 +1630,13 @@ export default function App() {
                   const spotTime = bestSpot?.time ? new Date(bestSpot.time) : null;
                   const ageMin = spotTime ? Math.round((Date.now() - spotTime.getTime()) / 60000) : null;
                   return (
-                  <div key={name} style={{ background: `${data.band.color}22`, border: `1px solid ${data.band.color}66`, borderRadius: '6px', padding: '6px 10px', minWidth: '70px' }}>
-                    <div style={{ fontSize: '12px', fontWeight: '700', color: data.band.color }}>{freq ? `${freq.toFixed(1)}` : name}</div>
-                    <div style={{ fontSize: '10px', color: '#94a3b8' }}>{data.bestSnr}dB • {data.wpm}wpm{ageMin !== null ? ` • ${ageMin}m ago` : ''}</div>
+                  <div key={name} style={{ background: `${data.band.color}22`, border: `1px solid ${data.band.color}66`, borderRadius: '6px', padding: '6px 10px', minWidth: '80px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
+                      <span style={{ fontSize: '9px', background: `${data.band.color}44`, color: data.band.color, padding: '1px 4px', borderRadius: '3px', fontWeight: '700' }}>{name}</span>
+                      {ageMin !== null && <span style={{ fontSize: '9px', color: '#64748b' }}>{ageMin}m ago</span>}
+                    </div>
+                    <div style={{ fontSize: '14px', fontWeight: '700', color: '#e2e8f0', fontFamily: 'monospace' }}>{freq ? freq.toFixed(1) : '?'}</div>
+                    <div style={{ fontSize: '10px', color: '#94a3b8' }}>{data.bestSnr}dB • {data.wpm}wpm</div>
                     <div style={{ fontSize: '9px', color: data.noAntenna ? '#64748b' : data.status === 'should' ? '#22c55e' : data.status === 'might' ? '#eab308' : '#ef4444' }}>
                       ● {data.noAntenna ? 'No antenna' : data.inSkipZone ? 'Skip zone' : data.status === 'should' ? 'Should work' : data.status === 'might' ? 'Might work' : 'Unlikely'}
                     </div>
@@ -1655,12 +1659,18 @@ export default function App() {
                     <div key={s.call} onClick={() => setSelectedStation(s)} style={{ background: selectedStation?.call === s.call ? `rgba(${status === 'should' ? '34,197,94' : status === 'might' ? '234,179,8' : '239,68,68'},0.2)` : `rgba(${status === 'should' ? '34,197,94' : status === 'might' ? '234,179,8' : '239,68,68'},0.05)`, borderRadius: '6px', padding: '8px 10px', marginBottom: '5px', cursor: 'pointer', borderLeft: selectedStation?.call === s.call ? `3px solid ${status === 'should' ? '#22c55e' : status === 'might' ? '#eab308' : '#ef4444'}` : '3px solid transparent' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span style={{ fontFamily: 'monospace', fontWeight: '600', fontSize: '13px' }}>{s.call}</span>
-                        <div style={{ display: 'flex', gap: '4px' }}>{bandEntries.map(([b, data]) => {
+                        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>{bandEntries.map(([b, data]) => {
                           const bestSpot = data.spots.reduce((best, spot) => spot.snr > (best?.snr ?? -999) ? spot : best, null);
                           const freq = bestSpot?.frequency;
                           const spotTime = bestSpot?.time ? new Date(bestSpot.time) : null;
                           const ageMin = spotTime ? Math.round((Date.now() - spotTime.getTime()) / 60000) : null;
-                          return <span key={b} style={{ fontSize: '8px', background: `${data.band.color}44`, color: data.band.color, padding: '2px 4px', borderRadius: '3px', fontWeight: '600' }}>{freq ? freq.toFixed(1) : b}{ageMin !== null ? ` ${ageMin}m` : ''}</span>;
+                          return (
+                            <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
+                              <span style={{ fontSize: '7px', background: `${data.band.color}44`, color: data.band.color, padding: '1px 3px', borderRadius: '2px', fontWeight: '700' }}>{b}</span>
+                              <span style={{ fontSize: '11px', color: '#e2e8f0', fontFamily: 'monospace', fontWeight: '600' }}>{freq ? freq.toFixed(1) : '?'}</span>
+                              {ageMin !== null && <span style={{ fontSize: '8px', color: '#64748b' }}>{ageMin}m</span>}
+                            </div>
+                          );
                         })}</div>
                       </div>
                       <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>{s.region} • {s.distance.toLocaleString()}km • {s.bestSnr}dB</div>
