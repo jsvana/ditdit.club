@@ -455,9 +455,7 @@ const GreatCirclePath = ({ fromLat, fromLon, toLat, toLon, color, isSelected, zo
   );
 };
 
-const WorldMap = ({ children, currentTime, showTerminator }) => {
-  const [zoom, setZoom] = useState(1);
-  const [pan, setPan] = useState({ x: 0, y: 0 });
+const WorldMap = ({ children, currentTime, showTerminator, zoom, setZoom, pan, setPan }) => {
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const svgRef = useRef(null);
@@ -885,33 +883,58 @@ const IonosondeMarkers = ({ stations, hoveredIonosonde, setHoveredIonosonde, sel
 // MAIN APP
 // ============================================================================
 
+// Load saved settings from localStorage
+const loadSetting = (key, defaultValue) => {
+  try {
+    const saved = localStorage.getItem(key);
+    if (saved === null) return defaultValue;
+    return JSON.parse(saved);
+  } catch { return defaultValue; }
+};
+
 export default function App() {
-  const [userCall, setUserCall] = useState('W6JSV');
-  const [userGrid, setUserGrid] = useState('CM87');
+  const [userCall, setUserCall] = useState(() => loadSetting('userCall', ''));
+  const [userGrid, setUserGrid] = useState(() => loadSetting('userGrid', ''));
   const [spots, setSpots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState(null);
   const [selectedStation, setSelectedStation] = useState(null);
-  const [showSettings, setShowSettings] = useState(false);
-  const [showTerminator, setShowTerminator] = useState(true);
-  const [showAllPaths, setShowAllPaths] = useState(false);
-  const [showSpots, setShowSpots] = useState(false);
+  const [showSettings, setShowSettings] = useState(() => !loadSetting('userCall', ''));
+  const [showTerminator, setShowTerminator] = useState(() => loadSetting('showTerminator', true));
+  const [showAllPaths, setShowAllPaths] = useState(() => loadSetting('showAllPaths', false));
+  const [showSpots, setShowSpots] = useState(() => loadSetting('showSpots', false));
   const [currentTime, setCurrentTime] = useState(new Date());
   const [error, setError] = useState(null);
   const [filterBand, setFilterBand] = useState(null);
-  const [showPropagationZones, setShowPropagationZones] = useState(true);
-  const [proximityRadius, setProximityRadius] = useState(160); // km (~100 miles)
+  const [showPropagationZones, setShowPropagationZones] = useState(() => loadSetting('showPropagationZones', true));
+  const [proximityRadius, setProximityRadius] = useState(() => loadSetting('proximityRadius', 160));
   const [hoveredZone, setHoveredZone] = useState(null);
   const [selectedZone, setSelectedZone] = useState(null);
-  const [showMufLayer, setShowMufLayer] = useState(true);
+  const [showMufLayer, setShowMufLayer] = useState(() => loadSetting('showMufLayer', true));
   const [ionosondeStations, setIonosondeStations] = useState([]);
   const [hoveredIonosonde, setHoveredIonosonde] = useState(null);
   const [selectedIonosonde, setSelectedIonosonde] = useState(null);
-  const [spotterFilter, setSpotterFilter] = useState([]);
-  const [spotterFilterInput, setSpotterFilterInput] = useState('');
+  const [spotterFilter, setSpotterFilter] = useState(() => loadSetting('spotterFilter', []));
+  const [spotterFilterInput, setSpotterFilterInput] = useState(() => loadSetting('spotterFilter', []).join(', '));
   const [showSpotterPicker, setShowSpotterPicker] = useState(false);
-  const [minSnr, setMinSnr] = useState(null); // null = no minimum
+  const [minSnr, setMinSnr] = useState(() => loadSetting('minSnr', null));
   const [showInfo, setShowInfo] = useState(false);
+  const [zoom, setZoom] = useState(() => loadSetting('zoom', 1));
+  const [pan, setPan] = useState(() => loadSetting('pan', { x: 0, y: 0 }));
+
+  // Save settings to localStorage when they change
+  useEffect(() => { localStorage.setItem('userCall', JSON.stringify(userCall)); }, [userCall]);
+  useEffect(() => { localStorage.setItem('userGrid', JSON.stringify(userGrid)); }, [userGrid]);
+  useEffect(() => { localStorage.setItem('showTerminator', JSON.stringify(showTerminator)); }, [showTerminator]);
+  useEffect(() => { localStorage.setItem('showAllPaths', JSON.stringify(showAllPaths)); }, [showAllPaths]);
+  useEffect(() => { localStorage.setItem('showSpots', JSON.stringify(showSpots)); }, [showSpots]);
+  useEffect(() => { localStorage.setItem('showPropagationZones', JSON.stringify(showPropagationZones)); }, [showPropagationZones]);
+  useEffect(() => { localStorage.setItem('proximityRadius', JSON.stringify(proximityRadius)); }, [proximityRadius]);
+  useEffect(() => { localStorage.setItem('showMufLayer', JSON.stringify(showMufLayer)); }, [showMufLayer]);
+  useEffect(() => { localStorage.setItem('spotterFilter', JSON.stringify(spotterFilter)); }, [spotterFilter]);
+  useEffect(() => { localStorage.setItem('minSnr', JSON.stringify(minSnr)); }, [minSnr]);
+  useEffect(() => { localStorage.setItem('zoom', JSON.stringify(zoom)); }, [zoom]);
+  useEffect(() => { localStorage.setItem('pan', JSON.stringify(pan)); }, [pan]);
 
   useEffect(() => { const i = setInterval(() => setCurrentTime(new Date()), 60000); return () => clearInterval(i); }, []);
 
@@ -1229,7 +1252,7 @@ export default function App() {
           </div>
           <div style={{ padding: '16px', position: 'relative' }}>
             {loading && <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(15,23,42,0.9)', padding: '12px 20px', borderRadius: '8px', zIndex: 10 }}>Loading...</div>}
-            <WorldMap currentTime={currentTime} showTerminator={showTerminator}>
+            <WorldMap currentTime={currentTime} showTerminator={showTerminator} zoom={zoom} setZoom={setZoom} pan={pan} setPan={setPan}>
               {({ zoom }) => (
                 <>
                   {/* Propagation zones (rendered first, underneath everything) */}
