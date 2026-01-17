@@ -1627,10 +1627,12 @@ export default function App() {
                 {Object.entries(selectedStation.bandAnalysis).sort((a, b) => b[1].bestSnr - a[1].bestSnr).map(([name, data]) => {
                   const bestSpot = data.spots.reduce((best, s) => s.snr > (best?.snr ?? -999) ? s : best, null);
                   const freq = bestSpot?.frequency;
+                  const spotTime = bestSpot?.time ? new Date(bestSpot.time) : null;
+                  const ageMin = spotTime ? Math.round((Date.now() - spotTime.getTime()) / 60000) : null;
                   return (
                   <div key={name} style={{ background: `${data.band.color}22`, border: `1px solid ${data.band.color}66`, borderRadius: '6px', padding: '6px 10px', minWidth: '70px' }}>
                     <div style={{ fontSize: '12px', fontWeight: '700', color: data.band.color }}>{freq ? `${freq.toFixed(1)}` : name}</div>
-                    <div style={{ fontSize: '10px', color: '#94a3b8' }}>{data.bestSnr}dB • {data.wpm}wpm</div>
+                    <div style={{ fontSize: '10px', color: '#94a3b8' }}>{data.bestSnr}dB • {data.wpm}wpm{ageMin !== null ? ` • ${ageMin}m ago` : ''}</div>
                     <div style={{ fontSize: '9px', color: data.noAntenna ? '#64748b' : data.status === 'should' ? '#22c55e' : data.status === 'might' ? '#eab308' : '#ef4444' }}>
                       ● {data.noAntenna ? 'No antenna' : data.inSkipZone ? 'Skip zone' : data.status === 'should' ? 'Should work' : data.status === 'might' ? 'Might work' : 'Unlikely'}
                     </div>
@@ -1647,15 +1649,24 @@ export default function App() {
               {['should', 'might', 'unlikely'].map(status => (
                 <div key={status} style={{ marginBottom: '14px' }}>
                   <div style={{ fontSize: '10px', fontWeight: '600', color: status === 'should' ? '#22c55e' : status === 'might' ? '#eab308' : '#ef4444', marginBottom: '6px', letterSpacing: '1px' }}>{status === 'should' ? 'SHOULD WORK' : status === 'might' ? 'MIGHT WORK' : 'WEAK SIGNALS'} ({groupedStations[status].length})</div>
-                  {groupedStations[status].slice(0, status === 'unlikely' ? 3 : 5).map(s => (
+                  {groupedStations[status].slice(0, status === 'unlikely' ? 3 : 5).map(s => {
+                    const bandEntries = Object.entries(s.bandAnalysis).sort((a, b) => b[1].bestSnr - a[1].bestSnr).slice(0, 3);
+                    return (
                     <div key={s.call} onClick={() => setSelectedStation(s)} style={{ background: selectedStation?.call === s.call ? `rgba(${status === 'should' ? '34,197,94' : status === 'might' ? '234,179,8' : '239,68,68'},0.2)` : `rgba(${status === 'should' ? '34,197,94' : status === 'might' ? '234,179,8' : '239,68,68'},0.05)`, borderRadius: '6px', padding: '8px 10px', marginBottom: '5px', cursor: 'pointer', borderLeft: selectedStation?.call === s.call ? `3px solid ${status === 'should' ? '#22c55e' : status === 'might' ? '#eab308' : '#ef4444'}` : '3px solid transparent' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span style={{ fontFamily: 'monospace', fontWeight: '600', fontSize: '13px' }}>{s.call}</span>
-                        <div style={{ display: 'flex', gap: '4px' }}>{Object.keys(s.bandAnalysis).slice(0, 3).map(b => <span key={b} style={{ fontSize: '8px', background: `${s.bandAnalysis[b].band.color}44`, color: s.bandAnalysis[b].band.color, padding: '2px 4px', borderRadius: '3px', fontWeight: '600' }}>{b}</span>)}</div>
+                        <div style={{ display: 'flex', gap: '4px' }}>{bandEntries.map(([b, data]) => {
+                          const bestSpot = data.spots.reduce((best, spot) => spot.snr > (best?.snr ?? -999) ? spot : best, null);
+                          const freq = bestSpot?.frequency;
+                          const spotTime = bestSpot?.time ? new Date(bestSpot.time) : null;
+                          const ageMin = spotTime ? Math.round((Date.now() - spotTime.getTime()) / 60000) : null;
+                          return <span key={b} style={{ fontSize: '8px', background: `${data.band.color}44`, color: data.band.color, padding: '2px 4px', borderRadius: '3px', fontWeight: '600' }}>{freq ? freq.toFixed(1) : b}{ageMin !== null ? ` ${ageMin}m` : ''}</span>;
+                        })}</div>
                       </div>
                       <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>{s.region} • {s.distance.toLocaleString()}km • {s.bestSnr}dB</div>
                     </div>
-                  ))}
+                    );
+                  })}
                   {status === 'should' && groupedStations.should.length === 0 && <div style={{ fontSize: '11px', color: '#64748b', fontStyle: 'italic' }}>No strong signals</div>}
                 </div>
               ))}
