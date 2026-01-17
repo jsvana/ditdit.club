@@ -1627,7 +1627,7 @@ export default function App() {
                 {Object.entries(selectedStation.bandAnalysis).sort((a, b) => b[1].bestSnr - a[1].bestSnr).map(([name, data]) => {
                   const bestSpot = data.spots.reduce((best, s) => s.snr > (best?.snr ?? -999) ? s : best, null);
                   const freq = bestSpot?.frequency;
-                  const spotTime = bestSpot?.time ? new Date(bestSpot.time) : null;
+                  const spotTime = bestSpot?.timestamp ? new Date(bestSpot.timestamp) : null;
                   const ageMin = spotTime ? Math.round((Date.now() - spotTime.getTime()) / 60000) : null;
                   return (
                   <div key={name} style={{ background: `${data.band.color}22`, border: `1px solid ${data.band.color}66`, borderRadius: '6px', padding: '6px 10px', minWidth: '80px' }}>
@@ -1662,7 +1662,7 @@ export default function App() {
                         <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>{bandEntries.map(([b, data]) => {
                           const bestSpot = data.spots.reduce((best, spot) => spot.snr > (best?.snr ?? -999) ? spot : best, null);
                           const freq = bestSpot?.frequency;
-                          const spotTime = bestSpot?.time ? new Date(bestSpot.time) : null;
+                          const spotTime = bestSpot?.timestamp ? new Date(bestSpot.timestamp) : null;
                           const ageMin = spotTime ? Math.round((Date.now() - spotTime.getTime()) / 60000) : null;
                           return (
                             <div key={b} style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
