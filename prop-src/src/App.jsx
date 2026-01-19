@@ -1653,6 +1653,7 @@ export default function App() {
               <label style={{ fontSize: '11px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}><input type="checkbox" checked={showMufLayer} onChange={e => setShowMufLayer(e.target.checked)} style={{ accentColor: '#22c55e' }} />MUF Data</label>
             </div>
             {showPropagationZones && (
+              <>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(148,163,184,0.2)' }}>
                 <label style={{ fontSize: '11px', color: '#64748b', whiteSpace: 'nowrap' }}>Proximity:</label>
                 <input
@@ -1691,6 +1692,7 @@ export default function App() {
                   </div>
                 </div>
               </div>
+              </>
             )}
             {/* Antenna Capabilities per Band (for skip zone calculation) */}
             <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(148,163,184,0.2)', width: '100%' }}>
