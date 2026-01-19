@@ -1783,9 +1783,10 @@ export default function App() {
             <div style={{ padding: '12px 16px', borderBottom: '1px solid rgba(148,163,184,0.1)', flexShrink: 0 }}><h2 style={{ margin: 0, fontSize: '13px', fontWeight: '600' }}>QSO OPPORTUNITIES {filterBand && <span style={{ color: '#64748b', fontWeight: '400' }}>({filterBand})</span>}</h2></div>
             <div style={{ padding: '10px 14px', flex: 1, overflowY: 'auto', minHeight: 0 }}>
               {['should', 'might', 'unlikely'].map(status => (
-                <div key={status} style={{ marginBottom: '14px' }}>
-                  <div style={{ fontSize: '10px', fontWeight: '600', color: status === 'should' ? '#22c55e' : status === 'might' ? '#eab308' : '#ef4444', marginBottom: '6px', letterSpacing: '1px' }}>{status === 'should' ? 'SHOULD WORK' : status === 'might' ? 'MIGHT WORK' : 'WEAK SIGNALS'} ({groupedStations[status].length})</div>
-                  {groupedStations[status].slice(0, status === 'unlikely' ? 3 : 5).map(s => {
+                <div key={status} style={{ marginBottom: '14px', display: 'flex', flexDirection: 'column', minHeight: 0, maxHeight: '200px' }}>
+                  <div style={{ fontSize: '10px', fontWeight: '600', color: status === 'should' ? '#22c55e' : status === 'might' ? '#eab308' : '#ef4444', marginBottom: '6px', letterSpacing: '1px', flexShrink: 0 }}>{status === 'should' ? 'SHOULD WORK' : status === 'might' ? 'MIGHT WORK' : 'WEAK SIGNALS'} ({groupedStations[status].length})</div>
+                  <div style={{ overflowY: 'auto', flex: 1, minHeight: 0 }}>
+                  {groupedStations[status].map(s => {
                     const bandEntries = Object.entries(s.bandAnalysis).sort((a, b) => b[1].bestSnr - a[1].bestSnr).slice(0, 3);
                     return (
                     <div key={s.call} onClick={() => setSelectedStation(s)} style={{ background: selectedStation?.call === s.call ? `rgba(${status === 'should' ? '34,197,94' : status === 'might' ? '234,179,8' : '239,68,68'},0.2)` : `rgba(${status === 'should' ? '34,197,94' : status === 'might' ? '234,179,8' : '239,68,68'},0.05)`, borderRadius: '6px', padding: '8px 10px', marginBottom: '5px', cursor: 'pointer', borderLeft: selectedStation?.call === s.call ? `3px solid ${status === 'should' ? '#22c55e' : status === 'might' ? '#eab308' : '#ef4444'}` : '3px solid transparent' }}>
@@ -1810,6 +1811,7 @@ export default function App() {
                     );
                   })}
                   {status === 'should' && groupedStations.should.length === 0 && <div style={{ fontSize: '11px', color: '#64748b', fontStyle: 'italic' }}>No strong signals</div>}
+                  </div>
                 </div>
               ))}
             </div>
