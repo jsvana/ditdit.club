@@ -1325,7 +1325,7 @@ export default function App() {
 
   const filteredStations = useMemo(() => {
     let f = stationData.filter(s => s.call.toUpperCase() !== userCall.toUpperCase() && s.spotCount > 0);
-    if (filterBand) f = f.filter(s => s.bandAnalysis[filterBand]);
+    if (filterBand) f = f.filter(s => s.bandAnalysis[filterBand] && s.bandAnalysis[filterBand].status !== 'unavailable');
     return f;
   }, [stationData, userCall, filterBand]);
 
