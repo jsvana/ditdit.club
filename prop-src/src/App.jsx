@@ -1041,6 +1041,7 @@ export default function App() {
   const [filterBand, setFilterBand] = useState(null);
   const [showPropagationZones, setShowPropagationZones] = useState(true);
   const [proximityRadius, setProximityRadius] = useState(160); // km (~100 miles)
+  const [minZoneSnr, setMinZoneSnr] = useState(0); // Minimum SNR for propagation zones
   const [hoveredZone, setHoveredZone] = useState(null);
   const [selectedZone, setSelectedZone] = useState(null);
   const [showMufLayer, setShowMufLayer] = useState(true);
@@ -1229,6 +1230,15 @@ export default function App() {
     if (!spots.length || !userCoords) return [];
     return buildPropagationZones(spots, userCall, userCoords, proximityRadius);
   }, [spots, userCall, userGrid, proximityRadius, hamDbCacheVersion]); // userGrid instead of userCoords to avoid new object reference each render
+
+  // Filter propagation zones by minimum SNR
+  const filteredPropagationZones = useMemo(() => {
+    if (minZoneSnr <= 0) return propagationZones;
+    return propagationZones.map(zone => ({
+      ...zone,
+      clusters: zone.clusters.filter(c => c.bestSnr >= minZoneSnr)
+    })).filter(zone => zone.clusters.length > 0);
+  }, [propagationZones, minZoneSnr]);
 
   const stationData = useMemo(() => {
     if (!userCoords) return [];
@@ -1515,6 +1525,18 @@ export default function App() {
                   style={{ flex: 1, accentColor: '#22c55e' }}
                 />
                 <span style={{ fontSize: '11px', color: '#94a3b8', minWidth: '70px' }}>{Math.round(proximityRadius * 0.621)}mi / {proximityRadius}km</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
+                <label style={{ fontSize: '11px', color: '#64748b', whiteSpace: 'nowrap' }}>Min SNR:</label>
+                <input
+                  type="range"
+                  min="0"
+                  max="40"
+                  value={minZoneSnr}
+                  onChange={e => setMinZoneSnr(Number(e.target.value))}
+                  style={{ flex: 1, accentColor: '#22c55e' }}
+                />
+                <span style={{ fontSize: '11px', color: '#94a3b8', minWidth: '70px' }}>{minZoneSnr} dB</span>
                 <div style={{ display: 'flex', gap: '8px', marginLeft: '12px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '10px', color: '#94a3b8' }}>
                     <div style={{ width: '12px', height: '12px', background: 'rgba(34,197,94,0.3)', border: '2px solid rgba(34,197,94,0.6)' }} />
@@ -1707,7 +1729,7 @@ export default function App() {
                   {/* Propagation zones (rendered first, underneath everything) */}
                   {showPropagationZones && (
                     <PropagationZones
-                      zones={propagationZones}
+                      zones={filteredPropagationZones}
                       visibleBands={filterBand ? BANDS.filter(b => b.name === filterBand) : null}
                       hoveredZone={hoveredZone}
                       setHoveredZone={setHoveredZone}
@@ -1827,8 +1849,8 @@ export default function App() {
               <div>Bands: <span style={{ color: '#94a3b8' }}>{activeBands.length}</span></div>
               {showPropagationZones && (
                 <>
-                  <div>Prop Zones: <span style={{ color: '#94a3b8' }}>{propagationZones.reduce((sum, z) => sum + z.clusters.length, 0)} ({propagationZones.reduce((sum, z) => sum + z.clusters.filter(c => c.bidirectional).length, 0)} 2-way)</span></div>
-                  <div>Zone Spots: <span style={{ color: '#94a3b8' }}>{propagationZones.reduce((sum, z) => sum + z.totalSpots, 0)}</span></div>
+                  <div>Prop Zones: <span style={{ color: '#94a3b8' }}>{filteredPropagationZones.reduce((sum, z) => sum + z.clusters.length, 0)} ({filteredPropagationZones.reduce((sum, z) => sum + z.clusters.filter(c => c.bidirectional).length, 0)} 2-way)</span></div>
+                  <div>Zone Spots: <span style={{ color: '#94a3b8' }}>{filteredPropagationZones.reduce((sum, z) => sum + z.clusters.reduce((s, c) => s + c.spotCount, 0), 0)}</span></div>
                 </>
               )}
               {showMufLayer && (
