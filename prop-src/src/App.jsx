@@ -1023,6 +1023,14 @@ export default function App() {
   const [showOnboarding, setShowOnboarding] = useState(!savedSettings);
   const [userCall, setUserCall] = useState(savedSettings?.userCall || '');
   const [userGrid, setUserGrid] = useState(savedSettings?.userGrid || '');
+  // Location mode: 'callsign' or 'pota'
+  const [locationMode, setLocationMode] = useState(savedSettings?.locationMode || 'callsign');
+  const [potaPark, setPotaPark] = useState(savedSettings?.potaPark || '');
+  const [potaParkInfo, setPotaParkInfo] = useState(null);
+  const [potaParkLoading, setPotaParkLoading] = useState(false);
+  const [potaParkError, setPotaParkError] = useState(null);
+  // Save callsign info when switching to POTA mode
+  const [savedCallsignInfo, setSavedCallsignInfo] = useState(savedSettings?.savedCallsignInfo || null);
   const [spots, setSpots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingStatus, setLoadingStatus] = useState({
@@ -1084,14 +1092,53 @@ export default function App() {
 
   // Save settings to localStorage when they change
   useEffect(() => {
-    if (userCall && userGrid) {
+    if (userCall || userGrid || locationMode === 'pota') {
       localStorage.setItem('propSettings', JSON.stringify({
         userCall,
         userGrid,
         antennaByBand,
+        locationMode,
+        potaPark,
+        savedCallsignInfo,
       }));
     }
-  }, [userCall, userGrid, antennaByBand]);
+  }, [userCall, userGrid, antennaByBand, locationMode, potaPark, savedCallsignInfo]);
+
+  // Fetch POTA park info when park reference changes
+  useEffect(() => {
+    if (locationMode !== 'pota' || !potaPark) {
+      setPotaParkInfo(null);
+      setPotaParkError(null);
+      return;
+    }
+
+    const fetchParkInfo = async () => {
+      setPotaParkLoading(true);
+      setPotaParkError(null);
+      try {
+        const response = await fetch(`https://api.pota.app/park/${encodeURIComponent(potaPark.toUpperCase())}`);
+        if (!response.ok) {
+          throw new Error(response.status === 404 ? 'Park not found' : 'Failed to fetch park info');
+        }
+        const data = await response.json();
+        setPotaParkInfo(data);
+        // Update userGrid with park's grid
+        if (data.grid6) {
+          setUserGrid(data.grid6.toUpperCase());
+        } else if (data.grid4) {
+          setUserGrid(data.grid4.toUpperCase());
+        }
+      } catch (err) {
+        setPotaParkError(err.message);
+        setPotaParkInfo(null);
+      } finally {
+        setPotaParkLoading(false);
+      }
+    };
+
+    const debounce = setTimeout(fetchParkInfo, 500);
+    return () => clearTimeout(debounce);
+  }, [locationMode, potaPark]);
 
   // Fetch ionosonde MUF data
   const fetchIonosondeData = useCallback(async () => {
@@ -1504,8 +1551,100 @@ export default function App() {
       {showSettings && (
         <div style={{ background: 'rgba(30,41,59,0.8)', border: '1px solid rgba(148,163,184,0.2)', borderRadius: '10px', padding: '16px', marginBottom: '20px' }}>
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
-            <div><label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>Your Callsign</label><input type="text" value={userCall} onChange={e => setUserCall(e.target.value.toUpperCase())} style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '6px', padding: '6px 10px', color: '#e2e8f0', fontFamily: 'monospace', width: '100px' }} /></div>
-            <div><label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>Your Grid</label><input type="text" value={userGrid} onChange={e => setUserGrid(e.target.value.toUpperCase())} style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '6px', padding: '6px 10px', color: '#e2e8f0', fontFamily: 'monospace', width: '80px' }} /></div>
+            {/* Mode toggle */}
+            <div>
+              <label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>Location Mode</label>
+              <div style={{ display: 'flex', gap: '2px' }}>
+                <button
+                  onClick={() => {
+                    if (locationMode === 'pota') {
+                      // Restore saved callsign info
+                      if (savedCallsignInfo) {
+                        setUserCall(savedCallsignInfo.userCall || '');
+                        setUserGrid(savedCallsignInfo.userGrid || '');
+                      }
+                      setLocationMode('callsign');
+                    }
+                  }}
+                  style={{
+                    background: locationMode === 'callsign' ? 'rgba(34,197,94,0.3)' : 'rgba(15,23,42,0.8)',
+                    border: `1px solid ${locationMode === 'callsign' ? 'rgba(34,197,94,0.5)' : 'rgba(148,163,184,0.3)'}`,
+                    borderRadius: '6px 0 0 6px',
+                    padding: '6px 12px',
+                    color: locationMode === 'callsign' ? '#22c55e' : '#94a3b8',
+                    cursor: 'pointer',
+                    fontSize: '11px',
+                    fontWeight: locationMode === 'callsign' ? '600' : '400'
+                  }}
+                >Callsign</button>
+                <button
+                  onClick={() => {
+                    if (locationMode === 'callsign') {
+                      // Save current callsign info
+                      setSavedCallsignInfo({ userCall, userGrid });
+                      setLocationMode('pota');
+                    }
+                  }}
+                  style={{
+                    background: locationMode === 'pota' ? 'rgba(34,197,94,0.3)' : 'rgba(15,23,42,0.8)',
+                    border: `1px solid ${locationMode === 'pota' ? 'rgba(34,197,94,0.5)' : 'rgba(148,163,184,0.3)'}`,
+                    borderRadius: '0 6px 6px 0',
+                    padding: '6px 12px',
+                    color: locationMode === 'pota' ? '#22c55e' : '#94a3b8',
+                    cursor: 'pointer',
+                    fontSize: '11px',
+                    fontWeight: locationMode === 'pota' ? '600' : '400'
+                  }}
+                >POTA Park</button>
+              </div>
+            </div>
+            {/* Callsign mode inputs */}
+            {locationMode === 'callsign' && (
+              <>
+                <div><label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>Your Callsign</label><input type="text" value={userCall} onChange={e => setUserCall(e.target.value.toUpperCase())} style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '6px', padding: '6px 10px', color: '#e2e8f0', fontFamily: 'monospace', width: '100px' }} /></div>
+              </>
+            )}
+            {/* POTA mode inputs */}
+            {locationMode === 'pota' && (
+              <div>
+                <label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>POTA Park Reference</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <input
+                    type="text"
+                    value={potaPark}
+                    onChange={e => setPotaPark(e.target.value.toUpperCase())}
+                    placeholder="US-0189"
+                    style={{ background: 'rgba(15,23,42,0.8)', border: '1px solid rgba(148,163,184,0.3)', borderRadius: '6px', padding: '6px 10px', color: '#e2e8f0', fontFamily: 'monospace', width: '100px' }}
+                  />
+                  {potaParkLoading && <span style={{ fontSize: '11px', color: '#fbbf24' }}>Loading...</span>}
+                  {potaParkError && <span style={{ fontSize: '11px', color: '#ef4444' }}>{potaParkError}</span>}
+                  {potaParkInfo && (
+                    <span style={{ fontSize: '11px', color: '#22c55e', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {potaParkInfo.name} ({potaParkInfo.grid6 || potaParkInfo.grid4})
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+            <div>
+              <label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>{locationMode === 'pota' ? 'Park Grid' : 'Your Grid'}</label>
+              <input
+                type="text"
+                value={userGrid}
+                onChange={e => locationMode !== 'pota' && setUserGrid(e.target.value.toUpperCase())}
+                readOnly={locationMode === 'pota'}
+                style={{
+                  background: locationMode === 'pota' ? 'rgba(15,23,42,0.4)' : 'rgba(15,23,42,0.8)',
+                  border: '1px solid rgba(148,163,184,0.3)',
+                  borderRadius: '6px',
+                  padding: '6px 10px',
+                  color: locationMode === 'pota' ? '#94a3b8' : '#e2e8f0',
+                  fontFamily: 'monospace',
+                  width: '80px',
+                  cursor: locationMode === 'pota' ? 'not-allowed' : 'text'
+                }}
+              />
+            </div>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
               <label style={{ fontSize: '11px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}><input type="checkbox" checked={showTerminator} onChange={e => setShowTerminator(e.target.checked)} style={{ accentColor: '#22c55e' }} />Day/Night</label>
               <label style={{ fontSize: '11px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}><input type="checkbox" checked={showSpots} onChange={e => setShowSpots(e.target.checked)} style={{ accentColor: '#22c55e' }} />Spots</label>
@@ -1750,7 +1889,7 @@ export default function App() {
                   )}
                   {showAllPaths && filteredStations.map(s => <GreatCirclePath key={`p-${s.call}`} fromLat={userCoords.lat} fromLon={userCoords.lon} toLat={s.lat} toLon={s.lon} color={s.bestBand?.color || '#64748b'} isSelected={false} zoom={zoom} />)}
                   {selectedStation && <GreatCirclePath fromLat={userCoords.lat} fromLon={userCoords.lon} toLat={selectedStation.lat} toLon={selectedStation.lon} color={selectedStation.bestBand?.color || '#22c55e'} isSelected={true} zoom={zoom} />}
-                  <StationMarker lat={userCoords.lat} lon={userCoords.lon} call={userCall} isUser={true} zoom={zoom} />
+                  <StationMarker lat={userCoords.lat} lon={userCoords.lon} call={locationMode === 'pota' ? potaPark : userCall} isUser={true} zoom={zoom} />
                   {showSpots && filteredStations.map(s => <StationMarker key={s.call} lat={s.lat} lon={s.lon} call={s.call} bandData={s} isSelected={selectedStation?.call === s.call} onClick={() => setSelectedStation(selectedStation?.call === s.call ? null : s)} zoom={zoom} />)}
                   {/* Always show selected station marker even if showSpots is off */}
                   {selectedStation && !showSpots && <StationMarker lat={selectedStation.lat} lon={selectedStation.lon} call={selectedStation.call} bandData={selectedStation} isSelected={true} onClick={() => setSelectedStation(null)} zoom={zoom} />}
