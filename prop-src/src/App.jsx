@@ -1662,7 +1662,7 @@ export default function App() {
             </div>
             <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
               <button onClick={() => setFilterBand(null)} style={{ background: !filterBand ? 'linear-gradient(135deg, #64748b, #475569)' : 'rgba(100,116,139,0.2)', border: 'none', borderRadius: '4px', padding: '4px 8px', color: !filterBand ? '#fff' : '#94a3b8', cursor: 'pointer', fontSize: '10px', fontWeight: '600' }}>ALL</button>
-              {activeBands.map(band => <button key={band.name} onClick={() => setFilterBand(band.name)} style={{ background: filterBand === band.name ? `linear-gradient(135deg, ${band.color}, ${band.color}dd)` : 'rgba(100,116,139,0.2)', border: 'none', borderRadius: '4px', padding: '4px 8px', color: filterBand === band.name ? '#fff' : band.color, cursor: 'pointer', fontSize: '10px', fontWeight: '600' }}>{band.name}</button>)}
+              {BANDS.map(band => <button key={band.name} onClick={() => setFilterBand(band.name)} style={{ background: filterBand === band.name ? `linear-gradient(135deg, ${band.color}, ${band.color}dd)` : 'rgba(100,116,139,0.2)', border: 'none', borderRadius: '4px', padding: '4px 8px', color: filterBand === band.name ? '#fff' : band.color, cursor: 'pointer', fontSize: '10px', fontWeight: '600' }}>{band.name}</button>)}
             </div>
           </div>
           <div style={{ padding: '16px', position: 'relative' }}>
