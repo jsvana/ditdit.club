@@ -6,12 +6,18 @@ export const StationMarker = ({ lat, lon, call, bandData, isUser, onClick, isSel
   const s = 1 / zoom;
 
   if (isUser) {
+    const size = 6 * s;
     return (
       <g>
-        <circle cx={x} cy={y} r={18 * s} fill="#06b6d4" opacity="0.25" />
-        <circle cx={x} cy={y} r={12 * s} fill="#06b6d4" opacity="0.5" />
-        <circle cx={x} cy={y} r={8 * s} fill="#06b6d4" />
-        <text x={x} y={y + 28 * s} textAnchor="middle" fill="#06b6d4" fontSize={14 * s} fontFamily="monospace" fontWeight="bold">{call}</text>
+        <rect
+          x={x - size}
+          y={y - size}
+          width={size * 2}
+          height={size * 2}
+          fill="#06b6d4"
+          transform={`rotate(45 ${x} ${y})`}
+        />
+        <text x={x} y={y + 16 * s} textAnchor="middle" fill="#06b6d4" fontSize={11 * s} fontFamily="monospace" fontWeight="bold">{call}</text>
       </g>
     );
   }

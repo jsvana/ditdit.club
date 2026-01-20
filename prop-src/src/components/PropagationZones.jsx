@@ -16,8 +16,13 @@ export const PropagationZones = ({ zones, visibleBands, hoveredZone, setHoveredZ
 
   return (
     <g>
-      {/* Define hatch patterns for inbound zones */}
+      {/* Define filters and patterns */}
       <defs>
+        {/* Gaussian blur filter for soft edges */}
+        <filter id="zone-blur" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation={8 * s} />
+        </filter>
+        {/* Hatch patterns for inbound zones */}
         {BANDS.map(band => (
           <pattern
             key={`hatch-${band.name}`}
@@ -54,6 +59,17 @@ export const PropagationZones = ({ zones, visibleBands, hoveredZone, setHoveredZ
             const isBidirectional = cluster.bidirectional;
             return (
               <g key={zoneKey}>
+                {/* Blurred fill for soft edges */}
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={radius}
+                  fill={zone.band.color}
+                  fillOpacity={isSelected ? 0.4 : 0.25}
+                  stroke="none"
+                  filter="url(#zone-blur)"
+                  style={{ pointerEvents: 'none' }}
+                />
                 {/* Outer glow stroke for bidirectional zones */}
                 {isBidirectional && (
                   <circle
@@ -67,12 +83,12 @@ export const PropagationZones = ({ zones, visibleBands, hoveredZone, setHoveredZ
                     style={{ pointerEvents: 'none' }}
                   />
                 )}
+                {/* Crisp stroke and hit area */}
                 <circle
                   cx={x}
                   cy={y}
                   r={radius}
-                  fill={zone.band.color}
-                  fillOpacity={isSelected ? 0.3 : 0.15}
+                  fill="transparent"
                   stroke={zone.band.color}
                   strokeOpacity={isActive ? 0.9 : (isBidirectional ? 0.8 : 0.5)}
                   strokeWidth={(isActive ? 3 : (isBidirectional ? 2.5 : 2)) * s}
@@ -124,11 +140,31 @@ export const PropagationZones = ({ zones, visibleBands, hoveredZone, setHoveredZ
 
           return (
             <g key={zoneKey}>
-              {/* Fill */}
+              {/* Blurred fill for soft edges (outbound only, inbound uses hatch pattern) */}
+              {zone.direction !== 'inbound' && (
+                <path
+                  d={pathD}
+                  fill={zone.band.color}
+                  fillOpacity={isSelected ? 0.4 : 0.25}
+                  stroke="none"
+                  filter="url(#zone-blur)"
+                  style={{ pointerEvents: 'none' }}
+                />
+              )}
+              {/* Hatch pattern fill for inbound zones (no blur) */}
+              {zone.direction === 'inbound' && (
+                <path
+                  d={pathD}
+                  fill={`url(#hatch-${zone.band.name})`}
+                  fillOpacity={1}
+                  stroke="none"
+                  style={{ pointerEvents: 'none' }}
+                />
+              )}
+              {/* Invisible hit area for interaction */}
               <path
                 d={pathD}
-                fill={zone.direction === 'inbound' ? `url(#hatch-${zone.band.name})` : zone.band.color}
-                fillOpacity={zone.direction === 'inbound' ? 1 : (isSelected ? 0.3 : 0.15)}
+                fill="transparent"
                 stroke="none"
                 style={{ pointerEvents: 'visibleFill', cursor: 'pointer' }}
                 onMouseEnter={() => setHoveredZone && setHoveredZone(zoneKey)}
@@ -146,7 +182,7 @@ export const PropagationZones = ({ zones, visibleBands, hoveredZone, setHoveredZ
                   style={{ pointerEvents: 'none' }}
                 />
               )}
-              {/* Stroke */}
+              {/* Crisp stroke */}
               <path
                 d={pathD}
                 fill="none"
