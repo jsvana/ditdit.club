@@ -11,6 +11,7 @@ import { buildPropagationZones, isStationInZone } from './utils/propagation.js';
 // API
 import { fetchGridsForCallsigns } from './api/hamdb.js';
 import { parsePskReporterXml } from './api/spots.js';
+import { fetchSolarData, getBandCondition } from './api/solar.js';
 
 // Components
 import { WorldMap } from './components/WorldMap.jsx';
@@ -52,6 +53,7 @@ export default function App() {
     rbn: { loading: false, done: false, error: null },
     psk: { loading: false, done: false, error: null },
     ionosonde: { loading: false, done: false, error: null },
+    solar: { loading: false, done: false, error: null },
   });
   const [lastUpdate, setLastUpdate] = useState(null);
   const [selectedStation, setSelectedStation] = useState(null);
@@ -71,6 +73,8 @@ export default function App() {
   const [ionosondeStations, setIonosondeStations] = useState([]);
   const [hoveredIonosonde, setHoveredIonosonde] = useState(null);
   const [selectedIonosonde, setSelectedIonosonde] = useState(null);
+  const [solarData, setSolarData] = useState(null);
+  const [showSolarDrawer, setShowSolarDrawer] = useState(false);
   const [spotterFilter, setSpotterFilter] = useState([]);
   const [spotterFilterInput, setSpotterFilterInput] = useState('');
   const [showSpotterPicker, setShowSpotterPicker] = useState(false);
@@ -198,6 +202,30 @@ export default function App() {
     }
   }, [showMufLayer, fetchIonosondeData]);
 
+  // Fetch solar condition data
+  const fetchSolarDataCallback = useCallback(async () => {
+    setLoadingStatus(prev => ({ ...prev, solar: { loading: true, done: false, error: null } }));
+    try {
+      const data = await fetchSolarData();
+      if (data.error) {
+        setLoadingStatus(prev => ({ ...prev, solar: { loading: false, done: true, error: data.error } }));
+      } else {
+        setSolarData(data);
+        setLoadingStatus(prev => ({ ...prev, solar: { loading: false, done: true, error: null } }));
+      }
+    } catch (e) {
+      console.error('Failed to fetch solar data:', e);
+      setLoadingStatus(prev => ({ ...prev, solar: { loading: false, done: true, error: e.message } }));
+    }
+  }, []);
+
+  // Fetch solar data on mount and every 10 minutes
+  useEffect(() => {
+    fetchSolarDataCallback();
+    const interval = setInterval(fetchSolarDataCallback, 10 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [fetchSolarDataCallback]);
+
   const fetchSpots = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -287,6 +315,19 @@ export default function App() {
 
   const userCoords = gridToLatLon(userGrid) || { lat: 37.5, lon: -122 };
 
+  // Determine if it's currently daytime at user's location
+  const isDaytime = useMemo(() => {
+    if (!userCoords) return true;
+    const now = new Date();
+    // Simple approximation: daytime is 6am-6pm local solar time
+    // Solar noon is when the sun is directly south (or north in southern hemisphere)
+    // Local solar time offset from UTC based on longitude
+    const solarTimeOffset = userCoords.lon / 15; // hours
+    const utcHours = now.getUTCHours() + now.getUTCMinutes() / 60;
+    const localSolarHours = (utcHours + solarTimeOffset + 24) % 24;
+    return localSolarHours >= 6 && localSolarHours < 18;
+  }, [userCoords, currentTime]);
+
   // Compute propagation zones (always, for workability analysis)
   const propagationZones = useMemo(() => {
     if (!spots.length || !userCoords) return [];
@@ -301,6 +342,102 @@ export default function App() {
       clusters: zone.clusters.filter(c => c.bestSnr >= minZoneSnr)
     })).filter(zone => zone.clusters.length > 0);
   }, [propagationZones, minZoneSnr]);
+
+  // Build explanation for why a band has its current workability status
+  const buildExplanations = (ba, distance, nearbySpotterCall, nearbySpotterDist) => {
+    const factors = [];
+    let primary = '';
+
+    // SNR factor
+    const snrLevel = ba.bestSnr >= 15 ? 'strong' : ba.bestSnr >= 10 ? 'good' : ba.bestSnr >= 5 ? 'moderate' : 'weak';
+    factors.push({
+      type: 'snr',
+      value: ba.bestSnr,
+      text: `SNR: ${ba.bestSnr} dB (${snrLevel} signal)`,
+      positive: ba.bestSnr >= 10
+    });
+
+    // Nearby spotter factor
+    if (ba.hasNearbySpot && nearbySpotterCall) {
+      factors.push({
+        type: 'nearby',
+        value: nearbySpotterCall,
+        text: `Nearby spotter: ${nearbySpotterCall} (${Math.round(nearbySpotterDist)}km away)`,
+        positive: true
+      });
+    } else {
+      factors.push({
+        type: 'nearby',
+        value: null,
+        text: 'No nearby spotters',
+        positive: false
+      });
+    }
+
+    // Propagation zone factor
+    const inZone = ba.inZone;
+    if (inZone) {
+      factors.push({
+        type: 'zone',
+        value: true,
+        text: 'In propagation zone from your area',
+        positive: true
+      });
+    }
+
+    // Band conditions factor
+    if (ba.bandCondition) {
+      const condLower = ba.bandCondition.toLowerCase();
+      factors.push({
+        type: 'conditions',
+        value: ba.bandCondition,
+        text: `Band conditions: ${ba.bandCondition}`,
+        positive: condLower === 'good' || condLower === 'fair'
+      });
+    }
+
+    // Skip zone factor (negative)
+    if (ba.inSkipZone) {
+      const skipZone = ba.band.skipZone;
+      factors.push({
+        type: 'skipZone',
+        value: true,
+        text: `In skip zone (${skipZone.min}-${skipZone.max}km)`,
+        positive: false
+      });
+    }
+
+    // No antenna factor (negative)
+    if (ba.noAntenna) {
+      factors.push({
+        type: 'antenna',
+        value: true,
+        text: 'No antenna for this band',
+        positive: false
+      });
+    }
+
+    // Determine primary reason (priority order)
+    if (ba.noAntenna) {
+      primary = 'No antenna';
+    } else if (ba.inSkipZone) {
+      primary = 'Skip zone';
+    } else if (ba.degradedByConditions) {
+      primary = `${ba.bandCondition} conditions`;
+    } else if (ba.status === 'unlikely' && ba.bestSnr < 5) {
+      primary = `Weak signal (${ba.bestSnr} dB)`;
+    } else if (ba.status === 'unlikely' && !ba.hasNearbySpot && !inZone) {
+      primary = 'No nearby spotters';
+    } else if (ba.hasNearbySpot && nearbySpotterCall) {
+      primary = `Nearby: ${nearbySpotterCall}`;
+    } else if (ba.bestSnr >= 10) {
+      primary = `SNR ${ba.bestSnr} dB`;
+    } else {
+      primary = `SNR ${ba.bestSnr} dB`;
+    }
+
+    return { primary, factors };
+  };
 
   const stationData = useMemo(() => {
     if (!userCoords) return [];
@@ -324,20 +461,28 @@ export default function App() {
       const bandAnalysis = {}; let bestBand = null, bestSnr = -999;
       callSpots.forEach(spot => {
         const band = getBandFromFreq(spot.frequency); if (!band) return;
-        if (!bandAnalysis[band.name]) bandAnalysis[band.name] = { band, spots: [], bestSnr: -999, hasNearbySpot: false };
+        if (!bandAnalysis[band.name]) bandAnalysis[band.name] = { band, spots: [], bestSnr: -999, hasNearbySpot: false, nearbySpotterCall: null, nearbySpotterDist: null };
         bandAnalysis[band.name].spots.push(spot);
         if (spot.snr > bandAnalysis[band.name].bestSnr) bandAnalysis[band.name].bestSnr = spot.snr;
         // Check if this spot came from a nearby skimmer
         const spotterCall = spot.spotter || spot.de_call || '';
         const spotterGrid = spot.spotter_grid || spot.de_grid || getGridFromCall(spotterCall);
         const spotterCoords = spotterGrid ? gridToLatLon(spotterGrid) : null;
-        if (spotterCoords && haversineDistance(userCoords.lat, userCoords.lon, spotterCoords.lat, spotterCoords.lon) <= proximityRadius) {
-          bandAnalysis[band.name].hasNearbySpot = true;
+        if (spotterCoords) {
+          const spotterDist = haversineDistance(userCoords.lat, userCoords.lon, spotterCoords.lat, spotterCoords.lon);
+          if (spotterDist <= proximityRadius) {
+            bandAnalysis[band.name].hasNearbySpot = true;
+            if (!bandAnalysis[band.name].nearbySpotterCall || spotterDist < bandAnalysis[band.name].nearbySpotterDist) {
+              bandAnalysis[band.name].nearbySpotterCall = spotterCall;
+              bandAnalysis[band.name].nearbySpotterDist = spotterDist;
+            }
+          }
         }
       });
       Object.values(bandAnalysis).forEach(ba => {
         ba.wpm = ba.spots[0]?.wpm || 18;
         const inZone = isStationInZone(coords, propagationZones, ba.band.name);
+        ba.inZone = inZone;
         const isRelevant = ba.hasNearbySpot || inZone;
 
         // Check antenna capabilities for this band
@@ -386,6 +531,28 @@ export default function App() {
         } else {
           ba.status = 'unlikely';
         }
+
+        // Check band conditions from solar data
+        const bandCondition = getBandCondition(solarData, ba.band.name, isDaytime);
+        if (bandCondition) {
+          const conditionLower = bandCondition.toLowerCase();
+          if (conditionLower === 'poor' && ba.status === 'should') {
+            ba.status = 'might';
+            ba.degradedByConditions = true;
+            ba.bandCondition = bandCondition;
+          } else if (conditionLower !== 'good' && conditionLower !== 'fair') {
+            // Very poor or worse
+            ba.status = 'unlikely';
+            ba.degradedByConditions = true;
+            ba.bandCondition = bandCondition;
+          } else {
+            ba.bandCondition = bandCondition;
+          }
+        }
+
+        // Build explanations for this band
+        ba.explanations = buildExplanations(ba, distance, ba.nearbySpotterCall, ba.nearbySpotterDist);
+
         if (ba.bestSnr > bestSnr) { bestSnr = ba.bestSnr; bestBand = ba.band; }
       });
       // Overall status is the best status across all bands
@@ -393,7 +560,7 @@ export default function App() {
       const status = bandStatuses.includes('should') ? 'should' : bandStatuses.includes('might') ? 'might' : 'unlikely';
       return { call, grid, lat: coords.lat, lon: coords.lon, region, distance: Math.round(distance), status, bandAnalysis, bestBand, bestSnr: bestSnr > -999 ? bestSnr : 0, spotCount: callSpots.length, wpm: callSpots[0]?.wpm || 18 };
     }).filter(Boolean);
-  }, [spots, userGrid, spotterFilter, propagationZones, proximityRadius, antennaByBand, hamDbCacheVersion]);
+  }, [spots, userGrid, spotterFilter, propagationZones, proximityRadius, antennaByBand, hamDbCacheVersion, solarData, isDaytime]);
 
   const filteredStations = useMemo(() => {
     let f = stationData.filter(s => s.call.toUpperCase() !== userCall.toUpperCase() && s.spotCount > 0);
@@ -448,6 +615,36 @@ export default function App() {
       setAntennaByBand(onboardingAntennas);
       setShowOnboarding(false);
     }
+  };
+
+  // Solar badge color thresholds
+  const getSolarBadgeColor = (metric, value) => {
+    if (value === null || value === undefined) return { bg: 'rgba(100,116,139,0.3)', border: 'rgba(100,116,139,0.5)', text: '#94a3b8' };
+
+    if (metric === 'sfi') {
+      if (value >= 120) return { bg: 'rgba(34,197,94,0.2)', border: 'rgba(34,197,94,0.4)', text: '#22c55e' };
+      if (value >= 90) return { bg: 'rgba(234,179,8,0.2)', border: 'rgba(234,179,8,0.4)', text: '#eab308' };
+      return { bg: 'rgba(239,68,68,0.2)', border: 'rgba(239,68,68,0.4)', text: '#ef4444' };
+    }
+    if (metric === 'a') {
+      if (value < 10) return { bg: 'rgba(34,197,94,0.2)', border: 'rgba(34,197,94,0.4)', text: '#22c55e' };
+      if (value <= 30) return { bg: 'rgba(234,179,8,0.2)', border: 'rgba(234,179,8,0.4)', text: '#eab308' };
+      return { bg: 'rgba(239,68,68,0.2)', border: 'rgba(239,68,68,0.4)', text: '#ef4444' };
+    }
+    if (metric === 'k') {
+      if (value < 3) return { bg: 'rgba(34,197,94,0.2)', border: 'rgba(34,197,94,0.4)', text: '#22c55e' };
+      if (value <= 4) return { bg: 'rgba(234,179,8,0.2)', border: 'rgba(234,179,8,0.4)', text: '#eab308' };
+      return { bg: 'rgba(239,68,68,0.2)', border: 'rgba(239,68,68,0.4)', text: '#ef4444' };
+    }
+    return { bg: 'rgba(100,116,139,0.3)', border: 'rgba(100,116,139,0.5)', text: '#94a3b8' };
+  };
+
+  const getBandConditionColor = (condition) => {
+    if (!condition) return { bg: 'rgba(100,116,139,0.2)', text: '#64748b' };
+    const lower = condition.toLowerCase();
+    if (lower === 'good') return { bg: 'rgba(34,197,94,0.3)', text: '#22c55e' };
+    if (lower === 'fair') return { bg: 'rgba(234,179,8,0.3)', text: '#eab308' };
+    return { bg: 'rgba(239,68,68,0.3)', text: '#ef4444' }; // Poor or worse
   };
 
   return (
@@ -559,8 +756,119 @@ export default function App() {
           <button onClick={fetchSpots} disabled={loading} style={{ background: 'rgba(34,197,94,0.2)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '6px', padding: '5px 10px', color: '#22c55e', cursor: 'pointer', fontSize: '11px', opacity: loading ? 0.5 : 1 }}>{loading ? '⏳' : '🔄'} Refresh</button>
           {lastUpdate && <span style={{ fontSize: '11px', color: '#64748b' }}>Updated: {lastUpdate.toLocaleTimeString()}</span>}
           {error && <span style={{ fontSize: '11px', color: '#f87171' }}>⚠️ Demo data</span>}
+          {/* Solar Condition Badges */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginLeft: '8px' }}>
+            {['sfi', 'a', 'k'].map(metric => {
+              const value = metric === 'sfi' ? solarData?.solarFlux : metric === 'a' ? solarData?.aIndex : solarData?.kIndex;
+              const label = metric === 'sfi' ? 'SFI' : metric === 'a' ? 'A' : 'K';
+              const colors = getSolarBadgeColor(metric, value);
+              return (
+                <div
+                  key={metric}
+                  style={{
+                    background: colors.bg,
+                    border: `1px solid ${colors.border}`,
+                    borderRadius: '4px',
+                    padding: '3px 6px',
+                    fontSize: '10px',
+                    fontFamily: 'monospace',
+                    color: colors.text,
+                    fontWeight: '600',
+                  }}
+                >
+                  {label} {value ?? '---'}
+                </div>
+              );
+            })}
+            <button
+              onClick={() => setShowSolarDrawer(!showSolarDrawer)}
+              style={{
+                background: showSolarDrawer ? 'rgba(100,116,139,0.4)' : 'rgba(100,116,139,0.2)',
+                border: '1px solid rgba(148,163,184,0.3)',
+                borderRadius: '4px',
+                padding: '3px 6px',
+                color: '#94a3b8',
+                cursor: 'pointer',
+                fontSize: '10px',
+              }}
+              title="Solar conditions details"
+            >
+              ℹ️
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Solar Conditions Drawer */}
+      {showSolarDrawer && (
+        <div style={{
+          background: 'rgba(30,41,59,0.95)',
+          border: '1px solid rgba(148,163,184,0.2)',
+          borderRadius: '10px',
+          padding: '16px',
+          marginBottom: '20px',
+        }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            {/* Left column - Values */}
+            <div>
+              <h3 style={{ margin: '0 0 12px 0', fontSize: '13px', fontWeight: '600', color: '#e2e8f0' }}>Solar Indices</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '11px' }}>
+                {[
+                  { label: 'Solar Flux', value: solarData?.solarFlux, unit: '' },
+                  { label: 'A-Index', value: solarData?.aIndex, unit: '' },
+                  { label: 'K-Index', value: solarData?.kIndex, unit: '' },
+                  { label: 'Sunspots', value: solarData?.sunspots, unit: '' },
+                  { label: 'X-Ray', value: solarData?.xray, unit: '' },
+                  { label: 'Geomag Field', value: solarData?.geomagField, unit: '' },
+                  { label: 'Solar Wind', value: solarData?.solarWind, unit: ' km/s' },
+                  { label: 'Signal Noise', value: solarData?.signalNoise, unit: '' },
+                ].map(({ label, value, unit }) => (
+                  <div key={label} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 8px', background: 'rgba(15,23,42,0.5)', borderRadius: '4px' }}>
+                    <span style={{ color: '#64748b' }}>{label}</span>
+                    <span style={{ color: '#e2e8f0', fontFamily: 'monospace' }}>{value ?? '---'}{value ? unit : ''}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right column - Band Conditions */}
+            <div>
+              <h3 style={{ margin: '0 0 12px 0', fontSize: '13px', fontWeight: '600', color: '#e2e8f0' }}>Band Conditions</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr 1fr', gap: '4px', fontSize: '10px' }}>
+                <div style={{ color: '#64748b', padding: '4px 8px' }}>Band</div>
+                <div style={{ color: '#64748b', padding: '4px 8px', textAlign: 'center' }}>Day</div>
+                <div style={{ color: '#64748b', padding: '4px 8px', textAlign: 'center' }}>Night</div>
+                {['80m-40m', '30m-20m', '17m-15m', '12m-10m'].map(range => {
+                  const dayCondition = solarData?.bandConditions?.day?.[range];
+                  const nightCondition = solarData?.bandConditions?.night?.[range];
+                  const dayColors = getBandConditionColor(dayCondition);
+                  const nightColors = getBandConditionColor(nightCondition);
+                  return (
+                    <React.Fragment key={range}>
+                      <div style={{ color: '#94a3b8', padding: '4px 8px', fontFamily: 'monospace' }}>{range}</div>
+                      <div style={{ background: dayColors.bg, color: dayColors.text, padding: '4px 8px', borderRadius: '3px', textAlign: 'center' }}>{dayCondition || '---'}</div>
+                      <div style={{ background: nightColors.bg, color: nightColors.text, padding: '4px 8px', borderRadius: '3px', textAlign: 'center' }}>{nightCondition || '---'}</div>
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(148,163,184,0.2)', display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#64748b' }}>
+            <span>Updated: {solarData?.updated || '---'}</span>
+            <a
+              href="https://www.arrl.org/files/file/Technology/tis/info/pdf/0209038.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: '#94a3b8' }}
+            >
+              Learn more about solar indices →
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* Settings */}
       {showSettings && (
@@ -876,6 +1184,14 @@ export default function App() {
                       </span>
                     </div>
                   )}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px' }}>
+                    <span style={{ width: '16px', textAlign: 'center' }}>
+                      {loadingStatus.solar.loading ? '⏳' : loadingStatus.solar.error ? '❌' : loadingStatus.solar.done ? '✓' : '○'}
+                    </span>
+                    <span style={{ color: loadingStatus.solar.loading ? '#fbbf24' : loadingStatus.solar.error ? '#ef4444' : loadingStatus.solar.done ? '#22c55e' : '#64748b' }}>
+                      Solar Conditions
+                    </span>
+                  </div>
                 </div>
               </div>
             )}
@@ -949,11 +1265,36 @@ export default function App() {
                     <div style={{ fontSize: '10px', color: '#94a3b8' }}>{data.bestSnr}dB • {data.wpm}wpm</div>
                     <div style={{ fontSize: '9px', color: data.noAntenna ? '#64748b' : data.status === 'should' ? '#22c55e' : data.status === 'might' ? '#eab308' : '#ef4444' }}>
                       ● {data.noAntenna ? 'No antenna' : data.inSkipZone ? 'Skip zone' : data.status === 'should' ? 'Should work' : data.status === 'might' ? 'Might work' : 'Unlikely'}
+                      {data.degradedByConditions && <span style={{ color: '#f97316', marginLeft: '4px' }}>⚠️ {data.bandCondition} conditions</span>}
                     </div>
                   </div>
                   );
                 })}
               </div>
+              {/* Explanation section */}
+              {(() => {
+                const bandKey = filterBand || selectedStation.bestBand?.name;
+                const ba = bandKey && selectedStation.bandAnalysis[bandKey];
+                if (!ba?.explanations?.factors?.length) return null;
+                const statusText = ba.status === 'should' ? 'SHOULD WORK' : ba.status === 'might' ? 'MIGHT WORK' : 'UNLIKELY';
+                return (
+                  <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(148,163,184,0.2)' }}>
+                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', letterSpacing: '0.5px', marginBottom: '8px' }}>
+                      WHY "{statusText}" ON {bandKey}:
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                      {ba.explanations.factors.map((factor, idx) => (
+                        <div key={idx} style={{ fontSize: '11px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <span style={{ color: factor.positive ? '#22c55e' : '#f97316' }}>
+                            {factor.positive ? '✓' : '⚠'}
+                          </span>
+                          <span style={{ color: '#e2e8f0' }}>{factor.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           )}
 
@@ -984,7 +1325,21 @@ export default function App() {
                           );
                         })}</div>
                       </div>
-                      <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>{s.region} • {s.distance.toLocaleString()}km • {s.bestSnr}dB</div>
+                      <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>
+                        {s.region} • {s.distance.toLocaleString()}km • {s.bestSnr}dB
+                        {(() => {
+                          const bandKey = filterBand || s.bestBand?.name;
+                          const ba = bandKey && s.bandAnalysis[bandKey];
+                          const primary = ba?.explanations?.primary;
+                          if (!primary) return null;
+                          const isNegative = ba.noAntenna || ba.inSkipZone || ba.degradedByConditions || ba.status === 'unlikely';
+                          return (
+                            <span style={{ color: isNegative ? '#f97316' : (ba.status === 'should' ? '#22c55e' : ba.status === 'might' ? '#eab308' : '#64748b'), marginLeft: '4px' }}>
+                              • {primary}
+                            </span>
+                          );
+                        })()}
+                      </div>
                     </div>
                     );
                   })}
