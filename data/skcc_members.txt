@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-07 01:23:48 UTC
+# Generated: 2026-02-07 02:24:03 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -3694,6 +3694,7 @@ G5NLD 🔑 Dennis SKCC #30243
 G5NOO 🔑 Henry J B SKCC #30620
 G5PJK 🔑 Patrick SKCC #27941
 G5RAE 🔑 Graeme SKCC #16864
+G5RMP 🔑 Robert SKCC #30784
 G5UHF 🔑 Gavin SKCC #28272
 G5VZ 🔑 Chris SKCC #4777T
 G5XW 🔑 Russell. SKCC #18557
@@ -16246,6 +16247,7 @@ M0UFX 🔑 Mark SKCC #21188
 M0VFB 🔑 James SKCC #26188
 M0VIT 🔑 Jeremy P SKCC #12251
 M0VKR 🔑 Lee SKCC #28594
+M0VLY 🔑 Chris SKCC #28455
 M0VOZ 🔑 Mike SKCC #29041
 M0VPH 🔑 Pete SKCC #27473
 M0VVA 🔑 SKCC #28281
@@ -16378,7 +16380,6 @@ M7NML 🔑 Namal SKCC #28338
 M7NNQ 🔑 Peter SKCC #27559
 M7OCT 🔑 Samantha J SKCC #21549
 M7RET 🔑 Paul K SKCC #30046
-M7RFB 🔑 Chris SKCC #28455
 M7RWF 🔑 Paul SKCC #23622
 M7SVH 🔑 Neil SKCC #30165
 M7TSM 🔑 SKCC #26780
