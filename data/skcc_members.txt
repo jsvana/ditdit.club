@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-07 14:26:55 UTC
+# Generated: 2026-02-07 15:27:08 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -14355,7 +14355,7 @@ KK7MPR 🔑 Beau L SKCC #28723
 KK7N 🔑 MICHAEL E SKCC #19569
 KK7NF 🔑 ALAN L SKCC #11T
 KK7NNC 🔑 Richard SKCC #28561T
-KK7NUB 🔑 Randall SKCC #28701
+KK7NUB 🔑 Randall SKCC #28701C
 KK7O 🔑 Anthony C SKCC #6181
 KK7OMR 🔑 Greg SKCC #28929
 KK7PGL 🔑 Terence A SKCC #28821
