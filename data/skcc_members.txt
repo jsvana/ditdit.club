@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-09 01:34:16 UTC
+# Generated: 2026-02-09 02:34:30 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -10073,6 +10073,7 @@ KC1VOA 🔑 Steven E SKCC #29756
 KC1VPP 🔑 John E SKCC #29288
 KC1VYM 🔑 Kimberly L SKCC #29387
 KC1WFB 🔑 Lloyd R SKCC #30276
+KC1YHZ 🔑 Vyacheslav SKCC #30785
 KC1YL 🔑 LISA L SKCC #14941
 KC1ZF 🔑 BO H SKCC #13255
 KC2ABB 🔑 HERBERT F SKCC #27918
@@ -15873,6 +15874,7 @@ KY4CD 🔑 Dylan T SKCC #23500
 KY4CE 🔑 Paul G SKCC #25288T
 KY4CQ 🔑 Brady L SKCC #24569T
 KY4DAD 🔑 DOUGLAS D SKCC #15223
+KY4DAV 🔑 David A SKCC #30787
 KY4DG 🔑 Mark W SKCC #23680
 KY4DS 🔑 DAVID W SKCC #22642
 KY4E 🔑 TERRY F SKCC #24204T
@@ -16296,6 +16298,7 @@ M3NMW 🔑 Luke SKCC #25141
 M3NTR 🔑 MJ SKCC #19755
 M3SQD 🔑 Peter SKCC #27224
 M3UOY 🔑 Greg SKCC #11176
+M5ABM 🔑 EUGENE SKCC #30788
 M5ADL 🔑 Adrian SKCC #18484
 M5BBB 🔑 Bernard SKCC #27358
 M5CAH 🔑 Catherine (Cathy) SKCC #17550
@@ -22631,6 +22634,7 @@ VE7YIT 🔑 Yiting SKCC #27285
 VE7YMM 🔑 Markham Joseph SKCC #10468
 VE7YTB 🔑 Dale A.S. SKCC #21219
 VE7ZCZ 🔑 Zachariah SKCC #29080
+VE7ZGD 🔑 SKCC #30789
 VE7ZWA 🔑 Dale SKCC #1543
 VE8PR 🔑 Paulo SKCC #22705
 VE8RST 🔑 North Country DX Association-Northwest Territories Ch. SKCC #15178
@@ -29260,6 +29264,7 @@ WR8F 🔑 Ryan M SKCC #19360
 WR8RW 🔑 ROBERT S SKCC #20289
 WR8S 🔑 WILLIAM R SKCC #10898
 WR9H 🔑 HERBERT T SKCC #2161
+WR9R 🔑 LARRY D SKCC #30786
 WS0I 🔑 Richard K SKCC #19241
 WS0L 🔑 Jesse D SKCC #8948
 WS0SWV 🔑 SHAWN O SKCC #27106
