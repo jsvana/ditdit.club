@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-09 15:37:20 UTC
+# Generated: 2026-02-09 16:37:34 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -3787,6 +3787,7 @@ GI4SJQ 🔑 GEORGE SKCC #19616
 GI4SRQ 🔑 George SKCC #7276
 GI4ZAH 🔑 FE SKCC #26349
 GI6WFX 🔑 ROB SKCC #18657
+GJ6WRI 🔑 Steve SKCC #30793
 GM0DKK 🔑 Arthur SKCC #9390
 GM0DXB 🔑 William SKCC #18493
 GM0EPO 🔑 John SKCC #11716
@@ -20365,6 +20366,7 @@ OA4BSA 🔑 Eduardo SKCC #18398
 OA4DQA 🔑 Leonardo R. SKCC #20260
 OA4DVG 🔑 Bill SKCC #22545
 OA4DX 🔑 Tony SKCC #160T
+OD5JL 🔑 Said SKCC #30792
 OD5SK 🔑 SAMIR SKCC #8317
 OE1ABV 🔑 Armin SKCC #20061
 OE1AGB 🔑 Arnold SKCC #301
