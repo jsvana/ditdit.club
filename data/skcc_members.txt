@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-10 04:40:09 UTC
+# Generated: 2026-02-10 05:40:23 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -13640,6 +13640,7 @@ KI7DPP 🔑 David J SKCC #17628
 KI7DRS 🔑 Colleen M SKCC #20706
 KI7DUB 🔑 Ian J SKCC #16190
 KI7DW 🔑 DENNIS W SKCC #8868
+KI7DXO 🔑 Joshua D SKCC #30794
 KI7ERJ 🔑 DAVID L SKCC #16049
 KI7F 🔑 Bobbie E SKCC #29957
 KI7FQ 🔑 MICHAEL R SKCC #19589
@@ -18332,6 +18333,7 @@ N5VT 🔑 albert B SKCC #318
 N5VU 🔑 MARCEL I SKCC #3287
 N5VWN 🔑 Roland H SKCC #4503
 N5WBI 🔑 STEPHEN H SKCC #95
+N5WE 🔑 Charles F SKCC #30795
 N5WLA 🔑 William L SKCC #6732
 N5WLF 🔑 Andrew SKCC #29691
 N5WLH 🔑 JEFF L SKCC #20087
@@ -22296,6 +22298,7 @@ VE3RXH 🔑 Robert SKCC #23128
 VE3SEX 🔑 Robert SKCC #5966
 VE3SHQ 🔑 Scouts Canada National Museum SKCC #17136
 VE3SIF 🔑 Ron SKCC #20819T
+VE3SJU 🔑 Brian D SKCC #30796
 VE3SL 🔑 Lloyd SKCC #21813
 VE3SLJ 🔑 Gabriel SKCC #9446
 VE3SO 🔑 Peter J SKCC #380C
