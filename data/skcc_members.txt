@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-13 16:59:26 UTC
+# Generated: 2026-02-13 17:59:38 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -1309,6 +1309,7 @@ AE5RY 🔑 JOHN F SKCC #6920
 AE5S 🔑 JOHN R SKCC #11453C
 AE5SK 🔑 James E SKCC #10562
 AE5SS 🔑 Lonnie S SKCC #18956
+AE5TX 🔑 Rodney S SKCC #30806
 AE5UZ 🔑 CAMERON L SKCC #7253
 AE5VB 🔑 HUGH S SKCC #7283S
 AE5Z 🔑 Burton J SKCC #18715T
@@ -3036,6 +3037,7 @@ F4CLS 🔑 OLIVIER SKCC #22327
 F4DBD 🔑 Frédérick SKCC #23588
 F4DSE 🔑 PHILIPPE SKCC #28991
 F4EAN 🔑 Christian SKCC #21693
+F4EEF 🔑 Alain SKCC #30804
 F4EIE 🔑 Richard SKCC #2547
 F4EJL 🔑 Florent "FLO" SKCC #17578
 F4FEE 🔑 Jocelyn SKCC #28405
@@ -10203,6 +10205,7 @@ KC3BUZ 🔑 Chester L SKCC #23333
 KC3BWA 🔑 EVAN T SKCC #13942
 KC3BZJ 🔑 Matthew D SKCC #17434
 KC3C 🔑 SKCC #11308C
+KC3CBQ 🔑 John M SKCC #30805
 KC3CEF 🔑 John M SKCC #20119
 KC3CRU 🔑 MATTHEW M SKCC #25142
 KC3CYB 🔑 BRUCE J SKCC #13346
