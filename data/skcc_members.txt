@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-13 03:56:14 UTC
+# Generated: 2026-02-13 04:56:28 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -15980,6 +15980,7 @@ LA0GE 🔑 Bent SKCC #19487
 LA1DH 🔑 Arvid SKCC #18590
 LA2FDA 🔑 Stein Henrik SKCC #14262
 LA2IR 🔑 EINAR SKCC #8175
+LA2ULA 🔑 Ronny SKCC #30802
 LA3LTA 🔑 Bjørnar SKCC #15303
 LA4NL 🔑 Svein SKCC #12942
 LA4XX 🔑 Hjalmar "Hal" SKCC #20909
@@ -20851,6 +20852,7 @@ PA9RZ 🔑 ROBERT SKCC #28426
 PB1DX 🔑 Victor SKCC #29515
 PB2JJ 🔑 Jasper SKCC #1981
 PB7XYL 🔑 Anneke SKCC #6326
+PB9V 🔑 Jan Albert SKCC #30803
 PC1C 🔑 Walter SKCC #21601
 PC2Z 🔑 René SKCC #16567
 PC4E 🔑 J.L.S. SKCC #12508
@@ -22740,6 +22742,7 @@ VK2LDJ 🔑 Jared SKCC #29877
 VK2LK 🔑 Matt SKCC #9116
 VK2LUI 🔑 Louie SKCC #30664
 VK2NAP 🔑 Chris SKCC #22133
+VK2NGD 🔑 Gregory I SKCC #30801
 VK2NNW 🔑 Adam SKCC #20432C
 VK2PEZ 🔑 Andrew J SKCC #19716
 VK2PP 🔑 Milan SKCC #24180
