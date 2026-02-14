@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-14 16:04:18 UTC
+# Generated: 2026-02-14 17:04:31 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -26142,6 +26142,7 @@ W8KZJ 🔑 Robert C SKCC #24450
 W8KZW 🔑 JEFFREY L SKCC #15957
 W8LA 🔑 THOMAS F SKCC #7825
 W8LAR 🔑 Larry J SKCC #9680
+W8LDK 🔑 LISA D SKCC #30808
 W8LGZ 🔑 JIMMIE J SKCC #7662
 W8LHP 🔑 Robert L SKCC #2852
 W8LKY 🔑 SKCC #2755C
