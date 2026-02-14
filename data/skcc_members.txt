@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-14 05:02:03 UTC
+# Generated: 2026-02-14 06:02:16 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -12257,6 +12257,7 @@ KE8EGE 🔑 Timothy M SKCC #17785
 KE8EON 🔑 James E SKCC #26962T
 KE8EPB 🔑 Michael L SKCC #28210
 KE8EYT 🔑 Roger L SKCC #16112
+KE8EZM 🔑 Henry W SKCC #30807
 KE8FAM 🔑 Jeremy B SKCC #16160
 KE8FPG 🔑 LAUREEN J SKCC #29264
 KE8GAH 🔑 Jonathan O SKCC #26200
@@ -22111,6 +22112,7 @@ VE3EYI 🔑 Peter Gearing SKCC #12911
 VE3EZP 🔑 Isabella SKCC #5652
 VE3FAC 🔑 Richard SKCC #23985
 VE3FAL 🔑 Frederick Andrew SKCC #50C
+VE3FBO 🔑 Bruce Dalton Jr. SKCC #26256
 VE3FC 🔑 Artem SKCC #2738
 VE3FDZ 🔑 John Frederick SKCC #18819
 VE3FEO 🔑 Darien SKCC #29853
@@ -22391,7 +22393,6 @@ VE4AEK 🔑 Stanley Bruce SKCC #4471
 VE4AHN 🔑 Kevin SKCC #11306
 VE4AMS 🔑 Paul SKCC #22618
 VE4BAW 🔑 Geoff SKCC #20002
-VE4BDF 🔑 SKCC #26256
 VE4BWG 🔑 James T. SKCC #30519
 VE4CWF 🔑 Christopher W SKCC #10492T
 VE4DFM 🔑 Don F. SKCC #16879
