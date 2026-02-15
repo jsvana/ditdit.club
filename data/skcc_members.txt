@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-15 22:11:32 UTC
+# Generated: 2026-02-15 23:11:44 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -17661,7 +17661,7 @@ N4CCB 🔑 CLIFTON C SKCC #12370
 N4CD 🔑 ROBERT A SKCC #3529
 N4CDB 🔑 Cary D SKCC #2920
 N4CDD 🔑 Jerry W SKCC #15074
-N4CDH 🔑 DUDLEY SKCC #28460C
+N4CDH 🔑 DUDLEY SKCC #28460T
 N4CLH 🔑 ROBERT W SKCC #19435
 N4CLY 🔑 CLY J SKCC #19056
 N4CNC 🔑 Jason L SKCC #9237
@@ -22485,7 +22485,7 @@ VE6JJO 🔑 James SKCC #27707
 VE6JZN 🔑 David V. SKCC #9347
 VE6KBY 🔑 Paige SKCC #21567
 VE6KEE 🔑 Joel William SKCC #17949
-VE6KI 🔑 Allan Robert SKCC #29595C
+VE6KI 🔑 Allan Robert SKCC #29595T
 VE6KIB 🔑 Ted SKCC #29500
 VE6KNZ 🔑 John SKCC #30633
 VE6KOS 🔑 Brett SKCC #23446
