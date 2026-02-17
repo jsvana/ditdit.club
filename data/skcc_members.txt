@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-17 16:20:50 UTC
+# Generated: 2026-02-17 17:21:02 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -12967,7 +12967,7 @@ KG5EXA 🔑 Shawne A SKCC #30263
 KG5FBC 🔑 Jack F SKCC #13887
 KG5FQP 🔑 Joseph E SKCC #13594
 KG5FQX 🔑 William G SKCC #25433C
-KG5FS 🔑 THOMAS N SKCC #30591
+KG5FS 🔑 THOMAS N SKCC #30591C
 KG5FWN 🔑 Steven W SKCC #13830
 KG5GGI 🔑 ANTHONY W SKCC #18654
 KG5GGL 🔑 Carl W SKCC #15293
@@ -25673,7 +25673,7 @@ W7DGZ 🔑 MALCOLM G SKCC #15707
 W7DK 🔑 SKCC #2295C
 W7DKK 🔑 David K SKCC #14600
 W7DLF 🔑 DL L SKCC #9166
-W7DLR 🔑 David L SKCC #26210
+W7DLR 🔑 David L SKCC #26210C
 W7DMC 🔑 SKCC #11300
 W7DO 🔑 SKCC #14206
 W7DOA 🔑 RAHN J SKCC #20138
