@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-19 20:32:23 UTC
+# Generated: 2026-02-19 21:32:38 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -4514,7 +4514,7 @@ IZ4FUF 🔑 Riccardo SKCC #7841
 IZ4IRR 🔑 Giacomo SKCC #29217
 IZ4ISF 🔑 Davide SKCC #6678
 IZ4ZBN 🔑 Uria SKCC #12122
-IZ5BBS 🔑 RENATO SKCC #24509
+IZ5BBS 🔑 RENATO SKCC #24509C
 IZ5CNC 🔑 Marco SKCC #26121T
 IZ5FSA 🔑 Leonardo SKCC #10703
 IZ5FXD 🔑 Franco (FRAN) SKCC #10781
