@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-21 21:43:43 UTC
+# Generated: 2026-02-21 22:43:56 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -13563,7 +13563,7 @@ KI5UJK 🔑 HOWARD D SKCC #28847
 KI5UME 🔑 Rickey G SKCC #27456
 KI5UMG 🔑 Jason SKCC #25952
 KI5USR 🔑 Joseph R SKCC #28528
-KI5VIR 🔑 Jay P SKCC #28207C
+KI5VIR 🔑 Jay P SKCC #28207T
 KI5VO 🔑 Charles C SKCC #17577
 KI5VPF 🔑 Phillip A SKCC #26917T
 KI5VPL 🔑 Stephen D SKCC #27187
