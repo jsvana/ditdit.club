@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-22 22:49:23 UTC
+# Generated: 2026-02-22 23:49:35 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -19821,7 +19821,7 @@ NJ1Q 🔑 JOSEPH P SKCC #10277
 NJ1S 🔑 Eric J SKCC #24850
 NJ1T 🔑 DOUGLAS R SKCC #15575C
 NJ1Z 🔑 JANET V SKCC #14180
-NJ2DX 🔑 THOMAS E SKCC #25479
+NJ2DX 🔑 THOMAS E SKCC #25479C
 NJ2J 🔑 Lora L SKCC #13890
 NJ2N 🔑 Tim E SKCC #17497
 NJ2O 🔑 Richard T SKCC #18231
