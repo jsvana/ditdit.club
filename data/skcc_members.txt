@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-23 12:52:26 UTC
+# Generated: 2026-02-23 13:52:39 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -2404,6 +2404,7 @@ DJ5CW 🔑 Fabian SKCC #1982T
 DJ5SE 🔑 Sebastian R. SKCC #24556
 DJ6XG 🔑 Georg SKCC #2799
 DJ7EC 🔑 Hauke SKCC #5463
+DJ7ZZ 🔑 Thorsten SKCC #30835
 DK0RPO 🔑 Club Station SKCC #30405
 DK0SU 🔑 University of Stuttgart SKCC #21555T
 DK1EY 🔑 Thomas SKCC #11309
@@ -6253,6 +6254,7 @@ K4IIG 🔑 Gary SKCC #25208T
 K4IJ 🔑 DONALD B SKCC #6252
 K4IKR 🔑 Kristin E SKCC #1730
 K4IM 🔑 STEPHEN A SKCC #5694
+K4IN 🔑 DENNIS E SKCC #30836
 K4ING 🔑 Frankie C SKCC #4318
 K4IRS 🔑 Karen SKCC #27660
 K4ISW 🔑 LE ROY D SKCC #13162S
