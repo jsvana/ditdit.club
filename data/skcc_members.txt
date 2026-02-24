@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-24 16:58:39 UTC
+# Generated: 2026-02-24 17:58:57 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -10678,7 +10678,6 @@ KC8ZBQ 🔑 OPIE SKCC #4076
 KC8ZH 🔑 DAVID R SKCC #22228
 KC8ZHI 🔑 CARL F SKCC #9977
 KC8ZKI 🔑 John J SKCC #25575
-KC8ZKZ 🔑 DOUGLAS A SKCC #30713
 KC8ZON 🔑 MARK B SKCC #2831
 KC8ZQS 🔑 Matthew W SKCC #30727
 KC8ZQW 🔑 Greg A SKCC #5411
@@ -26181,6 +26180,7 @@ W8LPN 🔑 Justin E SKCC #14981
 W8LRA 🔑 Luther R SKCC #19985
 W8LRD 🔑 HOWARD E SKCC #2040
 W8LRJ 🔑 John J SKCC #29087
+W8LTW 🔑 DOUGLAS A SKCC #30713
 W8LU 🔑 Lucas D SKCC #14694
 W8LVN 🔑 WILLIAM SKCC #21999
 W8LVT 🔑 Charles D SKCC #23765
