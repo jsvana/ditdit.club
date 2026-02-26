@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-26 21:11:19 UTC
+# Generated: 2026-02-26 22:11:33 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -1378,6 +1378,7 @@ KM9R 🎹 MICHAEL J CWops #1502
 KN1MT 🎹 Tyler CWops #3851
 KN2D 🎹 KENNETH B CWops #3566
 KN4A 🎹 Stanley E CWops #3182
+KN4CW 🎹 JONATHAN CWops #3879
 KN4DEB 🎹 ARNOLD A CWops #2658
 KN4RD 🎹 RUSS CWops #3110
 KN4YRM 🎹 Randon E CWops #2930
@@ -2366,6 +2367,7 @@ VA7KH 🎹 Steve CWops #3039
 VA7NJI 🎹 Scott CWops #2348
 VA7QCE 🎹 Carole CWops #1913
 VA7ST 🎹 Buddy Erle CWops #1622
+VA7YE 🎹 Denise CWops #3880
 VE1AOE 🎹 Donald Malcolm CWops #1703
 VE1AQF 🎹 Glenn A CWops #457
 VE1DT 🎹 Gerald Joseph CWops #941
@@ -2973,6 +2975,7 @@ WB0JRH 🎹 TERRENCE C CWops #2774
 WB0RLJ 🎹 JAMES B CWops #3312
 WB0SND 🎹 MICHAEL C CWops #1469
 WB2AIV 🎹 WILLIAM F CWops #542
+WB2FKO 🎹 MICHAEL P CWops #3881
 WB2KAO 🎹 TIMOTHY J CWops #2188
 WB2KWC 🎹 Kenneth S CWops #3743
 WB2PJH 🎹 David B CWops #3195
