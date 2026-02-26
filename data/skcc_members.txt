@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-25 23:06:02 UTC
+# Generated: 2026-02-26 00:06:14 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -414,7 +414,7 @@ AB0XR 🔑 Ransom W SKCC #29618
 AB1AV 🔑 William B SKCC #1903
 AB1BR 🔑 James W SKCC #8258
 AB1BW 🔑 George K SKCC #2468S
-AB1DQ 🔑 JAMES M SKCC #14595C
+AB1DQ 🔑 JAMES M SKCC #14595T
 AB1DZ 🔑 Roland SKCC #11286
 AB1ED 🔑 Edward J SKCC #26456
 AB1EE 🔑 JAMES SKCC #9823
