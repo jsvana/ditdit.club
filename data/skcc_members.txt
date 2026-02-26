@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-26 17:10:30 UTC
+# Generated: 2026-02-26 18:10:42 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -22264,7 +22264,7 @@ VE3ML 🔑 WESLEY SKCC #19490
 VE3MNO 🔑 Marcel Roland Leon SKCC #30762
 VE3MPG 🔑 Robert Marcel SKCC #9375
 VE3MPQ 🔑 Gary Michael SKCC #5869
-VE3MRX 🔑 William Albert SKCC #4917T
+VE3MRX 🔑 William Albert SKCC #4917S
 VE3MSC 🔑 Colin SKCC #28074
 VE3MVM 🔑 Mary SKCC #17358
 VE3NAI 🔑 Renna S SKCC #22391
@@ -27644,7 +27644,7 @@ WA9CEK 🔑 Eric D SKCC #17307
 WA9CFK 🔑 Ronald G SKCC #5100
 WA9CTH 🔑 NEAL SKCC #23729
 WA9CW 🔑 THOMAS H SKCC #1322
-WA9CWE 🔑 STEPHEN M SKCC #28559
+WA9CWE 🔑 STEPHEN M SKCC #28559C
 WA9CWX 🔑 Frank C SKCC #15757
 WA9DOO 🔑 Daniel L SKCC #17080
 WA9EIC 🔑 DONALD R SKCC #3416
