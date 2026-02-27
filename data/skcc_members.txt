@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-02-27 17:15:31 UTC
+# Generated: 2026-02-27 18:15:45 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -13548,6 +13548,7 @@ KI5QAT 🔑 Valerie L SKCC #25719
 KI5QFC 🔑 James R SKCC #26272
 KI5QXP 🔑 Stephanie M SKCC #24709
 KI5RDD 🔑 MARCUS SKCC #30091
+KI5RHS 🔑 Paul SKCC #30853
 KI5RMO 🔑 Gary R SKCC #27496
 KI5RNJ 🔑 James SKCC #25532
 KI5RTM 🔑 John H SKCC #29465
@@ -19470,6 +19471,7 @@ NA2Q 🔑 David J SKCC #5018
 NA2R 🔑 JOHN M SKCC #14008
 NA3AR 🔑 ANTHONY R SKCC #19557
 NA3CT 🔑 ROBERT E SKCC #23360
+NA3D 🔑 Jerry E SKCC #30851
 NA3E 🔑 ERICH S SKCC #2396
 NA3NA 🔑 JOHN F SKCC #6827
 NA3V 🔑 JAMES L SKCC #14769
@@ -21119,6 +21121,7 @@ R2ZAM 🔑 Victor SKCC #20959
 R3DAU 🔑 Yaroslav (Yar) SKCC #8104
 R3EE 🔑 Boris I. SKCC #10755
 R4PGC 🔑 Petr SKCC #25168
+R4WBD 🔑 Aleksej SKCC #30854
 R6AX 🔑 Victor Ivanovich SKCC #10911
 R6FEN 🔑 Alexander SKCC #20428
 R6KEE 🔑 Yuri Viktorovich SKCC #19644
@@ -29845,6 +29848,7 @@ YT7AB 🔑 Stojan SKCC #29730
 YT7EC 🔑 Zivko SKCC #10790
 YT7LI 🔑 Attila SKCC #26863
 YT7MA 🔑 SKCC #8017
+YT7MX 🔑 Miloš SKCC #30852
 YT9TP 🔑 Predrag SKCC #19847
 YU0W 🔑 Aleksandar SKCC #5550
 YU1GG 🔑 Dragisa SKCC #20845
