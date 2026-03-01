@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-01 19:26:12 UTC
+# Generated: 2026-03-01 20:26:25 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -16335,6 +16335,7 @@ M5ABM 🔑 EUGENE SKCC #30788
 M5ADL 🔑 Adrian SKCC #18484
 M5BBB 🔑 Bernard SKCC #27358
 M5CAH 🔑 Catherine (Cathy) SKCC #17550
+M5EEE 🔑 Bob SKCC #30856
 M5FRA 🔑 Colin SKCC #1731
 M5IAN 🔑 No Longer SKCC #4750
 M5KRT 🔑 Vlada SKCC #13518
@@ -21427,6 +21428,7 @@ TA1DX 🔑 Atila SKCC #8777
 TA1IFV 🔑 Fuat Volkan SKCC #11528
 TA1L 🔑 Ercan SKCC #13391
 TA1LSE 🔑 Suat Emre SKCC #15986
+TA1LT 🔑 Suat Emre SKCC #30857
 TA1PB 🔑 Ertuğ SKCC #14150
 TA1SA 🔑 YENER SKCC #23898
 TA1UT 🔑 Bora SKCC #23516
