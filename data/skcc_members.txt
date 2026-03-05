@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-05 15:47:06 UTC
+# Generated: 2026-03-05 16:47:21 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0AA 🔑 WILLIAM S SKCC #8576
@@ -16180,6 +16180,7 @@ M0CYR 🔑 PETER SKCC #9563
 M0DAG 🔑 Dean A SKCC #12097
 M0DDR 🔑 STEVE SKCC #30774
 M0DHP 🔑 Ray SKCC #21232
+M0DNU 🔑 A SKCC #30868
 M0DVV 🔑 David SKCC #23819
 M0EAB 🔑 Slawek SKCC #7715
 M0GDR 🔑 Ludovic SKCC #22209
