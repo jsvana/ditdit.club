@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-08 18:02:30 UTC
+# Generated: 2026-03-08 19:03:37 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -306,7 +306,7 @@ DO6AN 🎹 Nils CWops #3141
 DS1TUW 🎹 HOJOONG CWops #3600
 DU3LA 🎹 Larry CWops #644
 DU7ET 🎹 Robert M CWops #3523
-EA1CBX 🎹 EA1CBX CWops #3613
+EA1CBX 🎹 JOSE M. CWops #3613
 EA1WX 🎹 Juanjo CWops #714
 EA1X 🎹 Juan R. CWops #2562
 EA2AJB 🎹 Andres CWops #1048
@@ -457,7 +457,7 @@ G4SMB 🎹 Michael R CWops #2700
 G4TFF 🎹 PETER CWops #3816
 G4UZE 🎹 Chris CWops #2641
 G4WQI 🎹 DEAN M. CWops #3078
-G4WWZ 🎹 Alan CWops #3435
+G4WWZ 🎹 CWops #3435
 G4XWJ 🎹 Tim CWops #3384
 G4YTK 🎹 Steve CWops #3449
 G5CL 🎹 Ryan CWops #422
@@ -1363,7 +1363,7 @@ KK9V 🎹 MICHAEL C CWops #1647
 KL2A 🎹 JONATHAN R CWops #77
 KL3W 🎹 Thomas R CWops #1461
 KL7IXW 🎹 WARD M CWops #2457
-KL7QT 🎹 CWops #3190
+KL7QT 🎹 DUNCAN R CWops #3190
 KL7SB 🎹 Stephen H CWops #1268
 KL9A 🎹 CHRISTOPHER K CWops #1576
 KM3A 🎹 David J CWops #2611
@@ -1566,7 +1566,7 @@ MM9I 🎹 JOHN CWops #3358
 MW4R 🎹 Martin J CWops #569
 MW9W 🎹 Ian CWops #2896
 N0AC 🎹 WILLIAM H CWops #1252
-N0AV 🎹 CWops #359
+N0AV 🎹 JAMES D CWops #359
 N0AX 🎹 H WARD CWops #1744
 N0BK 🎹 Bruce CWops #2763
 N0BM 🎹 BRIAN F CWops #2772
@@ -2156,7 +2156,7 @@ OZ1AAR 🎹 Villy CWops #2694
 OZ1JHM 🎹 Hjalmar Skovholm CWops #1420
 OZ1OXQ 🎹 Vagn CWops #3065
 OZ3SM 🎹 Stephan CWops #2361
-OZ6XT 🎹 PETER CWops #1116
+OZ6XT 🎹 CWops #1116
 P3D 🎹 Yuri CWops #21
 PA0ABM 🎹 Wino CWops #2890
 PA0GRU 🎹 Dick CWops #3175
@@ -2308,7 +2308,7 @@ SV9RNG 🎹 Paul ( Pol ) CWops #1009
 TA1UT 🎹 Bora CWops #2768
 TA7I 🎹 OZKAN CWops #2646
 TF3DC 🎹 Oskar CWops #285
-TF3JB 🎹 Jónas CWops #2803
+TF3JB 🎹 Jonas CWops #2803
 TF3Y 🎹 Yngvi CWops #238
 TF4M 🎹 Thorvaldur CWops #177
 TI5KS 🎹 Kamal CWops #146
