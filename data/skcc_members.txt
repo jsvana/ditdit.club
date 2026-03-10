@@ -1,7 +1,8 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-10 16:21:22 UTC
+# Generated: 2026-03-10 17:21:35 UTC
 # Do not edit manually - this file is auto-generated
 
+A2NEW 🔑 John K SKCC #30876
 AA0AA 🔑 WILLIAM S SKCC #8576
 AA0AJ 🔑 DOREEN L SKCC #27715C
 AA0AU 🔑 RONALD R SKCC #26742
