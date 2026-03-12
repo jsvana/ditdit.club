@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-12 17:33:17 UTC
+# Generated: 2026-03-12 18:33:30 UTC
 # Do not edit manually - this file is auto-generated
 
 A2NEW 🔑 John K SKCC #30876
@@ -12792,7 +12792,7 @@ KF8CKX 🔑 CAMDEN E SKCC #29453
 KF8CMV 🔑 John E SKCC #30305
 KF8CNK 🔑 Conor SKCC #30420
 KF8DA 🔑 ROGER E SKCC #15414T
-KF8FCC 🔑 Eric S SKCC #30650C
+KF8FCC 🔑 Eric S SKCC #30650T
 KF8IV 🔑 RYAN P SKCC #24261T
 KF8JBB 🔑 Julia B SKCC #20671
 KF8KS 🔑 STEVE A SKCC #10476
