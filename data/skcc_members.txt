@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-12 22:34:23 UTC
+# Generated: 2026-03-12 23:34:35 UTC
 # Do not edit manually - this file is auto-generated
 
 A2NEW 🔑 John K SKCC #30876
@@ -3529,7 +3529,7 @@ G4BZP 🔑 FL SKCC #14503
 G4CEP 🔑 GEOFF SKCC #12513
 G4CFS 🔑 Glyn D SKCC #28599
 G4CJY 🔑 BRIAN SKCC #10864
-G4CLB 🔑 CHRIS L SKCC #25180
+G4CLB 🔑 CHRIS L SKCC #25180C
 G4CLD 🔑 GERALD SKCC #20032
 G4CLE 🔑 Trevor J SKCC #17219
 G4CPA 🔑 Geoffrey Sultan SKCC #9270
