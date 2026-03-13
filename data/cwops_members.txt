@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-13 22:39:53 UTC
+# Generated: 2026-03-13 23:40:05 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -225,6 +225,7 @@ CX6VM 🎹 JORGE CWops #525
 CX7CW 🎹 Philip Roger CWops #570
 CX7TT 🎹 Tomas (Tom) CWops #518
 DA1DX 🎹 Bernd CWops #3858
+DB7AL 🎹 Andreas CWops #3903
 DD5KG 🎹 Dr Gabor CWops #2471
 DD5XX 🎹 Saki CWops #2354
 DD6CW 🎹 Arthur CWops #1890
@@ -1594,11 +1595,9 @@ N0OJ 🎹 Ryan D CWops #3104
 N0PP 🎹 Juerg CWops #2048
 N0QM 🎹 LARRY D CWops #644
 N0QQ 🎹 ALEXANDRA CWops #1581
-N0RPM 🎹 Jason A CWops #3329
 N0SM 🎹 H STEPHEN CWops #705
 N0TA 🎹 John F CWops #885
 N0TU 🎹 Michael D CWops #3892
-N0VRP 🎹 Christopher S CWops #3149
 N0YY 🎹 RICHARD E CWops #1434
 N1AOK 🎹 Charles B CWops #3050
 N1AU 🎹 JOHN CWops #3020
@@ -1613,7 +1612,6 @@ N1DG 🎹 DONALD R CWops #2
 N1EN 🎹 Michael D CWops #1247
 N1FG 🎹 Sydney L CWops #2012
 N1KB 🎹 Douglas H CWops #3679
-N1KW 🎹 ROBERT C CWops #1022
 N1LN 🎹 BRUCE E CWops #1141
 N1QD 🎹 Joseph A CWops #3278
 N1RBD 🎹 Richard B CWops #2983
@@ -1708,7 +1706,6 @@ N3XA 🎹 JAMES R CWops #2975
 N3XF 🎹 DAVID G CWops #2962
 N3XL 🎹 William H CWops #3663
 N3YYZ 🎹 RANDY S CWops #3901
-N3ZN 🎹 ANTHONY C CWops #1690
 N3ZZ 🎹 Thomas J CWops #793
 N4AF 🎹 HOWARD N CWops #132
 N4AO 🎹 CWops #1715
@@ -1884,7 +1881,7 @@ N7NR 🎹 H DAVID CWops #2927
 N7OR 🎹 CRAIG R CWops #3785
 N7QT 🎹 ROBERT E CWops #2637
 N7RCS 🎹 JAMES R CWops #1580
-N7RR 🎹 J Bruce CWops #846
+N7REA 🎹 RICKY J CWops #3904
 N7SU 🎹 DANIEL J CWops #2283
 N7TB 🎹 TERENCE D CWops #1999
 N7TX 🎹 STEVE C CWops #571
@@ -1934,7 +1931,6 @@ N9NA 🎹 John F CWops #1390
 N9NC 🎹 THOMAS F CWops #3367
 N9OL 🎹 JOHN C CWops #2383
 N9RD 🎹 JUERGEN CWops #582
-N9TK 🎹 JAMES A CWops #1986
 N9TTK 🎹 Justin E CWops #3150
 N9TXA 🎹 JOEL T CWops #2046
 N9UA 🎹 MICHAEL S CWops #1097
