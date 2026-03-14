@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-14 20:44:35 UTC
+# Generated: 2026-03-14 21:44:48 UTC
 # Do not edit manually - this file is auto-generated
 
 A2NEW 🔑 John K SKCC #30876
@@ -2475,6 +2475,7 @@ DL1OP 🔑 Dipl-Ing. Ulrich SKCC #20931
 DL1QC 🔑 Dr. Karsten SKCC #28083
 DL1ROY 🔑 Stefan SKCC #26648
 DL1SDZ 🔑 Hajo SKCC #30351
+DL1TMA 🔑 Thorsten SKCC #30889
 DL1TSW 🔑 Thomas SKCC #28827
 DL1VAW 🔑 VolkerA. SKCC #7974
 DL1WW 🔑 Jens SKCC #19920
