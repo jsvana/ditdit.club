@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-16 20:54:48 UTC
+# Generated: 2026-03-16 21:55:01 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -404,6 +404,7 @@ G0UVX 🎹 Geoff CWops #3908
 G0UYG 🎹 Andy CWops #2453
 G0VCM 🎹 ANTONIOS CWops #3697
 G2CWO 🎹 CW Operators' Club CWops #20000
+G3AJA 🎹 Alan CWops #3435
 G3DJB 🎹 David CWops #3448
 G3EEC 🎹 Danny CWops #3376
 G3G 🎹 Ray CWops #1365
@@ -464,7 +465,6 @@ G4SMB 🎹 Michael R CWops #2700
 G4TFF 🎹 PETER CWops #3816
 G4UZE 🎹 Chris CWops #2641
 G4WQI 🎹 DEAN M. CWops #3078
-G4WWZ 🎹 CWops #3435
 G4XWJ 🎹 Tim CWops #3384
 G4YTK 🎹 Steve CWops #3449
 G5CL 🎹 Ryan CWops #422
@@ -1683,6 +1683,7 @@ N3CI 🎹 David N CWops #2010
 N3CKI 🎹 David CWops #3012
 N3CW 🎹 MILTON E CWops #1509
 N3CZ 🎹 VLADIMIR CWops #1891
+N3DD 🎹 Dominic F CWops #3649
 N3DXX 🎹 Arthur L CWops #1232
 N3EA 🎹 ALAN M CWops #1438
 N3FEL 🎹 HOWARD D CWops #3644
