@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-16 18:54:26 UTC
+# Generated: 2026-03-16 19:54:39 UTC
 # Do not edit manually - this file is auto-generated
 
 A2NEW 🔑 John K SKCC #30876
@@ -12165,7 +12165,7 @@ KE7AVW 🔑 David J SKCC #30599
 KE7CNO 🔑 John S SKCC #2715
 KE7DBV 🔑 Robert A SKCC #15114
 KE7DX 🔑 GARY L SKCC #5615
-KE7DZ 🔑 Dennis L SKCC #6370C
+KE7DZ 🔑 Dennis L SKCC #6370T
 KE7ECQ 🔑 Bob SKCC #2195
 KE7EQA 🔑 Scott E SKCC #15705
 KE7ERE 🔑 Paul E SKCC #13142
