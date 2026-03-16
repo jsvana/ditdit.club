@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-16 19:54:37 UTC
+# Generated: 2026-03-16 20:54:48 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -408,6 +408,7 @@ G3DJB 🎹 David CWops #3448
 G3EEC 🎹 Danny CWops #3376
 G3G 🎹 Ray CWops #1365
 G3LDI 🎹 RJ CWops #1843
+G3NDS 🎹 Ray CWops #3911
 G3NKC 🎹 David CWops #449
 G3PLE 🎹 David "Duke" (CW only) CWops #3365
 G3SQU 🎹 Chris CWops #3494
