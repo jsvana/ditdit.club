@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-18 06:02:30 UTC
+# Generated: 2026-03-18 07:02:42 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -73,6 +73,7 @@ AC0VM 🎹 DEBORAH K CWops #3054
 AC0W 🎹 VERNON E CWops #1564
 AC1FE 🎹 RICHARD L CWops #783
 AC2FA 🎹 Robert A CWops #1026
+AC2YD 🎹 Benjamin M CWops #3915
 AC3JX 🎹 LISA L CWops #3559
 AC3RA 🎹 RICHARD J CWops #3300
 AC4BT 🎹 JERRY CWops #1148
