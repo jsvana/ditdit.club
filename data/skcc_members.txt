@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-21 23:23:14 UTC
+# Generated: 2026-03-22 00:23:27 UTC
 # Do not edit manually - this file is auto-generated
 
 A2NEW 🔑 John K SKCC #30876
@@ -3777,6 +3777,7 @@ G8VR 🔑 Kerry SKCC #23308
 G8XEV 🔑 Steve SKCC #19492
 G8YGM 🔑 DP SKCC #22464
 G8YWL 🔑 Graham SKCC #17668
+G8ZZL 🔑 PETER SKCC #30917
 GB3RS 🔑 RSGB National Radio Centre SKCC #15555
 GD0OUD 🔑 Stuart SKCC #3425
 GD4EBA 🔑 DH SKCC #30341
@@ -11630,6 +11631,7 @@ KD9CSV 🔑 Joseph J SKCC #16732
 KD9CXO 🔑 William R SKCC #14803
 KD9CZG 🔑 Carlie J SKCC #15970
 KD9DOG 🔑 James M SKCC #23828
+KD9DVB 🔑 Charles A SKCC #30918
 KD9DXT 🔑 Kevin L SKCC #30160
 KD9DYE 🔑 Norman L SKCC #17570
 KD9EBS 🔑 SERGEY SKCC #14956T
