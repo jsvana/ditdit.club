@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-26 16:46:26 UTC
+# Generated: 2026-03-26 17:46:37 UTC
 # Do not edit manually - this file is auto-generated
 
 A2NEW 🔑 John K SKCC #30876
@@ -16325,7 +16325,7 @@ M0VVT 🔑 Malcolm SKCC #22076
 M0WAC 🔑 Keith SKCC #776
 M0WDD 🔑 David SKCC #23244
 M0WHT 🔑 Kevin Peter SKCC #25324
-M0WMJ 🔑 Martin C. SKCC #30841
+M0WMJ 🔑 SKCC #30841
 M0WQR 🔑 Vernon SKCC #15551
 M0WTA 🔑 Ed SKCC #16087
 M0WTH 🔑 Alan SKCC #14100
