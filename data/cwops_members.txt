@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-30 14:04:07 UTC
+# Generated: 2026-03-30 15:04:17 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -248,6 +248,7 @@ DJ3CQ 🎹 Juergen "Jo" CWops #2969
 DJ4DX 🎹 Andre CWops #3529
 DJ4MX 🎹 Sven CWops #2697
 DJ5CW 🎹 Fabian CWops #1566
+DJ5YL 🎹 CWops #3923
 DJ6QQ 🎹 Uwe CWops #3803
 DJ7AO 🎹 Stefan CWops #2254
 DJ7UC 🎹 Dirk CWops #2575
