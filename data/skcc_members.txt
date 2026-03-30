@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-30 19:05:12 UTC
+# Generated: 2026-03-30 20:05:22 UTC
 # Do not edit manually - this file is auto-generated
 
 A2NEW 🔑 John K SKCC #30876
@@ -22327,7 +22327,7 @@ VE3LYT 🔑 Ian SKCC #29129
 VE3MA 🔑 Alex SKCC #16847
 VE3MAL 🔑 Jay SKCC #18135
 VE3MCA 🔑 Marc SKCC #6544
-VE3MDX 🔑 David Ashley SKCC #16258C
+VE3MDX 🔑 David Ashley SKCC #16258T
 VE3ME 🔑 Rick SKCC #26397T
 VE3MHY 🔑 Richard A SKCC #3545
 VE3MIO 🔑 Maureen SKCC #23618
