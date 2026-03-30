@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-30 20:05:22 UTC
+# Generated: 2026-03-30 21:05:35 UTC
 # Do not edit manually - this file is auto-generated
 
 A2NEW 🔑 John K SKCC #30876
@@ -22455,6 +22455,7 @@ VE3WH 🔑 Sam SKCC #4592S
 VE3WJP 🔑 William John SKCC #24316
 VE3WMB 🔑 William Michael SKCC #120C
 VE3WMZ 🔑 Bill SKCC #14597
+VE3WNA 🔑 SKCC #30942
 VE3WNS 🔑 Norbert SKCC #21055
 VE3WPK 🔑 Don SKCC #22783
 VE3WRJ 🔑 Richard SKCC #8377
@@ -29820,6 +29821,7 @@ YC6JRT 🔑 Ridha SKCC #21786
 YC6MYO 🔑 SKCC #15724
 YC7ALY 🔑 DEDY SKCC #30045
 YC7YGR 🔑 Ibrahim SKCC #18775
+YC8CSJ 🔑 SKCC #30941
 YC9FAR 🔑 LUH PUTU SKCC #14722
 YD0AUN 🔑 Iwan "item" SKCC #24529
 YD0EGA 🔑 SITI SKCC #15798
