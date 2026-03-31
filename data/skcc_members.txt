@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-31 18:09:28 UTC
+# Generated: 2026-03-31 19:09:39 UTC
 # Do not edit manually - this file is auto-generated
 
 A2NEW 🔑 John K SKCC #30876
@@ -4191,6 +4191,7 @@ IK2DED 🔑 GIULIO SKCC #11788
 IK2DJV 🔑 Romeo SKCC #14598T
 IK2EGL 🔑 Donato SKCC #23953
 IK2GAO 🔑 Alberto SKCC #27906
+IK2GFT 🔑 SKCC #30943
 IK2GWH 🔑 Paolo SKCC #21240
 IK2JYT 🔑 Giovanni SKCC #25817
 IK2NJV 🔑 FRANCO SKCC #12005
