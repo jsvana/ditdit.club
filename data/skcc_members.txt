@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-03-31 20:09:50 UTC
+# Generated: 2026-03-31 21:10:01 UTC
 # Do not edit manually - this file is auto-generated
 
 A2NEW 🔑 John K SKCC #30876
@@ -21491,7 +21491,7 @@ TA1DX 🔑 Atila SKCC #8777
 TA1IFV 🔑 Fuat Volkan SKCC #11528
 TA1L 🔑 Ercan SKCC #13391
 TA1LSE 🔑 Suat Emre SKCC #15986
-TA1LT 🔑 Suat Emre SKCC #30857
+TA1LT 🔑 SKCC #30857
 TA1PB 🔑 Ertuğ SKCC #14150
 TA1SA 🔑 YENER SKCC #23898
 TA1UT 🔑 Bora SKCC #23516
