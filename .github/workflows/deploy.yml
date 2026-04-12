@@ -46,6 +46,8 @@ jobs:
           # Copy built apps
           cp -r prop _site/
           cp -r bandplan _site/
+          # Copy static apps
+          cp -r trainer _site/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
