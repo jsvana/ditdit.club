@@ -146,6 +146,85 @@ const sevColors = {
   [SEV.INFO]:    { bg: C.blueBg, color: C.blue, label: 'INFO' },
 };
 
+// ─── Timestamp utilities ───
+
+const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function parseQsoTimestamp(dateStr, timeStr) {
+  if (!dateStr || dateStr.length !== 8) return null;
+  const y = parseInt(dateStr.substring(0, 4), 10);
+  const m = parseInt(dateStr.substring(4, 6), 10) - 1;
+  const d = parseInt(dateStr.substring(6, 8), 10);
+  let h = 0, min = 0, s = 0;
+  if (timeStr && (timeStr.length === 4 || timeStr.length === 6)) {
+    h = parseInt(timeStr.substring(0, 2), 10);
+    min = parseInt(timeStr.substring(2, 4), 10);
+    if (timeStr.length === 6) s = parseInt(timeStr.substring(4, 6), 10);
+  }
+  const date = new Date(Date.UTC(y, m, d, h, min, s));
+  if (isNaN(date.getTime())) return null;
+  return date;
+}
+
+function formatQsoDate(dateStr) {
+  if (!dateStr || dateStr.length !== 8) return dateStr;
+  const y = dateStr.substring(0, 4);
+  const m = parseInt(dateStr.substring(4, 6), 10);
+  const d = parseInt(dateStr.substring(6, 8), 10);
+  if (m < 1 || m > 12) return dateStr;
+  return `${MONTHS_SHORT[m - 1]} ${d}, ${y}`;
+}
+
+function formatQsoTime(timeStr) {
+  if (!timeStr) return '';
+  if (timeStr.length === 4) return `${timeStr.substring(0, 2)}:${timeStr.substring(2, 4)}z`;
+  if (timeStr.length === 6) return `${timeStr.substring(0, 2)}:${timeStr.substring(2, 4)}:${timeStr.substring(4, 6)}z`;
+  return timeStr;
+}
+
+function timeAgo(date) {
+  if (!date) return '';
+  const now = new Date();
+  const diffMs = now - date;
+  if (diffMs < 0) return 'in the future';
+
+  const seconds = Math.floor(diffMs / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const months = Math.floor(days / 30.44);
+  const years = Math.floor(days / 365.25);
+
+  if (days === 0) return 'today';
+  if (days === 1) return 'yesterday';
+  if (days < 30) return `${days}d ago`;
+  if (months < 12) return `${months}mo ago`;
+  if (years === 1 && months < 18) return '1y ago';
+  return `${years}y ago`;
+}
+
+function timeAgoLong(date) {
+  if (!date) return '';
+  const now = new Date();
+  const diffMs = now - date;
+  if (diffMs < 0) return 'in the future';
+
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const months = Math.floor(days / 30.44);
+  const years = Math.floor(days / 365.25);
+
+  if (days === 0) return 'today';
+  if (days === 1) return 'yesterday';
+  if (days < 30) return `${days} days ago`;
+  if (months === 1) return '1 month ago';
+  if (months < 12) return `${months} months ago`;
+  const remMonths = months - years * 12;
+  if (years === 1 && remMonths === 0) return '1 year ago';
+  if (years === 1) return `1 year, ${remMonths} month${remMonths !== 1 ? 's' : ''} ago`;
+  if (remMonths === 0) return `${years} years ago`;
+  return `${years} years, ${remMonths} month${remMonths !== 1 ? 's' : ''} ago`;
+}
+
 // ─── Components ───
 
 function Badge({ severity, count }) {
@@ -158,7 +237,7 @@ function Badge({ severity, count }) {
 }
 
 function SummaryPanel({ summary }) {
-  const fmtDate = d => d ? `${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6,8)}` : '—';
+  const fmtDate = d => d ? formatQsoDate(d) : '—';
   const bandList = Object.entries(summary.bands).sort((a,b) => {
     const aInfo = BANDS[a[0].toLowerCase()];
     const bInfo = BANDS[b[0].toLowerCase()];
@@ -191,6 +270,11 @@ function SummaryPanel({ summary }) {
           <div>
             <strong>Date range:</strong> {fmtDate(summary.dateRange.earliest)}
             {summary.dateRange.earliest !== summary.dateRange.latest && ` to ${fmtDate(summary.dateRange.latest)}`}
+            {summary.dateRange.latest && (() => {
+              const latestTs = parseQsoTimestamp(summary.dateRange.latest, null);
+              const ago = latestTs ? timeAgoLong(latestTs) : null;
+              return ago ? <span style={{ color: C.pink, marginLeft: 6, fontSize: '0.82rem' }}>({ago})</span> : null;
+            })()}
           </div>
           {summary.programId && (
             <div><strong>Program:</strong> {summary.programId}{summary.programVersion ? ` v${summary.programVersion}` : ''}</div>
@@ -486,18 +570,55 @@ function ExtensionsPanel({ extensions, programInfo }) {
   );
 }
 
-function RecordRow({ field, recordIssues }) {
+function RecordRow({ field, recordIssues, record }) {
   const fieldIssues = recordIssues.filter(i => i.field === field.name);
   const hasError = fieldIssues.some(i => i.severity === SEV.ERROR);
   const hasWarning = fieldIssues.some(i => i.severity === SEV.WARNING);
   const def = FIELD_DEFS[field.name];
   const bgColor = hasError ? C.redBg : hasWarning ? C.orangeBg : 'transparent';
 
+  // Compute human-readable annotation for date/time fields
+  let annotation = null;
+  if (field.value) {
+    const isDateField = ['QSO_DATE', 'QSO_DATE_OFF', 'QSLRDATE', 'QSLSDATE',
+      'LOTW_QSLRDATE', 'LOTW_QSLSDATE', 'EQSL_QSLRDATE', 'EQSL_QSLSDATE',
+      'CLUBLOG_QSO_UPLOAD_DATE', 'QRZCOM_QSO_UPLOAD_DATE',
+      'HRDLOG_QSO_UPLOAD_DATE', 'HAMLOGEU_QSO_UPLOAD_DATE',
+      'HAMQTH_QSO_UPLOAD_DATE', 'DCL_QSLRDATE', 'DCL_QSLSDATE'].includes(field.name);
+    const isTimeField = ['TIME_ON', 'TIME_OFF'].includes(field.name);
+
+    if (isDateField) {
+      const formatted = formatQsoDate(field.value);
+      // For QSO_DATE, also try to include TIME_ON for the time-ago calc
+      let ts = null;
+      if (field.name === 'QSO_DATE' && record) {
+        const timeOn = record.fields.find(f => f.name === 'TIME_ON');
+        ts = parseQsoTimestamp(field.value, timeOn?.value);
+      } else {
+        ts = parseQsoTimestamp(field.value, null);
+      }
+      const ago = ts ? timeAgoLong(ts) : null;
+      if (formatted !== field.value || ago) {
+        annotation = `${formatted}${ago ? ` (${ago})` : ''}`;
+      }
+    } else if (isTimeField) {
+      const formatted = formatQsoTime(field.value);
+      if (formatted !== field.value) {
+        annotation = formatted;
+      }
+    }
+  }
+
   return (
     <tr style={{ background: bgColor }}>
       <td style={{ ...styles.td, fontWeight: 600 }}>{field.name}</td>
       <td style={{ ...styles.td, maxWidth: 400, wordBreak: 'break-all' }}>
         {field.value || <em style={{ color: C.gray }}>(empty)</em>}
+        {annotation && (
+          <span style={{ color: C.pink, marginLeft: 8, fontSize: '0.78rem', fontWeight: 400 }}>
+            {annotation}
+          </span>
+        )}
         {field.lengthMismatch && (
           <span style={{ ...styles.badge, background: C.redBg, color: C.red, marginLeft: 6 }}>
             len:{field.declaredLength} actual:{field.actualLength}
@@ -532,12 +653,18 @@ function RecordCard({ record, issues }) {
   const bandField = record.fields.find(f => f.name === 'BAND');
   const modeField = record.fields.find(f => f.name === 'MODE');
   const dateField = record.fields.find(f => f.name === 'QSO_DATE');
+  const timeField = record.fields.find(f => f.name === 'TIME_ON');
+
+  const qsoDate = parseQsoTimestamp(dateField?.value, timeField?.value);
+  const datePart = dateField?.value ? formatQsoDate(dateField.value) : null;
+  const timePart = timeField?.value ? formatQsoTime(timeField.value) : null;
+  const dateDisplay = [datePart, timePart].filter(Boolean).join(' ');
+  const ago = timeAgo(qsoDate);
 
   const preview = [
     callField?.value,
     bandField?.value,
     modeField?.value,
-    dateField?.value,
   ].filter(Boolean).join(' / ');
 
   return (
@@ -548,6 +675,12 @@ function RecordCard({ record, issues }) {
           <span>Record {recNum}</span>
           <span style={{ color: C.gray, fontWeight: 400, fontSize: '0.82rem', fontFamily: mono }}>
             {preview}
+            {dateDisplay && (
+              <>
+                {preview ? ' / ' : ''}{dateDisplay}
+                {ago && <span style={{ color: C.pink, marginLeft: 6, fontSize: '0.75rem' }}>({ago})</span>}
+              </>
+            )}
           </span>
         </div>
         <div style={{ display: 'flex', gap: 4 }}>
@@ -586,7 +719,7 @@ function RecordCard({ record, issues }) {
             </thead>
             <tbody>
               {record.fields.map((f, i) => (
-                <RecordRow key={i} field={f} recordIssues={recordIssues} />
+                <RecordRow key={i} field={f} recordIssues={recordIssues} record={record} />
               ))}
             </tbody>
           </table>
