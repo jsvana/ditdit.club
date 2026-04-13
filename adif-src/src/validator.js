@@ -4,6 +4,9 @@
 import {
   BANDS, MODES, SUBMODE_TO_MODE, ALL_SUBMODES,
   FIELD_DEFS, ENUMERATIONS, HEADER_FIELDS, KNOWN_APP_PROGRAMS,
+  US_STATE_GRID_FIELDS, CA_PROVINCE_GRID_FIELDS,
+  US_DXCC_CODES, POTA_PREFIX_TO_DXCC,
+  PHONE_MODES, CW_MODES,
 } from './adifData.js';
 
 // Severity levels
@@ -741,6 +744,20 @@ function crossFieldChecks(fieldMap, recNum, issues) {
     checkBandFreqConsistency(fieldMap.BAND_RX, fieldMap.FREQ_RX, 'BAND_RX', 'FREQ_RX', recNum, issues);
   }
 
+  // Frequency without band - suggest the correct band
+  if (fieldMap.FREQ && !fieldMap.BAND) {
+    const suggested = inferBandFromFreq(parseFloat(fieldMap.FREQ));
+    if (suggested) {
+      issues.push({
+        severity: SEV.INFO,
+        category: 'consistency',
+        message: `FREQ ${fieldMap.FREQ} MHz corresponds to ${suggested} band, but BAND is not set`,
+        record: recNum,
+        field: 'BAND',
+      });
+    }
+  }
+
   // Mode/Submode consistency
   if (fieldMap.MODE && fieldMap.SUBMODE) {
     const mode = fieldMap.MODE.toUpperCase();
@@ -766,6 +783,11 @@ function crossFieldChecks(fieldMap, recNum, issues) {
         });
       }
     }
+  }
+
+  // RST vs MODE consistency
+  if (fieldMap.MODE) {
+    checkRstModeConsistency(fieldMap, recNum, issues);
   }
 
   // Satellite checks
@@ -822,6 +844,48 @@ function crossFieldChecks(fieldMap, recNum, issues) {
       field: 'MY_SIG',
     });
   }
+
+  // STATE / GRIDSQUARE consistency (contacted station)
+  if (fieldMap.STATE && fieldMap.GRIDSQUARE) {
+    checkStateGridConsistency(fieldMap.STATE, fieldMap.GRIDSQUARE, fieldMap.DXCC, 'STATE', 'GRIDSQUARE', recNum, issues);
+  }
+  // MY_STATE / MY_GRIDSQUARE consistency
+  if (fieldMap.MY_STATE && fieldMap.MY_GRIDSQUARE) {
+    checkStateGridConsistency(fieldMap.MY_STATE, fieldMap.MY_GRIDSQUARE, fieldMap.MY_DXCC, 'MY_STATE', 'MY_GRIDSQUARE', recNum, issues);
+  }
+
+  // CNTY / STATE consistency
+  if (fieldMap.CNTY && fieldMap.STATE) {
+    checkCountyStateConsistency(fieldMap.CNTY, fieldMap.STATE, 'CNTY', 'STATE', recNum, issues);
+  }
+  if (fieldMap.MY_CNTY && fieldMap.MY_STATE) {
+    checkCountyStateConsistency(fieldMap.MY_CNTY, fieldMap.MY_STATE, 'MY_CNTY', 'MY_STATE', recNum, issues);
+  }
+
+  // LAT/LON vs GRIDSQUARE consistency (contacted station)
+  if (fieldMap.LAT && fieldMap.LON && fieldMap.GRIDSQUARE) {
+    checkCoordGridConsistency(fieldMap.LAT, fieldMap.LON, fieldMap.GRIDSQUARE, 'GRIDSQUARE', recNum, issues);
+  }
+  // MY_LAT/MY_LON vs MY_GRIDSQUARE consistency
+  if (fieldMap.MY_LAT && fieldMap.MY_LON && fieldMap.MY_GRIDSQUARE) {
+    checkCoordGridConsistency(fieldMap.MY_LAT, fieldMap.MY_LON, fieldMap.MY_GRIDSQUARE, 'MY_GRIDSQUARE', recNum, issues);
+  }
+
+  // DXCC / STATE consistency
+  if (fieldMap.DXCC && fieldMap.STATE) {
+    checkDxccStateConsistency(fieldMap.DXCC, fieldMap.STATE, 'DXCC', 'STATE', recNum, issues);
+  }
+  if (fieldMap.MY_DXCC && fieldMap.MY_STATE) {
+    checkDxccStateConsistency(fieldMap.MY_DXCC, fieldMap.MY_STATE, 'MY_DXCC', 'MY_STATE', recNum, issues);
+  }
+
+  // POTA reference country vs DXCC
+  if (fieldMap.POTA_REF && fieldMap.DXCC) {
+    checkPotaDxccConsistency(fieldMap.POTA_REF, fieldMap.DXCC, 'POTA_REF', recNum, issues);
+  }
+  if (fieldMap.MY_POTA_REF && fieldMap.MY_DXCC) {
+    checkPotaDxccConsistency(fieldMap.MY_POTA_REF, fieldMap.MY_DXCC, 'MY_POTA_REF', recNum, issues);
+  }
 }
 
 function checkBandFreqConsistency(bandValue, freqValue, bandField, freqField, recNum, issues) {
@@ -836,11 +900,216 @@ function checkBandFreqConsistency(bandValue, freqValue, bandField, freqField, re
   if (freq < bandInfo.lower || freq > bandInfo.upper) {
     issues.push({
       severity: SEV.WARNING,
-      category: 'value',
+      category: 'consistency',
       message: `Frequency ${freq} MHz is outside ${bandValue} band range (${bandInfo.lower}-${bandInfo.upper} MHz)`,
       record: recNum,
       field: freqField,
     });
+  }
+}
+
+function inferBandFromFreq(freq) {
+  if (isNaN(freq)) return null;
+  for (const [band, range] of Object.entries(BANDS)) {
+    if (freq >= range.lower && freq <= range.upper) return band;
+  }
+  return null;
+}
+
+function checkRstModeConsistency(fieldMap, recNum, issues) {
+  const mode = fieldMap.MODE.toUpperCase();
+  const isPhone = PHONE_MODES.has(mode);
+  const isCW = CW_MODES.has(mode);
+
+  for (const [rstField, label] of [['RST_SENT', 'sent'], ['RST_RCVD', 'received']]) {
+    const rst = fieldMap[rstField];
+    if (!rst) continue;
+
+    if (isPhone && /^\d{3}$/.test(rst)) {
+      issues.push({
+        severity: SEV.INFO,
+        category: 'consistency',
+        message: `RST ${label} "${rst}" is 3 digits (RST) but mode ${fieldMap.MODE} is a phone mode (expected 2-digit RS like "${rst.substring(0, 2)}")`,
+        record: recNum,
+        field: rstField,
+      });
+    } else if (isCW && /^\d{2}$/.test(rst)) {
+      issues.push({
+        severity: SEV.INFO,
+        category: 'consistency',
+        message: `RST ${label} "${rst}" is 2 digits (RS) but mode ${fieldMap.MODE} uses 3-digit RST (e.g., "${rst}9")`,
+        record: recNum,
+        field: rstField,
+      });
+    }
+  }
+}
+
+function checkStateGridConsistency(state, grid, dxcc, stateField, gridField, recNum, issues) {
+  if (grid.length < 2) return;
+  const gridField2 = grid.substring(0, 2).toUpperCase();
+
+  // Determine if this is a US state or Canadian province
+  const stateUpper = state.toUpperCase();
+  let validFields = US_STATE_GRID_FIELDS[stateUpper];
+
+  if (!validFields) {
+    validFields = CA_PROVINCE_GRID_FIELDS[stateUpper];
+    if (!validFields) return; // Unknown state/province, can't validate
+  }
+
+  if (!validFields.includes(gridField2)) {
+    issues.push({
+      severity: SEV.WARNING,
+      category: 'consistency',
+      message: `Grid "${grid}" (field ${gridField2}) is not expected for ${stateField === 'MY_STATE' ? 'my ' : ''}state "${state}" (expected fields: ${validFields.join(', ')})`,
+      record: recNum,
+      field: gridField,
+    });
+  }
+}
+
+function checkCountyStateConsistency(cnty, state, cntyField, stateField, recNum, issues) {
+  // ADIF county format: "SS,County Name" where SS is the state abbreviation
+  const commaIdx = cnty.indexOf(',');
+  if (commaIdx === -1) return; // Non-standard format, skip
+
+  const cntyState = cnty.substring(0, commaIdx).toUpperCase();
+  if (cntyState !== state.toUpperCase()) {
+    issues.push({
+      severity: SEV.WARNING,
+      category: 'consistency',
+      message: `County "${cnty}" has state prefix "${cntyState}" which doesn't match ${stateField} "${state}"`,
+      record: recNum,
+      field: cntyField,
+    });
+  }
+}
+
+function parseAdifLocation(locStr) {
+  const match = locStr.match(/^([NSEW])(\d{3}) (\d{2}\.\d{3})$/);
+  if (!match) return null;
+  const dir = match[1];
+  const degrees = parseInt(match[2], 10);
+  const minutes = parseFloat(match[3]);
+  let decimal = degrees + minutes / 60;
+  if (dir === 'S' || dir === 'W') decimal = -decimal;
+  return { decimal, dir };
+}
+
+function coordsToGrid(lat, lon) {
+  // Convert lat/lon to 4-character Maidenhead grid
+  const lonAdj = lon + 180;
+  const latAdj = lat + 90;
+  const lonField = String.fromCharCode(65 + Math.floor(lonAdj / 20));
+  const latField = String.fromCharCode(65 + Math.floor(latAdj / 10));
+  const lonSquare = Math.floor((lonAdj % 20) / 2);
+  const latSquare = Math.floor(latAdj % 10);
+  return `${lonField}${latField}${lonSquare}${latSquare}`;
+}
+
+function checkCoordGridConsistency(latStr, lonStr, grid, gridField, recNum, issues) {
+  const lat = parseAdifLocation(latStr);
+  const lon = parseAdifLocation(lonStr);
+  if (!lat || !lon) return;
+
+  // Verify lat is N/S and lon is E/W
+  if (lat.dir !== 'N' && lat.dir !== 'S') return;
+  if (lon.dir !== 'E' && lon.dir !== 'W') return;
+
+  const computedGrid = coordsToGrid(lat.decimal, lon.decimal);
+  const gridUpper = grid.toUpperCase();
+
+  // Compare at the resolution available (4 chars from computation)
+  if (gridUpper.length >= 4) {
+    if (computedGrid !== gridUpper.substring(0, 4)) {
+      issues.push({
+        severity: SEV.WARNING,
+        category: 'consistency',
+        message: `LAT/LON (${latStr}, ${lonStr}) corresponds to grid ${computedGrid} but ${gridField} is "${grid}"`,
+        record: recNum,
+        field: gridField,
+      });
+    }
+  } else if (gridUpper.length === 2) {
+    if (computedGrid.substring(0, 2) !== gridUpper) {
+      issues.push({
+        severity: SEV.WARNING,
+        category: 'consistency',
+        message: `LAT/LON (${latStr}, ${lonStr}) corresponds to field ${computedGrid.substring(0, 2)} but ${gridField} is "${grid}"`,
+        record: recNum,
+        field: gridField,
+      });
+    }
+  }
+}
+
+function checkDxccStateConsistency(dxcc, state, dxccField, stateField, recNum, issues) {
+  const dxccNum = parseInt(dxcc, 10);
+  if (isNaN(dxccNum)) return;
+
+  const stateUpper = state.toUpperCase();
+
+  // Check if state is a US state
+  if (US_STATE_GRID_FIELDS[stateUpper]) {
+    // US state present - DXCC should be a US entity
+    if (stateUpper === 'HI') {
+      if (dxccNum !== 110 && dxccNum !== 291) {
+        issues.push({
+          severity: SEV.WARNING,
+          category: 'consistency',
+          message: `${stateField} is "HI" (Hawaii) but ${dxccField} is ${dxcc} (expected 110 for Hawaii or 291 for US)`,
+          record: recNum,
+          field: dxccField,
+        });
+      }
+    } else if (stateUpper === 'AK') {
+      if (dxccNum !== 6 && dxccNum !== 291) {
+        issues.push({
+          severity: SEV.WARNING,
+          category: 'consistency',
+          message: `${stateField} is "AK" (Alaska) but ${dxccField} is ${dxcc} (expected 6 for Alaska or 291 for US)`,
+          record: recNum,
+          field: dxccField,
+        });
+      }
+    } else {
+      if (dxccNum !== 291) {
+        issues.push({
+          severity: SEV.WARNING,
+          category: 'consistency',
+          message: `${stateField} is "${state}" (US state) but ${dxccField} is ${dxcc} (expected 291 for United States)`,
+          record: recNum,
+          field: dxccField,
+        });
+      }
+    }
+  }
+}
+
+function checkPotaDxccConsistency(potaRef, dxcc, potaField, recNum, issues) {
+  const dxccNum = parseInt(dxcc, 10);
+  if (isNaN(dxccNum)) return;
+
+  // POTA refs can be comma-separated lists
+  const refs = potaRef.split(',');
+  for (const ref of refs) {
+    const trimmed = ref.trim();
+    const match = trimmed.match(/^([A-Z0-9]+)-\d+$/i);
+    if (!match) continue;
+
+    const prefix = match[1].toUpperCase();
+    const validDxcc = POTA_PREFIX_TO_DXCC[prefix];
+    if (validDxcc && !validDxcc.includes(dxccNum)) {
+      issues.push({
+        severity: SEV.WARNING,
+        category: 'consistency',
+        message: `POTA reference "${trimmed}" has country prefix "${prefix}" which doesn't match DXCC entity ${dxcc}`,
+        record: recNum,
+        field: potaField,
+      });
+      break; // One warning per field is enough
+    }
   }
 }
 

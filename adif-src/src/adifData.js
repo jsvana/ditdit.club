@@ -534,3 +534,107 @@ export const COMMON_APP_FIELD_DESCS = {
 export const HEADER_FIELDS = new Set([
   'ADIF_VER', 'CREATED_TIMESTAMP', 'PROGRAMID', 'PROGRAMVERSION',
 ]);
+
+// US state → valid Maidenhead field prefixes (2-char grid fields)
+// Used for cross-validating STATE vs GRIDSQUARE
+export const US_STATE_GRID_FIELDS = {
+  'AL': ['EM'],
+  'AK': ['AO', 'AP', 'AQ', 'BO', 'BP', 'BQ', 'CO', 'CP'],
+  'AZ': ['DM'],
+  'AR': ['EM'],
+  'CA': ['CM', 'CN', 'DM'],
+  'CO': ['DM', 'DN'],
+  'CT': ['FN'],
+  'DE': ['FM'],
+  'FL': ['EL', 'EM'],
+  'GA': ['EM'],
+  'HI': ['BK', 'BL'],
+  'ID': ['DN'],
+  'IL': ['EM', 'EN'],
+  'IN': ['EM', 'EN'],
+  'IA': ['EN'],
+  'KS': ['DM', 'EM'],
+  'KY': ['EM'],
+  'LA': ['EL', 'EM'],
+  'ME': ['FN'],
+  'MD': ['FM'],
+  'MA': ['FN'],
+  'MI': ['EN'],
+  'MN': ['EN'],
+  'MS': ['EM'],
+  'MO': ['EM', 'EN'],
+  'MT': ['DN'],
+  'NE': ['DN', 'EN'],
+  'NV': ['CM', 'DM', 'DN'],
+  'NH': ['FN'],
+  'NJ': ['FM', 'FN'],
+  'NM': ['DM'],
+  'NY': ['FN'],
+  'NC': ['EM', 'FM'],
+  'ND': ['DN', 'EN'],
+  'OH': ['EM', 'EN'],
+  'OK': ['DM', 'EM'],
+  'OR': ['CN', 'DN'],
+  'PA': ['EM', 'EN', 'FM', 'FN'],
+  'RI': ['FN'],
+  'SC': ['EM', 'FM'],
+  'SD': ['DN', 'EN'],
+  'TN': ['EM'],
+  'TX': ['DL', 'DM', 'EL', 'EM'],
+  'UT': ['DM', 'DN'],
+  'VT': ['FN'],
+  'VA': ['EM', 'FM'],
+  'WA': ['CN', 'DN'],
+  'WV': ['EM', 'FM'],
+  'WI': ['EN'],
+  'WY': ['DN'],
+  'DC': ['FM'],
+};
+
+// Canadian province → valid Maidenhead field prefixes
+export const CA_PROVINCE_GRID_FIELDS = {
+  'AB': ['DN', 'DO'],
+  'BC': ['CN', 'CO', 'DN', 'DO'],
+  'MB': ['EN', 'EO'],
+  'NB': ['FN', 'FO'],
+  'NL': ['FO', 'GO', 'GP'],
+  'NS': ['FN', 'FO'],
+  'NT': ['CO', 'CP', 'DO', 'DP', 'EO', 'EP'],
+  'NU': ['CP', 'DP', 'DQ', 'EP', 'EQ', 'FP', 'FQ', 'GP'],
+  'ON': ['EN', 'EO', 'FN', 'FO'],
+  'PE': ['FN'],
+  'QC': ['FN', 'FO', 'GN', 'GO'],
+  'SK': ['DN', 'DO', 'EN', 'EO'],
+  'YT': ['CO', 'CP'],
+};
+
+// DXCC entity codes for US-related entities
+export const US_DXCC_CODES = {
+  291: 'US',    // Continental US
+  110: 'HI',    // Hawaii
+  6:   'AK',    // Alaska
+};
+
+// POTA country prefixes → DXCC entity codes
+export const POTA_PREFIX_TO_DXCC = {
+  'US':  [291, 110, 6],   // USA (any US entity)
+  'K':   [291, 110, 6],   // USA alternate
+  'VE':  [1, 2, 3, 4, 5, 9, 13, 29, 45, 100, 137, 150, 175, 204, 233, 285], // Canada entities
+  'CA':  [1, 2, 3, 4, 5, 9, 13, 29, 45, 100, 137, 150, 175, 204, 233, 285], // Canada alternate
+  'DL':  [230],            // Germany
+  'G':   [223],            // England
+  'VK':  [150],            // Australia
+  'JA':  [339],            // Japan
+  'F':   [227],            // France
+  'ZL':  [170],            // New Zealand
+};
+
+// Phone modes (use RS signal reports, 2 digits)
+export const PHONE_MODES = new Set([
+  'SSB', 'AM', 'FM', 'DIGITALVOICE', 'VOI',
+]);
+
+// CW modes (use RST signal reports, 3 digits)
+export const CW_MODES = new Set([
+  'CW',
+]);
