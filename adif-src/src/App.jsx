@@ -349,6 +349,36 @@ function gridToCenter(grid) {
   return { lat, lon };
 }
 
+// Simplified world coastlines in [lon, lat] pairs (equirectangular)
+const WORLD_LAND = [
+  // North America
+  [[-168,66],[-162,64],[-153,58],[-148,60],[-140,60],[-130,55],[-125,49],[-124,43],[-120,35],[-117,32],[-110,31],[-105,29],[-100,28],[-97,26],[-97,19],[-93,16],[-87,14],[-83,10],[-80,9],[-77,8],[-82,10],[-87,18],[-90,21],[-90,30],[-85,30],[-82,28],[-82,25],[-80,25],[-81,32],[-79,34],[-76,37],[-74,41],[-70,42],[-67,45],[-62,47],[-56,48],[-55,52],[-60,55],[-68,61],[-80,63],[-85,66],[-90,70],[-105,72],[-120,72],[-140,70],[-155,71]],
+  // South America
+  [[-80,9],[-77,8],[-70,12],[-62,11],[-55,6],[-52,3],[-50,0],[-44,-3],[-38,-5],[-35,-8],[-35,-12],[-38,-16],[-40,-22],[-48,-28],[-52,-33],[-58,-36],[-64,-42],[-68,-52],[-75,-52],[-74,-46],[-73,-40],[-71,-30],[-70,-18],[-76,-5],[-80,0],[-80,5]],
+  // Europe
+  [[-10,36],[-9,39],[-9,43],[-4,43],[0,44],[3,43],[6,44],[8,44],[13,38],[16,38],[20,36],[25,36],[28,41],[26,45],[28,55],[30,60],[28,66],[24,65],[18,63],[10,62],[5,58],[0,53],[-3,53],[-5,58],[-6,55],[-10,52],[-10,44]],
+  // Africa
+  [[-17,15],[-17,21],[-13,28],[-5,36],[0,36],[10,37],[25,32],[33,30],[36,28],[43,12],[50,12],[50,3],[42,-2],[40,-12],[35,-22],[30,-30],[23,-35],[18,-34],[14,-28],[12,-18],[10,0],[6,5],[0,5],[-8,5],[-16,12]],
+  // Asia
+  [[28,41],[36,37],[42,38],[48,30],[56,27],[62,25],[68,24],[72,20],[78,8],[80,13],[88,22],[92,18],[98,5],[100,2],[105,10],[110,20],[120,30],[127,37],[130,33],[135,35],[140,42],[145,50],[160,60],[170,65],[170,72],[140,72],[100,73],[75,72],[55,68],[40,68],[30,60]],
+  // Australia
+  [[115,-35],[115,-22],[131,-12],[136,-12],[137,-17],[136,-22],[142,-10],[145,-16],[150,-24],[153,-28],[152,-34],[148,-38],[138,-36],[125,-34]],
+  // Greenland
+  [[-55,60],[-45,60],[-35,65],[-20,70],[-18,76],[-30,82],[-45,83],[-52,80],[-55,75]],
+  // Japan
+  [[130,31],[131,34],[135,35],[140,36],[141,39],[143,44],[145,45],[143,42],[140,38],[137,35],[134,33]],
+  // UK
+  [[-6,50],[-5,52],[-3,54],[-5,56],[-3,59],[0,57],[2,53],[2,51],[0,51],[-1,50]],
+  // New Zealand
+  [[166,-46],[168,-44],[172,-42],[174,-41],[176,-38],[175,-37],[173,-38],[170,-43]],
+  // Indonesia (Sumatra+Java+Borneo outline)
+  [[95,6],[105,-5],[108,-7],[114,-8],[120,-9],[125,-3],[120,0],[115,5],[109,2],[104,1],[100,2],[98,5]],
+  // Iceland
+  [[-24,64],[-22,66],[-18,66],[-14,65],[-14,64],[-18,63],[-22,63]],
+  // Madagascar
+  [[44,-12],[50,-16],[50,-24],[47,-26],[44,-24],[43,-18]],
+];
+
 function GridMap({ grids, myGrid }) {
   const points = useMemo(() => {
     const pts = [];
@@ -415,22 +445,33 @@ function GridMap({ grids, myGrid }) {
     for (let lat = Math.ceil(minLat); lat <= maxLat; lat += 1) sqHLines.push(toY(lat));
   }
 
+  // Project continent outlines
+  const landPaths = WORLD_LAND.map(coords =>
+    coords.map(([lon, lat], i) =>
+      `${i === 0 ? 'M' : 'L'}${toX(lon).toFixed(1)},${toY(lat).toFixed(1)}`
+    ).join(' ') + ' Z'
+  );
+
   return (
     <div style={{ ...styles.card, marginTop: '0.75rem', padding: '0.75rem' }}>
       <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '0.5rem' }}>QSO Map</div>
       <svg viewBox={`0 0 ${width} ${height}`}
-        style={{ width: '100%', maxHeight: 450, borderRadius: 4, background: '#E8EEF4', display: 'block' }}>
+        style={{ width: '100%', maxHeight: 450, borderRadius: 4, background: '#DBEAF4', display: 'block', overflow: 'hidden' }}>
+        {/* Land masses */}
+        {landPaths.map((d, i) => (
+          <path key={`land${i}`} d={d} fill="#E8E6DF" stroke="#C8C4BA" strokeWidth={0.6} strokeLinejoin="round" />
+        ))}
         {/* Square sub-grid */}
-        {sqVLines.map((x, i) => <line key={`sv${i}`} x1={x} y1={0} x2={x} y2={height} stroke="#D0D8E2" strokeWidth={0.3} />)}
-        {sqHLines.map((y, i) => <line key={`sh${i}`} x1={0} y1={y} x2={width} y2={y} stroke="#D0D8E2" strokeWidth={0.3} />)}
+        {sqVLines.map((x, i) => <line key={`sv${i}`} x1={x} y1={0} x2={x} y2={height} stroke="#C0D0DD" strokeWidth={0.3} />)}
+        {sqHLines.map((y, i) => <line key={`sh${i}`} x1={0} y1={y} x2={width} y2={y} stroke="#C0D0DD" strokeWidth={0.3} />)}
         {/* Field grid lines */}
-        {vLines.map((l, i) => <line key={`v${i}`} x1={l.x} y1={0} x2={l.x} y2={height} stroke="#B0BCC8" strokeWidth={0.8} />)}
-        {hLines.map((l, i) => <line key={`h${i}`} x1={0} y1={l.y} x2={width} y2={l.y} stroke="#B0BCC8" strokeWidth={0.8} />)}
+        {vLines.map((l, i) => <line key={`v${i}`} x1={l.x} y1={0} x2={l.x} y2={height} stroke="#A0B4C4" strokeWidth={0.7} />)}
+        {hLines.map((l, i) => <line key={`h${i}`} x1={0} y1={l.y} x2={width} y2={l.y} stroke="#A0B4C4" strokeWidth={0.7} />)}
         {/* Field labels at intersections */}
         {vLines.map((vl, vi) =>
           hLines.map((hl, hi) => (
             <text key={`lbl-${vi}-${hi}`} x={vl.x + 3} y={hl.y - 3}
-              fontSize={11} fill="#8899AA" fontFamily="'IBM Plex Mono', monospace" fontWeight={600}>
+              fontSize={11} fill="#7090A8" fontFamily="'IBM Plex Mono', monospace" fontWeight={600}>
               {vl.label}{hl.label}
             </text>
           ))
