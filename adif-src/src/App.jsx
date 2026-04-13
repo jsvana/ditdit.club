@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo, useRef } from 'react';
 import { parseAdif } from './parser.js';
+import { parseQson, validateQsonStructure } from './qsonParser.js';
 import { validateAdif, generateSummary, SEV } from './validator.js';
 import {
   FIELD_DEFS, KNOWN_APP_PROGRAMS, BANDS,
@@ -1225,8 +1226,14 @@ export default function App() {
     const reader = new FileReader();
     reader.onload = (e) => {
       const text = e.target.result;
-      const p = parseAdif(text);
+      const isQson = /\.qson$/i.test(file.name) || /\.json$/i.test(file.name);
+      const p = isQson ? parseQson(text) : parseAdif(text);
       const v = validateAdif(p);
+      // Merge QSON-specific structural issues if applicable
+      if (p.sourceFormat === 'qson') {
+        const qsonIssues = validateQsonStructure(p);
+        v.issues.push(...qsonIssues);
+      }
       const s = generateSummary(p);
       setParsed(p);
       setValidation(v);
@@ -1281,12 +1288,15 @@ export default function App() {
           onDrop={onDrop}
           onClick={() => !parsed && fileRef.current?.click()}
         >
-          <input ref={fileRef} type="file" accept=".adi,.adif,.ADI,.ADIF" onChange={onFileChange}
+          <input ref={fileRef} type="file" accept=".adi,.adif,.ADI,.ADIF,.qson,.QSON,.json,.JSON" onChange={onFileChange}
             style={{ display: 'none' }} />
           {parsed ? (
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
               <div>
                 <span style={{ fontWeight: 600 }}>{fileName}</span>
+                {parsed.sourceFormat === 'qson' && (
+                  <span style={{ ...styles.badge, background: C.blueBg, color: C.blue, marginLeft: 8 }}>QSON</span>
+                )}
                 <span style={{ color: C.gray, marginLeft: 12, fontSize: '0.85rem' }}>
                   {parsed.records.length} records
                 </span>
@@ -1309,9 +1319,9 @@ export default function App() {
           ) : (
             <>
               <div style={styles.dropLabel}>
-                {dragging ? 'Drop ADIF file here' : 'Drop ADIF file here or click to browse'}
+                {dragging ? 'Drop file here' : 'Drop ADIF or QSON file here or click to browse'}
               </div>
-              <div style={styles.dropSub}>Supports .adi and .adif files</div>
+              <div style={styles.dropSub}>Supports .adi, .adif, and .qson files</div>
             </>
           )}
         </div>
@@ -1347,7 +1357,7 @@ export default function App() {
 
         {/* Footer */}
         <div style={{ marginTop: '3rem', paddingTop: '1rem', borderTop: `1px solid ${C.grayLight}`, fontSize: '0.78rem', color: C.gray, textAlign: 'center', lineHeight: 1.8 }}>
-          <div>Validates against the ADIF specification. Checks syntax, field formats, enumerations, band/frequency consistency, and program-specific rules.</div>
+          <div>Validates ADIF and QSON files against the ADIF specification. Checks syntax, field formats, enumerations, band/frequency consistency, and program-specific rules.</div>
           <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.5rem 1.2rem' }}>
             <span style={{ fontWeight: 600 }}>Sources:</span>
             <a href="https://adif.org/315/ADIF_315.htm" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>ADIF 3.1.5 Spec</a>
@@ -1359,6 +1369,7 @@ export default function App() {
             <a href="https://lotw.arrl.org/" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>LoTW</a>
             <a href="https://www.eqsl.cc/" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>eQSL</a>
             <a href="https://clublog.org/" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>Club Log</a>
+            <a href="https://github.com/ham2k/ham-js-libs/tree/main/packages/lib-qson-tools" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>QSON Format</a>
           </div>
         </div>
       </div>

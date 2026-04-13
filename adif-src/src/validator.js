@@ -20,12 +20,13 @@ export function validateAdif(parsed) {
   const issues = [];
   const extensions = { appFields: {}, userDefFields: [], unknownFields: [] };
   const programInfo = detectProgram(parsed);
+  const isQson = parsed.sourceFormat === 'qson';
 
   // Include parse-level errors
   for (const err of parsed.parseErrors) {
     issues.push({
       severity: SEV.ERROR,
-      category: 'syntax',
+      category: isQson ? 'qson' : 'syntax',
       message: err.message,
       record: null,
       field: null,
@@ -35,19 +36,21 @@ export function validateAdif(parsed) {
 
   // Validate header
   if (parsed.header) {
-    validateHeader(parsed.header, issues);
+    validateHeader(parsed.header, issues, isQson);
   }
 
   // Validate each record
   for (const record of parsed.records) {
-    validateRecord(record, parsed, issues, extensions);
+    validateRecord(record, parsed, issues, extensions, isQson);
   }
 
   // Cross-record checks
   crossRecordChecks(parsed.records, issues);
 
-  // Program-specific checks
-  programSpecificChecks(parsed, issues, programInfo);
+  // Program-specific checks (skip for QSON since program detection is different)
+  if (!isQson) {
+    programSpecificChecks(parsed, issues, programInfo);
+  }
 
   // Collect extension info
   collectExtensions(parsed, extensions);
@@ -67,7 +70,10 @@ function detectProgram(parsed) {
   return info;
 }
 
-function validateHeader(header, issues) {
+// QSON-specific header fields that are valid in QSON but not standard ADIF
+const QSON_HEADER_FIELDS = new Set(['QSON_VERSION']);
+
+function validateHeader(header, issues, isQson = false) {
   const fieldNames = new Set();
 
   for (const field of header.fields) {
@@ -76,8 +82,8 @@ function validateHeader(header, issues) {
     // Check for USERDEF fields (valid in header)
     if (/^USERDEF\d+$/.test(name)) continue;
 
-    // Check length mismatch
-    if (field.lengthMismatch) {
+    // Check length mismatch (ADIF-specific, skip for QSON)
+    if (!isQson && field.lengthMismatch) {
       issues.push({
         severity: SEV.ERROR,
         category: 'syntax',
@@ -87,8 +93,9 @@ function validateHeader(header, issues) {
       });
     }
 
-    // Warn if non-header field appears in header
-    if (!HEADER_FIELDS.has(name) && !name.startsWith('APP_') && !/^USERDEF\d+$/.test(name)) {
+    // Warn if non-header field appears in header (skip QSON-specific fields)
+    if (!HEADER_FIELDS.has(name) && !name.startsWith('APP_') && !/^USERDEF\d+$/.test(name)
+        && !(isQson && QSON_HEADER_FIELDS.has(name))) {
       issues.push({
         severity: SEV.WARNING,
         category: 'structure',
@@ -112,7 +119,7 @@ function validateHeader(header, issues) {
   }
 }
 
-function validateRecord(record, parsed, issues, extensions) {
+function validateRecord(record, parsed, issues, extensions, isQson = false) {
   const recNum = record.index + 1;
   const fieldMap = {};
 
@@ -120,26 +127,28 @@ function validateRecord(record, parsed, issues, extensions) {
     fieldMap[field.name] = field.value;
   }
 
-  // Check for missing recommended fields
-  const missingRequired = [];
-  if (!fieldMap.CALL) missingRequired.push('CALL');
-  if (!fieldMap.QSO_DATE) missingRequired.push('QSO_DATE');
-  if (!fieldMap.TIME_ON) missingRequired.push('TIME_ON');
-  if (!fieldMap.MODE) missingRequired.push('MODE');
-  if (!fieldMap.BAND && !fieldMap.FREQ) missingRequired.push('BAND or FREQ');
+  // Check for missing recommended fields (skip for QSON - handled by qsonParser)
+  if (!isQson) {
+    const missingRequired = [];
+    if (!fieldMap.CALL) missingRequired.push('CALL');
+    if (!fieldMap.QSO_DATE) missingRequired.push('QSO_DATE');
+    if (!fieldMap.TIME_ON) missingRequired.push('TIME_ON');
+    if (!fieldMap.MODE) missingRequired.push('MODE');
+    if (!fieldMap.BAND && !fieldMap.FREQ) missingRequired.push('BAND or FREQ');
 
-  if (missingRequired.length > 0) {
-    issues.push({
-      severity: SEV.WARNING,
-      category: 'completeness',
-      message: `Missing recommended field(s): ${missingRequired.join(', ')}`,
-      record: recNum,
-      field: null,
-    });
+    if (missingRequired.length > 0) {
+      issues.push({
+        severity: SEV.WARNING,
+        category: 'completeness',
+        message: `Missing recommended field(s): ${missingRequired.join(', ')}`,
+        record: recNum,
+        field: null,
+      });
+    }
   }
 
-  // Check for missing EOR
-  if (record.missingEor) {
+  // Check for missing EOR (ADIF-specific)
+  if (!isQson && record.missingEor) {
     issues.push({
       severity: SEV.ERROR,
       category: 'syntax',
@@ -152,8 +161,8 @@ function validateRecord(record, parsed, issues, extensions) {
   // Validate each field
   const fieldNames = new Set();
   for (const field of record.fields) {
-    // Length mismatch
-    if (field.lengthMismatch) {
+    // Length mismatch (ADIF-specific)
+    if (!isQson && field.lengthMismatch) {
       issues.push({
         severity: SEV.ERROR,
         category: 'syntax',
@@ -178,8 +187,8 @@ function validateRecord(record, parsed, issues, extensions) {
     // Skip empty values
     if (!field.value && field.declaredLength === 0) continue;
 
-    // Header field in record
-    if (HEADER_FIELDS.has(field.name)) {
+    // Header field in record (ADIF-specific check)
+    if (!isQson && HEADER_FIELDS.has(field.name)) {
       issues.push({
         severity: SEV.WARNING,
         category: 'structure',
