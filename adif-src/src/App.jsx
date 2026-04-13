@@ -225,6 +225,250 @@ function timeAgoLong(date) {
   return `${years} years, ${remMonths} month${remMonths !== 1 ? 's' : ''} ago`;
 }
 
+// ─── Type label mapping ───
+
+const TYPE_LABELS = {
+  S: { label: 'String', color: C.gray },
+  D: { label: 'Date', color: '#7C5CBF' },
+  T: { label: 'Time', color: '#7C5CBF' },
+  N: { label: 'Number', color: '#2E8B57' },
+  B: { label: 'Boolean', color: '#C67D2A' },
+  E: { label: 'Enum', color: '#3B82C4' },
+  L: { label: 'Location', color: '#C44B3B' },
+  G: { label: 'Grid', color: '#C44B3B' },
+  M: { label: 'Multiline', color: C.gray },
+  I: { label: 'Intl String', color: C.gray },
+  IM: { label: 'Intl Multiline', color: C.gray },
+  P: { label: 'Positive Int', color: '#2E8B57' },
+  Int: { label: 'Integer', color: '#2E8B57' },
+  IOTA: { label: 'IOTA Ref', color: '#C44B3B' },
+  SOTA: { label: 'SOTA Ref', color: '#C44B3B' },
+  POTALIST: { label: 'POTA Refs', color: '#C44B3B' },
+  WWFF: { label: 'WWFF Ref', color: '#C44B3B' },
+};
+
+// ─── Auto-linking ───
+
+const CALLSIGN_FIELDS = new Set([
+  'CALL', 'STATION_CALLSIGN', 'OPERATOR', 'OWNER_CALLSIGN',
+  'EQ_CALL', 'GUEST_OP', 'CONTACTED_OP',
+]);
+const POTA_FIELDS = new Set(['POTA_REF', 'MY_POTA_REF']);
+const SOTA_FIELDS = new Set(['SOTA_REF', 'MY_SOTA_REF']);
+const WWFF_FIELDS = new Set(['WWFF_REF', 'MY_WWFF_REF']);
+
+const extLinkStyle = { color: C.blue, textDecoration: 'none', borderBottom: `1px dotted ${C.blue}55` };
+
+function PotaLinks({ value }) {
+  const refs = value.split(',');
+  return refs.map((ref, i) => {
+    const trimmed = ref.trim();
+    if (!trimmed) return null;
+    return (
+      <React.Fragment key={i}>
+        {i > 0 && ', '}
+        <a href={`https://pota.app/#/park/${encodeURIComponent(trimmed)}`}
+          target="_blank" rel="noopener noreferrer" style={extLinkStyle}>{trimmed}</a>
+      </React.Fragment>
+    );
+  });
+}
+
+function FieldValue({ field, record }) {
+  const value = field.value;
+  if (!value) return <em style={{ color: C.gray }}>(empty)</em>;
+
+  // Callsign → QRZ
+  if (CALLSIGN_FIELDS.has(field.name)) {
+    return (
+      <a href={`https://www.qrz.com/db/${encodeURIComponent(value)}`}
+        target="_blank" rel="noopener noreferrer" style={extLinkStyle}>{value}</a>
+    );
+  }
+
+  // POTA refs → pota.app
+  if (POTA_FIELDS.has(field.name)) return <PotaLinks value={value} />;
+
+  // SIG_INFO / MY_SIG_INFO → POTA if SIG/MY_SIG is POTA
+  if (field.name === 'SIG_INFO' || field.name === 'MY_SIG_INFO') {
+    const sigField = field.name === 'SIG_INFO' ? 'SIG' : 'MY_SIG';
+    const sigValue = record?.fields.find(f => f.name === sigField)?.value;
+    if (sigValue?.toUpperCase() === 'POTA') return <PotaLinks value={value} />;
+  }
+
+  // SOTA refs → sotadata
+  if (SOTA_FIELDS.has(field.name)) {
+    return (
+      <a href={`https://www.sotadata.org.uk/en/summit/${encodeURIComponent(value)}`}
+        target="_blank" rel="noopener noreferrer" style={extLinkStyle}>{value}</a>
+    );
+  }
+
+  // WWFF refs → wwff.co
+  if (WWFF_FIELDS.has(field.name)) {
+    return (
+      <a href={`https://wwff.co/directory/?showRef=${encodeURIComponent(value)}`}
+        target="_blank" rel="noopener noreferrer" style={extLinkStyle}>{value}</a>
+    );
+  }
+
+  return <>{value}</>;
+}
+
+// ─── Grid map ───
+
+function gridToCenter(grid) {
+  const upper = grid.toUpperCase();
+  if (upper.length < 2) return null;
+
+  let lon = (upper.charCodeAt(0) - 65) * 20 - 180;
+  let lat = (upper.charCodeAt(1) - 65) * 10 - 90;
+
+  if (upper.length >= 4) {
+    const d2 = parseInt(upper[2], 10);
+    const d3 = parseInt(upper[3], 10);
+    if (isNaN(d2) || isNaN(d3)) return null;
+    lon += d2 * 2;
+    lat += d3 * 1;
+  }
+
+  if (upper.length >= 6) {
+    const c4 = upper.charCodeAt(4) - 65;
+    const c5 = upper.charCodeAt(5) - 65;
+    if (c4 < 0 || c4 > 23 || c5 < 0 || c5 > 23) return null;
+    lon += c4 * (2 / 24) + 1 / 24;
+    lat += c5 * (1 / 24) + 1 / 48;
+  } else if (upper.length >= 4) {
+    lon += 1;
+    lat += 0.5;
+  } else {
+    lon += 10;
+    lat += 5;
+  }
+
+  return { lat, lon };
+}
+
+function GridMap({ grids, myGrid }) {
+  const points = useMemo(() => {
+    const pts = [];
+    for (const grid of grids) {
+      const center = gridToCenter(grid);
+      if (center) pts.push({ ...center, grid });
+    }
+    return pts;
+  }, [grids]);
+
+  const myPoint = useMemo(() => myGrid ? gridToCenter(myGrid) : null, [myGrid]);
+
+  if (points.length === 0 && !myPoint) return null;
+
+  const allPts = myPoint ? [...points, myPoint] : points;
+
+  let minLon = Infinity, maxLon = -Infinity, minLat = Infinity, maxLat = -Infinity;
+  for (const p of allPts) {
+    if (p.lon < minLon) minLon = p.lon;
+    if (p.lon > maxLon) maxLon = p.lon;
+    if (p.lat < minLat) minLat = p.lat;
+    if (p.lat > maxLat) maxLat = p.lat;
+  }
+
+  // Padding
+  const padLon = Math.max(10, (maxLon - minLon) * 0.15);
+  const padLat = Math.max(5, (maxLat - minLat) * 0.15);
+  minLon = Math.max(-180, minLon - padLon);
+  maxLon = Math.min(180, maxLon + padLon);
+  minLat = Math.max(-90, minLat - padLat);
+  maxLat = Math.min(90, maxLat + padLat);
+
+  // Minimum extent
+  if (maxLon - minLon < 30) { const mid = (minLon + maxLon) / 2; minLon = mid - 15; maxLon = mid + 15; }
+  if (maxLat - minLat < 15) { const mid = (minLat + maxLat) / 2; minLat = mid - 7.5; maxLat = mid + 7.5; }
+  minLon = Math.max(-180, minLon); maxLon = Math.min(180, maxLon);
+  minLat = Math.max(-90, minLat); maxLat = Math.min(90, maxLat);
+
+  const width = 700;
+  const lonRange = maxLon - minLon;
+  const latRange = maxLat - minLat;
+  const height = Math.max(200, Math.min(500, Math.round(width * (latRange / lonRange))));
+
+  const toX = lon => ((lon - minLon) / lonRange) * width;
+  const toY = lat => ((maxLat - lat) / latRange) * height;
+
+  // Maidenhead field grid lines
+  const vLines = [];
+  for (let lon = Math.ceil(minLon / 20) * 20; lon <= maxLon; lon += 20) {
+    const idx = Math.floor((lon + 180) / 20);
+    if (idx >= 0 && idx < 18) vLines.push({ x: toX(lon), label: String.fromCharCode(65 + idx) });
+  }
+  const hLines = [];
+  for (let lat = Math.ceil(minLat / 10) * 10; lat <= maxLat; lat += 10) {
+    const idx = Math.floor((lat + 90) / 10);
+    if (idx >= 0 && idx < 18) hLines.push({ y: toY(lat), label: String.fromCharCode(65 + idx) });
+  }
+
+  // Square sub-grid lines (every 2° lon, 1° lat) - only if zoomed in enough
+  const showSquares = lonRange < 80;
+  const sqVLines = [], sqHLines = [];
+  if (showSquares) {
+    for (let lon = Math.ceil(minLon / 2) * 2; lon <= maxLon; lon += 2) sqVLines.push(toX(lon));
+    for (let lat = Math.ceil(minLat); lat <= maxLat; lat += 1) sqHLines.push(toY(lat));
+  }
+
+  return (
+    <div style={{ ...styles.card, marginTop: '0.75rem', padding: '0.75rem' }}>
+      <div style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '0.5rem' }}>QSO Map</div>
+      <svg viewBox={`0 0 ${width} ${height}`}
+        style={{ width: '100%', maxHeight: 450, borderRadius: 4, background: '#E8EEF4', display: 'block' }}>
+        {/* Square sub-grid */}
+        {sqVLines.map((x, i) => <line key={`sv${i}`} x1={x} y1={0} x2={x} y2={height} stroke="#D0D8E2" strokeWidth={0.3} />)}
+        {sqHLines.map((y, i) => <line key={`sh${i}`} x1={0} y1={y} x2={width} y2={y} stroke="#D0D8E2" strokeWidth={0.3} />)}
+        {/* Field grid lines */}
+        {vLines.map((l, i) => <line key={`v${i}`} x1={l.x} y1={0} x2={l.x} y2={height} stroke="#B0BCC8" strokeWidth={0.8} />)}
+        {hLines.map((l, i) => <line key={`h${i}`} x1={0} y1={l.y} x2={width} y2={l.y} stroke="#B0BCC8" strokeWidth={0.8} />)}
+        {/* Field labels at intersections */}
+        {vLines.map((vl, vi) =>
+          hLines.map((hl, hi) => (
+            <text key={`lbl-${vi}-${hi}`} x={vl.x + 3} y={hl.y - 3}
+              fontSize={11} fill="#8899AA" fontFamily="'IBM Plex Mono', monospace" fontWeight={600}>
+              {vl.label}{hl.label}
+            </text>
+          ))
+        )}
+        {/* QSO dots */}
+        {points.map((p, i) => (
+          <circle key={i} cx={toX(p.lon)} cy={toY(p.lat)} r={4}
+            fill={C.pink} stroke="#fff" strokeWidth={1} opacity={0.85}>
+            <title>{p.grid}</title>
+          </circle>
+        ))}
+        {/* My location */}
+        {myPoint && (
+          <g>
+            <circle cx={toX(myPoint.lon)} cy={toY(myPoint.lat)} r={7}
+              fill="none" stroke={C.blue} strokeWidth={2} />
+            <circle cx={toX(myPoint.lon)} cy={toY(myPoint.lat)} r={2.5}
+              fill={C.blue} />
+            <title>{myGrid}</title>
+          </g>
+        )}
+      </svg>
+      <div style={{ fontSize: '0.75rem', color: C.gray, marginTop: '0.4rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+        <span>
+          <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: C.pink, marginRight: 4, verticalAlign: 'middle' }} />
+          QSO locations ({points.length})
+        </span>
+        {myPoint && (
+          <span>
+            <span style={{ display: 'inline-block', width: 10, height: 10, borderRadius: '50%', border: `2px solid ${C.blue}`, marginRight: 4, verticalAlign: 'middle', boxSizing: 'border-box' }} />
+            My location ({myGrid})
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── Components ───
 
 function Badge({ severity, count }) {
@@ -300,6 +544,9 @@ function SummaryPanel({ summary }) {
           </div>
         </div>
       </div>
+      {summary.grids.size > 0 && (
+        <GridMap grids={[...summary.grids]} myGrid={summary.myGrid} />
+      )}
     </div>
   );
 }
@@ -609,11 +856,14 @@ function RecordRow({ field, recordIssues, record }) {
     }
   }
 
+  const typeCode = field.typeIndicator || (def ? def.type : '');
+  const typeInfo = TYPE_LABELS[typeCode];
+
   return (
     <tr style={{ background: bgColor }}>
       <td style={{ ...styles.td, fontWeight: 600 }}>{field.name}</td>
-      <td style={{ ...styles.td, maxWidth: 400, wordBreak: 'break-all' }}>
-        {field.value || <em style={{ color: C.gray }}>(empty)</em>}
+      <td style={{ ...styles.td, overflowWrap: 'break-word' }}>
+        <FieldValue field={field} record={record} />
         {annotation && (
           <span style={{ color: C.pink, marginLeft: 8, fontSize: '0.78rem', fontWeight: 400 }}>
             {annotation}
@@ -625,8 +875,14 @@ function RecordRow({ field, recordIssues, record }) {
           </span>
         )}
       </td>
-      <td style={{ ...styles.td, fontSize: '0.75rem', color: C.gray }}>
-        {field.typeIndicator || (def ? def.type : '')}
+      <td style={styles.td}>
+        {typeInfo ? (
+          <span style={{ ...styles.badge, background: `${typeInfo.color}15`, color: typeInfo.color }}>
+            {typeInfo.label}
+          </span>
+        ) : typeCode ? (
+          <span style={{ ...styles.badge, background: C.grayLighter, color: C.gray }}>{typeCode}</span>
+        ) : null}
       </td>
       <td style={{ ...styles.td, fontSize: '0.78rem', color: C.gray }}>
         {def ? def.desc : field.name.startsWith('APP_') ? 'Application field' : ''}

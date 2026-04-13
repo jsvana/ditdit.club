@@ -1267,8 +1267,11 @@ export function generateSummary(parsed) {
     dateRange: { earliest: null, latest: null },
     countries: new Set(),
     grids: new Set(),
+    myGrid: null,
     fieldUsage: {},
   };
+
+  const myGridCounts = {};
 
   if (parsed.header) {
     for (const f of parsed.header.fields) {
@@ -1307,8 +1310,19 @@ export function generateSummary(parsed) {
         case 'GRIDSQUARE':
           summary.grids.add(field.value.toUpperCase());
           break;
+        case 'MY_GRIDSQUARE': {
+          const mg = field.value.toUpperCase();
+          myGridCounts[mg] = (myGridCounts[mg] || 0) + 1;
+          break;
+        }
       }
     }
+  }
+
+  // Pick the most common MY_GRIDSQUARE as the home location
+  const myGridEntries = Object.entries(myGridCounts);
+  if (myGridEntries.length > 0) {
+    summary.myGrid = myGridEntries.sort((a, b) => b[1] - a[1])[0][0];
   }
 
   return summary;
