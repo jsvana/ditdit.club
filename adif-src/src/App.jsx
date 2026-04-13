@@ -1288,7 +1288,7 @@ export default function App() {
           onDrop={onDrop}
           onClick={() => !parsed && fileRef.current?.click()}
         >
-          <input ref={fileRef} type="file" accept=".adi,.adif,.ADI,.ADIF,.qson,.QSON,.json,.JSON" onChange={onFileChange}
+          <input ref={fileRef} type="file" accept=".adi,.adif,.qson,.json,application/json" onChange={onFileChange}
             style={{ display: 'none' }} />
           {parsed ? (
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
