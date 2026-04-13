@@ -344,42 +344,120 @@ function HeaderView({ header }) {
   );
 }
 
+function AppProgramCard({ progId, fieldNames }) {
+  const progInfo = KNOWN_APP_PROGRAMS[progId];
+  const fields = [...fieldNames].sort();
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div style={{ ...styles.card, marginBottom: '0.6rem', borderLeft: `3px solid ${C.blue}` }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <div>
+          <div style={{ fontWeight: 700, fontSize: '0.95rem', fontFamily: mono, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            APP_{progId}_*
+            {progInfo && <span style={{ fontWeight: 500, fontFamily: font, fontSize: '0.85rem' }}>{progInfo.name}</span>}
+          </div>
+          {progInfo && progInfo.desc && (
+            <div style={{ fontSize: '0.82rem', color: C.gray, marginTop: '0.25rem', lineHeight: 1.4 }}>
+              {progInfo.desc}
+            </div>
+          )}
+          {progInfo && progInfo.url && (
+            <a href={progInfo.url} target="_blank" rel="noopener noreferrer"
+              style={{ fontSize: '0.78rem', color: C.blue, textDecoration: 'none', display: 'inline-block', marginTop: '0.2rem' }}>
+              {progInfo.url.replace(/^https?:\/\//, '').replace(/\/$/, '')} &#x2197;
+            </a>
+          )}
+        </div>
+        <span style={{ ...styles.badge, background: C.blueBg, color: C.blue }}>
+          {fields.length} field{fields.length !== 1 ? 's' : ''}
+        </span>
+      </div>
+      <div style={{ marginTop: '0.5rem' }}>
+        <button onClick={() => setExpanded(!expanded)}
+          style={{ ...styles.filterBtn, fontSize: '0.75rem', padding: '0.2rem 0.5rem', fontFamily: font }}>
+          {expanded ? '\u25BC Hide fields' : '\u25B6 Show fields'}
+        </button>
+        {expanded && (
+          <table style={{ ...styles.fieldTable, marginTop: '0.4rem' }}>
+            <thead>
+              <tr>
+                <th style={{ ...styles.th, fontSize: '0.7rem' }}>Field</th>
+                <th style={{ ...styles.th, fontSize: '0.7rem' }}>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {fields.map(f => {
+                const fieldDesc = progInfo?.fields?.[f];
+                return (
+                  <tr key={f}>
+                    <td style={{ ...styles.td, fontFamily: mono, fontSize: '0.8rem', fontWeight: 500, whiteSpace: 'nowrap' }}>
+                      APP_{progId}_{f}
+                    </td>
+                    <td style={{ ...styles.td, fontSize: '0.8rem', color: fieldDesc ? C.black : C.gray }}>
+                      {fieldDesc || 'Application-defined field'}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function ExtensionsPanel({ extensions, programInfo }) {
   const appPrograms = Object.keys(extensions.appFields);
   const hasExtensions = appPrograms.length > 0 || extensions.userDefFields.length > 0 || extensions.unknownFields.length > 0;
 
-  if (!hasExtensions) return null;
+  if (!hasExtensions) {
+    return (
+      <div style={styles.section}>
+        <div style={styles.sectionTitle}>Extensions &amp; Non-Standard Fields</div>
+        <div style={{ ...styles.card, textAlign: 'center', color: C.gray }}>
+          No extensions, APP_* fields, or non-standard fields found in this file.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={styles.section}>
       <div style={styles.sectionTitle}>Extensions &amp; Non-Standard Fields</div>
 
       {appPrograms.length > 0 && (
-        <div style={styles.extSection}>
-          <div style={{ fontWeight: 700, marginBottom: '0.5rem', fontSize: '0.9rem' }}>
-            Application Fields (APP_*)
+        <div style={{ marginBottom: '1rem' }}>
+          <div style={{ fontSize: '0.85rem', color: C.gray, marginBottom: '0.75rem', lineHeight: 1.5 }}>
+            Application-defined fields follow the <code style={{ fontFamily: mono, background: C.grayLighter, padding: '0.1rem 0.3rem', borderRadius: 3, fontSize: '0.8rem' }}>
+            APP_&#123;PROGRAMID&#125;_&#123;FIELDNAME&#125;</code> convention.
+            Programs register their PROGRAMID with the{' '}
+            <a href="https://adif.org/315/ADIF_315.htm#Application_defined_Fields" target="_blank" rel="noopener noreferrer"
+              style={{ color: C.blue, textDecoration: 'none' }}>
+              ADIF spec &#x2197;
+            </a>.
+            These fields are preserved on import by well-behaved logging programs.
           </div>
-          {appPrograms.map(prog => {
-            const known = KNOWN_APP_PROGRAMS[prog];
-            const fields = [...extensions.appFields[prog]].sort();
-            return (
-              <div key={prog} style={{ marginBottom: '0.5rem' }}>
-                <div style={{ fontWeight: 600, fontSize: '0.85rem', fontFamily: mono }}>
-                  APP_{prog}_*
-                  {known && <span style={{ fontWeight: 400, color: C.gray, marginLeft: 8 }}>({known})</span>}
-                </div>
-                <div style={{ fontSize: '0.8rem', fontFamily: mono, paddingLeft: '1rem', color: C.gray }}>
-                  {fields.map(f => `APP_${prog}_${f}`).join(', ')}
-                </div>
-              </div>
-            );
-          })}
+          {appPrograms.map(prog => (
+            <AppProgramCard key={prog} progId={prog} fieldNames={extensions.appFields[prog]} />
+          ))}
         </div>
       )}
 
       {extensions.userDefFields.length > 0 && (
-        <div style={{ ...styles.extSection, background: C.greenBg, borderColor: `${C.green}33` }}>
-          <div style={{ fontWeight: 700, marginBottom: '0.3rem', fontSize: '0.9rem' }}>User-Defined Fields</div>
+        <div style={{ ...styles.card, background: C.greenBg, borderColor: `${C.green}33`, borderLeft: `3px solid ${C.green}`, marginBottom: '0.75rem' }}>
+          <div style={{ fontWeight: 700, marginBottom: '0.3rem', fontSize: '0.9rem' }}>User-Defined Fields (USERDEF)</div>
+          <div style={{ fontSize: '0.82rem', color: C.gray, marginBottom: '0.5rem', lineHeight: 1.5 }}>
+            Defined in the file header via <code style={{ fontFamily: mono, background: `${C.green}15`, padding: '0.1rem 0.3rem', borderRadius: 3, fontSize: '0.8rem' }}>
+            USERDEFn</code> tags.
+            These are custom fields created by the logging operator, with optional type, enumeration, or range constraints.
+            See the{' '}
+            <a href="https://adif.org/315/ADIF_315.htm#User_defined_Fields" target="_blank" rel="noopener noreferrer"
+              style={{ color: C.blue, textDecoration: 'none' }}>
+              ADIF spec &#x2197;
+            </a>.
+          </div>
           <div style={{ fontSize: '0.85rem', fontFamily: mono }}>
             {extensions.userDefFields.join(', ')}
           </div>
@@ -387,13 +465,20 @@ function ExtensionsPanel({ extensions, programInfo }) {
       )}
 
       {extensions.unknownFields.length > 0 && (
-        <div style={{ ...styles.extSection, background: C.orangeBg, borderColor: `${C.orange}33` }}>
+        <div style={{ ...styles.card, background: C.orangeBg, borderColor: `${C.orange}33`, borderLeft: `3px solid ${C.orange}`, marginBottom: '0.75rem' }}>
           <div style={{ fontWeight: 700, marginBottom: '0.3rem', fontSize: '0.9rem' }}>Unknown Fields</div>
+          <div style={{ fontSize: '0.82rem', color: C.gray, marginBottom: '0.5rem', lineHeight: 1.5 }}>
+            These field names are not in the{' '}
+            <a href="https://adif.org/315/ADIF_315.htm#QSO_Fields" target="_blank" rel="noopener noreferrer"
+              style={{ color: C.blue, textDecoration: 'none' }}>
+              ADIF 3.1.5 specification &#x2197;
+            </a>,
+            and do not follow the <code style={{ fontFamily: mono, background: `${C.orange}15`, padding: '0.1rem 0.3rem', borderRadius: 3, fontSize: '0.8rem' }}>APP_*</code> or{' '}
+            <code style={{ fontFamily: mono, background: `${C.orange}15`, padding: '0.1rem 0.3rem', borderRadius: 3, fontSize: '0.8rem' }}>USERDEF</code> convention.
+            They may be from an older ADIF version, a non-compliant program, or a typo.
+          </div>
           <div style={{ fontSize: '0.85rem', fontFamily: mono }}>
             {extensions.unknownFields.join(', ')}
-          </div>
-          <div style={{ fontSize: '0.78rem', color: C.gray, marginTop: '0.3rem' }}>
-            These fields are not in the ADIF specification and are not APP_* or USERDEF fields.
           </div>
         </div>
       )}
@@ -582,14 +667,23 @@ function RecordsPanel({ records, issues }) {
 
 function ProgramChecksPanel({ programInfo }) {
   if (!programInfo.id) return null;
-  const known = KNOWN_APP_PROGRAMS[programInfo.id.toUpperCase()];
+  const progEntry = KNOWN_APP_PROGRAMS[programInfo.id.toUpperCase()];
   return (
-    <div style={{ ...styles.card, background: C.blueBg, borderColor: `${C.blue}33` }}>
+    <div style={{ ...styles.card, background: C.blueBg, borderColor: `${C.blue}33`, marginTop: '1rem' }}>
       <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>
         Generated by: {programInfo.id}
         {programInfo.version && ` v${programInfo.version}`}
-        {known && <span style={{ fontWeight: 400, color: C.gray }}> ({known})</span>}
+        {progEntry && <span style={{ fontWeight: 400, color: C.gray }}> ({progEntry.name})</span>}
       </div>
+      {progEntry && progEntry.desc && (
+        <div style={{ fontSize: '0.82rem', color: C.gray, marginTop: '0.25rem' }}>{progEntry.desc}</div>
+      )}
+      {progEntry && progEntry.url && (
+        <a href={progEntry.url} target="_blank" rel="noopener noreferrer"
+          style={{ fontSize: '0.78rem', color: C.blue, textDecoration: 'none', display: 'inline-block', marginTop: '0.2rem' }}>
+          {progEntry.url.replace(/^https?:\/\//, '').replace(/\/$/, '')} &#x2197;
+        </a>
+      )}
     </div>
   );
 }
@@ -732,9 +826,19 @@ export default function App() {
         )}
 
         {/* Footer */}
-        <div style={{ marginTop: '3rem', paddingTop: '1rem', borderTop: `1px solid ${C.grayLight}`, fontSize: '0.78rem', color: C.gray, textAlign: 'center' }}>
-          ADIF Validator validates against ADIF specification 3.1.5 / 3.1.6.
-          Checks syntax, field formats, enumerations, band/frequency consistency, and program-specific rules for POTA, SOTA, WWFF, LoTW, and more.
+        <div style={{ marginTop: '3rem', paddingTop: '1rem', borderTop: `1px solid ${C.grayLight}`, fontSize: '0.78rem', color: C.gray, textAlign: 'center', lineHeight: 1.8 }}>
+          <div>Validates against the ADIF specification. Checks syntax, field formats, enumerations, band/frequency consistency, and program-specific rules.</div>
+          <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '0.5rem 1.2rem' }}>
+            <span style={{ fontWeight: 600 }}>Sources:</span>
+            <a href="https://adif.org/315/ADIF_315.htm" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>ADIF 3.1.5 Spec</a>
+            <a href="https://adif.org/316/ADIF_316.htm" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>ADIF 3.1.6 Spec</a>
+            <a href="https://docs.pota.app/docs/activator_reference/ADIF_for_POTA_reference.html" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>POTA ADIF Reference</a>
+            <a href="https://www.sota.org.uk/" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>SOTA</a>
+            <a href="https://wwff.co/rules-faq/" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>WWFF</a>
+            <a href="https://lotw.arrl.org/" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>LoTW</a>
+            <a href="https://www.eqsl.cc/" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>eQSL</a>
+            <a href="https://clublog.org/" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>Club Log</a>
+          </div>
         </div>
       </div>
     </div>
