@@ -1292,6 +1292,7 @@ export default function App() {
             <span style={{ fontWeight: 600 }}>Sources:</span>
             <a href="https://adif.org/315/ADIF_315.htm" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>ADIF 3.1.5 Spec</a>
             <a href="https://adif.org/316/ADIF_316.htm" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>ADIF 3.1.6 Spec</a>
+            <a href="https://adif.org/317/ADIF_317.htm" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>ADIF 3.1.7 Spec</a>
             <a href="https://docs.pota.app/docs/activator_reference/ADIF_for_POTA_reference.html" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>POTA ADIF Reference</a>
             <a href="https://www.sota.org.uk/" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>SOTA</a>
             <a href="https://wwff.co/rules-faq/" target="_blank" rel="noopener noreferrer" style={{ color: C.blue, textDecoration: 'none' }}>WWFF</a>
