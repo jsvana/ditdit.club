@@ -1268,6 +1268,7 @@ export function generateSummary(parsed) {
     countries: new Set(),
     grids: new Set(),
     myGrid: null,
+    qsoLinks: [],  // [{from: grid, to: grid}] for geodesic lines
     fieldUsage: {},
   };
 
@@ -1323,6 +1324,17 @@ export function generateSummary(parsed) {
   const myGridEntries = Object.entries(myGridCounts);
   if (myGridEntries.length > 0) {
     summary.myGrid = myGridEntries.sort((a, b) => b[1] - a[1])[0][0];
+  }
+
+  // Collect QSO grid pairs for geodesic lines
+  for (const record of parsed.records) {
+    const fm = {};
+    for (const f of record.fields) fm[f.name] = f.value;
+    const from = (fm.MY_GRIDSQUARE || summary.myGrid || '').toUpperCase();
+    const to = (fm.GRIDSQUARE || '').toUpperCase();
+    if (from && to && from !== to) {
+      summary.qsoLinks.push({ from, to });
+    }
   }
 
   return summary;
