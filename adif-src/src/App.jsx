@@ -1,7 +1,12 @@
 import React, { useState, useCallback, useMemo, useRef } from 'react';
 import { parseAdif } from './parser.js';
 import { validateAdif, generateSummary, SEV } from './validator.js';
-import { FIELD_DEFS, KNOWN_APP_PROGRAMS, BANDS } from './adifData.js';
+import {
+  FIELD_DEFS, KNOWN_APP_PROGRAMS, BANDS,
+  DXCC_ENTITIES, CONTINENT_NAMES, PROP_MODE_NAMES, ANT_PATH_NAMES,
+  QSL_RCVD_NAMES, QSL_SENT_NAMES, QSO_UPLOAD_STATUS_NAMES, QSO_COMPLETE_NAMES,
+  US_STATE_NAMES,
+} from './adifData.js';
 
 // ─── Color palette matching ditdit.club ───
 const C = {
@@ -223,6 +228,59 @@ function timeAgoLong(date) {
   if (years === 1) return `1 year, ${remMonths} month${remMonths !== 1 ? 's' : ''} ago`;
   if (remMonths === 0) return `${years} years ago`;
   return `${years} years, ${remMonths} month${remMonths !== 1 ? 's' : ''} ago`;
+}
+
+// ─── Field value expansion ───
+
+function expandFieldValue(fieldName, value) {
+  if (!value) return null;
+  const upper = value.toUpperCase();
+
+  switch (fieldName) {
+    // DXCC entity codes
+    case 'DXCC':
+    case 'MY_DXCC': {
+      const name = DXCC_ENTITIES[parseInt(value, 10)];
+      return name || null;
+    }
+    // Continent
+    case 'CONT':
+      return CONTINENT_NAMES[upper] || null;
+    // Propagation mode
+    case 'PROP_MODE':
+      return PROP_MODE_NAMES[upper] || null;
+    // Antenna path
+    case 'ANT_PATH':
+      return ANT_PATH_NAMES[upper] || null;
+    // QSL received status
+    case 'QSL_RCVD':
+    case 'LOTW_QSL_RCVD':
+    case 'EQSL_QSL_RCVD':
+    case 'DCL_QSL_RCVD':
+      return QSL_RCVD_NAMES[upper] || null;
+    // QSL sent status
+    case 'QSL_SENT':
+    case 'LOTW_QSL_SENT':
+    case 'EQSL_QSL_SENT':
+    case 'DCL_QSL_SENT':
+      return QSL_SENT_NAMES[upper] || null;
+    // Upload status
+    case 'CLUBLOG_QSO_UPLOAD_STATUS':
+    case 'QRZCOM_QSO_UPLOAD_STATUS':
+    case 'HRDLOG_QSO_UPLOAD_STATUS':
+    case 'HAMLOGEU_QSO_UPLOAD_STATUS':
+    case 'HAMQTH_QSO_UPLOAD_STATUS':
+      return QSO_UPLOAD_STATUS_NAMES[upper] || null;
+    // QSO complete
+    case 'QSO_COMPLETE':
+      return QSO_COMPLETE_NAMES[upper] || null;
+    // State/province
+    case 'STATE':
+    case 'MY_STATE':
+      return US_STATE_NAMES[upper] || null;
+    default:
+      return null;
+  }
 }
 
 // ─── Type label mapping ───
@@ -895,7 +953,7 @@ function RecordRow({ field, recordIssues, record }) {
   const def = FIELD_DEFS[field.name];
   const bgColor = hasError ? C.redBg : hasWarning ? C.orangeBg : 'transparent';
 
-  // Compute human-readable annotation for date/time fields
+  // Compute human-readable annotation for date/time and enum fields
   let annotation = null;
   if (field.value) {
     const isDateField = ['QSO_DATE', 'QSO_DATE_OFF', 'QSLRDATE', 'QSLSDATE',
@@ -907,7 +965,6 @@ function RecordRow({ field, recordIssues, record }) {
 
     if (isDateField) {
       const formatted = formatQsoDate(field.value);
-      // For QSO_DATE, also try to include TIME_ON for the time-ago calc
       let ts = null;
       if (field.name === 'QSO_DATE' && record) {
         const timeOn = record.fields.find(f => f.name === 'TIME_ON');
@@ -924,6 +981,9 @@ function RecordRow({ field, recordIssues, record }) {
       if (formatted !== field.value) {
         annotation = formatted;
       }
+    } else {
+      // Expand terse enumeration IDs
+      annotation = expandFieldValue(field.name, field.value);
     }
   }
 
