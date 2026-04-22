@@ -354,7 +354,7 @@ function validateTime(value, fieldName, recNum, issues) {
     issues.push({
       severity: SEV.ERROR,
       category: 'format',
-      message: `Expected HHMM or HHMMSS format, got "${value}"`,
+      message: `Invalid time "${value}": expected HHMM or HHMMSS (UTC, 24-hour)`,
       record: recNum,
       field: fieldName,
     });
@@ -363,37 +363,22 @@ function validateTime(value, fieldName, recNum, issues) {
 
   const hours = parseInt(value.substring(0, 2), 10);
   const minutes = parseInt(value.substring(2, 4), 10);
+  const hasSeconds = value.length === 6;
+  const seconds = hasSeconds ? parseInt(value.substring(4, 6), 10) : 0;
 
-  if (hours > 23) {
+  const bad = [];
+  if (hours > 23) bad.push(`hours "${value.substring(0, 2)}" out of range (00-23)`);
+  if (minutes > 59) bad.push(`minutes "${value.substring(2, 4)}" out of range (00-59)`);
+  if (hasSeconds && seconds > 59) bad.push(`seconds "${value.substring(4, 6)}" out of range (00-59)`);
+
+  if (bad.length > 0) {
     issues.push({
       severity: SEV.ERROR,
       category: 'value',
-      message: `Hours ${hours} out of range (00-23)`,
+      message: `Invalid time "${value}": ${bad.join('; ')} (likely a typo in the logger)`,
       record: recNum,
       field: fieldName,
     });
-  }
-  if (minutes > 59) {
-    issues.push({
-      severity: SEV.ERROR,
-      category: 'value',
-      message: `Minutes ${minutes} out of range (00-59)`,
-      record: recNum,
-      field: fieldName,
-    });
-  }
-
-  if (value.length === 6) {
-    const seconds = parseInt(value.substring(4, 6), 10);
-    if (seconds > 59) {
-      issues.push({
-        severity: SEV.ERROR,
-        category: 'value',
-        message: `Seconds ${seconds} out of range (00-59)`,
-        record: recNum,
-        field: fieldName,
-      });
-    }
   }
 }
 
@@ -831,6 +816,26 @@ function crossFieldChecks(fieldMap, recNum, issues) {
         record: recNum,
         field: 'QSO_DATE_OFF',
       });
+    }
+  }
+
+  // TIME_ON / TIME_OFF consistency (same-day QSOs only; only compare when both times are well-formed)
+  if (fieldMap.TIME_ON && fieldMap.TIME_OFF
+      && /^\d{4}(\d{2})?$/.test(fieldMap.TIME_ON)
+      && /^\d{4}(\d{2})?$/.test(fieldMap.TIME_OFF)) {
+    const sameDay = !fieldMap.QSO_DATE_OFF || fieldMap.QSO_DATE_OFF === fieldMap.QSO_DATE;
+    if (sameDay) {
+      const on = fieldMap.TIME_ON.padEnd(6, '0');
+      const off = fieldMap.TIME_OFF.padEnd(6, '0');
+      if (off < on) {
+        issues.push({
+          severity: SEV.WARNING,
+          category: 'value',
+          message: `TIME_OFF (${fieldMap.TIME_OFF}) is before TIME_ON (${fieldMap.TIME_ON}) on the same date — likely a typo`,
+          record: recNum,
+          field: 'TIME_OFF',
+        });
+      }
     }
   }
 
