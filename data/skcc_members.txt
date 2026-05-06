@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-05-06 21:34:50 UTC
+# Generated: 2026-05-06 22:35:05 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -20557,6 +20557,7 @@ ON4BZ 🔑 Michel SKCC #29222
 ON4CAS 🔑 Egbert SKCC #24282
 ON4CBM 🔑 Bert SKCC #9868
 ON4CDJ 🔑 Patrick SKCC #12230
+ON4CET 🔑 BART SKCC #31038
 ON4CFQ 🔑 FRANCIS SKCC #10832
 ON4CGW 🔑 Kurt SKCC #13462
 ON4CN 🔑 CLAUDE SKCC #17468
