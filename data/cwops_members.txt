@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-05-07 01:35:43 UTC
+# Generated: 2026-05-07 02:35:56 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -1220,6 +1220,7 @@ KC9YL 🎹 Anne L CWops #3070
 KD1MD 🎹 KIRK T CWops #3745
 KD2E 🎹 DAVID P CWops #2420
 KD2FSH 🎹 Gerald C CWops #1918
+KD2HE 🎹 Victor CWops #2536
 KD2KW 🎹 Kenneth E CWops #2478
 KD2RKN 🎹 Jason L CWops #2919
 KD2ST 🎹 Albert CWops #2711
@@ -2446,6 +2447,7 @@ VE3FP 🎹 Adam CWops #2323
 VE3FU 🎹 Christopher Llewellyn CWops #2778
 VE3FXX 🎹 Ronald George CWops #1775
 VE3GFN 🎹 Michael CWops #1119
+VE3HEU 🎹 Victor CWops #2536
 VE3INE 🎹 Mary CWops #3588
 VE3JM 🎹 Vladimir CWops #3604
 VE3KI 🎹 Richard L CWops #783
