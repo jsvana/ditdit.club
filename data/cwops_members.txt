@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-05-11 16:02:54 UTC
+# Generated: 2026-05-11 17:03:10 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -2372,7 +2372,6 @@ UX1UA 🎹 SERGEI CWops #522
 UX2HB 🎹 Volodymyr (Waddy) CWops #2538
 UZ1WW 🎹 Volodymyr (Bob) CWops #527
 VA1CWO 🎹 Gerald Bernard CWops #191
-VA1RST 🎹 Roger CWops #2049
 VA2AGW 🎹 André CWops #2328
 VA2CZ 🎹 Pierre CWops #2184
 VA2EBI 🎹 George CWops #9
@@ -2529,6 +2528,7 @@ VL3Q 🎹 Peter CWops #3344
 VO1AAM 🎹 Yuri CWops #21
 VO1BQ 🎹 Joseph C CWops #1325
 VO1CV 🎹 Max CWops #3068
+VO1FX 🎹 CWops #2049
 VO1KGZ 🎹 GORDON CWops #3552
 VO1WIN 🎹 Canam Contestine Club CWops #191
 VO2AC 🎹 Christopher Llewellyn CWops #2778
