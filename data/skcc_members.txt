@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-05-11 15:02:42 UTC
+# Generated: 2026-05-11 16:02:58 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -4736,7 +4736,7 @@ JJ5QLV 🔑 Yukie SKCC #26393
 JJ5QNS 🔑 Fumiyuki SKCC #27343
 JJ8KGZ 🔑 HIROTO SKCC #606
 JK1AKA 🔑 Keiko SKCC #25478
-JK1BVN 🔑 KATSUHIKO SKCC #26584C
+JK1BVN 🔑 KATSUHIKO SKCC #26584T
 JK1BZC 🔑 MAC SKCC #26553
 JK1DVU 🔑 Hiroyuki SKCC #27881
 JK1ESR 🔑 KAZUO SKCC #26515
