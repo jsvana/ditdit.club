@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-05-17 02:34:58 UTC
+# Generated: 2026-05-17 03:35:10 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -14227,6 +14227,7 @@ KK7FC 🔑 Dale A SKCC #12091
 KK7FYE 🔑 Timothy G SKCC #26294
 KK7GB 🔑 Glenn E SKCC #10457
 KK7GVG 🔑 Shannon M SKCC #28584
+KK7HAK 🔑 Jason M SKCC #31078
 KK7HI 🔑 FRANK D SKCC #17475
 KK7HLE 🔑 Mark J SKCC #26356
 KK7HQ 🔑 KENNETH D SKCC #18309
