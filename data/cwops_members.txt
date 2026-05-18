@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-05-18 11:42:59 UTC
+# Generated: 2026-05-18 12:43:15 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -268,6 +268,7 @@ DK7PE 🎹 Rudolf CWops #2864
 DK9HE 🎹 Andreas CWops #2553
 DK9IP 🎹 Winfried CWops #3545
 DK9PY 🎹 Armin CWops #2062
+DL1BUG 🎹 Reinhard CWops #3938
 DL1FY 🎹 Erwin CWops #2636
 DL1IAO 🎹 Stefan CWops #1884
 DL1NCG 🎹 Christian CWops #3703
