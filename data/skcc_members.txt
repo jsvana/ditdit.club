@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-05-24 21:21:23 UTC
+# Generated: 2026-05-24 22:21:37 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -21441,7 +21441,7 @@ TA1NAX 🔑 FATIH SKCC #31046
 TA1PB 🔑 Ertuğ SKCC #14150
 TA1SA 🔑 YENER SKCC #23898
 TA1UT 🔑 Bora SKCC #23516
-TA1VY 🔑 Volkan SKCC #11528
+TA1VY 🔑 Fuat VOLKAN SKCC #11528
 TA2AHS 🔑 Prof.Dr. Sencer SKCC #8063
 TA2AKG 🔑 SKCC #15397
 TA2DA 🔑 M. SABRI SKCC #8373
