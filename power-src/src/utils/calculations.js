@@ -1,4 +1,10 @@
 import { COAX_FREQS_MHZ, COAX_BY_ID } from '../constants/coaxData.js'
+import {
+  ANTENNA_BY_ID,
+  HEIGHT_GAIN_CURVE,
+  HORIZ_GROUND_OFFSET,
+  FT_PER_LAMBDA,
+} from '../constants/antennaData.js'
 
 // --- Unit conversions ---
 
@@ -60,6 +66,79 @@ export function swrMismatchLossDb(swr) {
   return -10 * Math.log10(delivered)
 }
 
+// --- Antenna gain ---
+//
+// Returns peak forward gain in dBi for the configured antenna. We model
+// three families:
+//   * Verticals: ground-dependent only. Direct lookup from the gainByGround
+//     table (sourced from Portable Antennas's 28.4 MHz NEC simulation).
+//   * Horizontals: height- and ground-dependent. Linear-in-h/λ interpolation
+//     of the height curve, plus a ground offset.
+//   * Directional and small antennas: fixed published gain (we don't model
+//     Yagi height variation — assume typical 1λ install).
+
+function lerpHeightGain(hLambda) {
+  const curve = HEIGHT_GAIN_CURVE
+  if (hLambda <= curve[0].hLambda) return curve[0].dBi
+  if (hLambda >= curve[curve.length - 1].hLambda) {
+    return curve[curve.length - 1].dBi
+  }
+  for (let i = 0; i < curve.length - 1; i++) {
+    const a = curve[i]
+    const b = curve[i + 1]
+    if (hLambda >= a.hLambda && hLambda <= b.hLambda) {
+      const t = (hLambda - a.hLambda) / (b.hLambda - a.hLambda)
+      return a.dBi + t * (b.dBi - a.dBi)
+    }
+  }
+  return curve[curve.length - 1].dBi
+}
+
+export function antennaGainDbi(antennaConfig, freqMhz) {
+  const { antennaId, groundType, heightFt } = antennaConfig
+  const ant = ANTENNA_BY_ID[antennaId]
+  if (!ant) return 0
+
+  if (ant.groundDependent && !ant.heightDependent) {
+    // Verticals: table lookup.
+    return ant.gainByGround[groundType] ?? 0
+  }
+
+  if (ant.heightDependent) {
+    // Horizontals: height curve + ground offset.
+    const wavelengthFt = FT_PER_LAMBDA(freqMhz)
+    const hLambda = (heightFt || 0) / wavelengthFt
+    let gain = lerpHeightGain(hLambda)
+    if (ant.groundDependent) {
+      gain += HORIZ_GROUND_OFFSET[groundType] ?? 0
+    }
+    // For the full-wave loop, the height curve underestimates its
+    // ~5.5 dBi figure; bias up by the difference between its fixed
+    // value and the dipole baseline at λ/2 height (~7.24 dBi).
+    if (ant.fixedGainDbi != null) {
+      // Use the fixed gain as the "anchor" at λ/2 height instead of
+      // the dipole anchor. We subtract the dipole-at-λ/2 baseline
+      // and add the antenna's fixed dBi.
+      gain = gain - 7.24 + ant.fixedGainDbi
+    }
+    return gain
+  }
+
+  // Fixed-gain antennas (loops, Yagis, hex beam).
+  return ant.fixedGainDbi ?? 0
+}
+
+export function antennaFbDb(antennaConfig) {
+  const ant = ANTENNA_BY_ID[antennaConfig.antennaId]
+  const base = ant?.fbDb ?? 0
+  // If the antenna has a published F/B and the user has overridden it,
+  // use the override (clamped non-negative). Otherwise the published value.
+  if (base > 0 && antennaConfig.fbOverride != null) {
+    return Math.max(0, antennaConfig.fbOverride)
+  }
+  return base
+}
+
 // --- Amp gain ---
 export function ampGainDb(inputW, outputW) {
   if (inputW <= 0 || outputW <= 0) return 0
@@ -101,7 +180,13 @@ export function computeChain(scenario) {
   const swrDb = swrMismatchLossDb(antennaSwr)
   const radiatedW = dbwToWatts(wattsToDbW(afterCoax2W) - swrDb)
 
-  const netDb = wattsToDbW(radiatedW) - wattsToDbW(txPowerW)
+  const antGainDbi = antennaGainDbi(scenario, scenario.freqMhz)
+  const fbDb = antennaFbDb(scenario)
+  // Peak EIRP in the favored direction. For omni antennas with gainDbi
+  // near 0 this is essentially the same as the radiated power.
+  const peakEirpW = dbwToWatts(wattsToDbW(radiatedW) + antGainDbi)
+
+  const netDb = wattsToDbW(peakEirpW) - wattsToDbW(txPowerW)
 
   return {
     txPowerW,
@@ -114,8 +199,33 @@ export function computeChain(scenario) {
     afterCoax2W,
     swrDb,
     radiatedW,
+    antGainDbi,
+    fbDb,
+    peakEirpW,
     netDb,
   }
+}
+
+// --- TX vs RX deltas ---
+//
+// TX delta: change in peak EIRP toward the receiver. Always relevant.
+// RX SNR delta (noisy QTH): same forward gain plus a credit for the
+// F/B noise rejection. F/B credit is conservatively half the F/B
+// improvement — accounts for the fact that not all environmental noise
+// comes from directly behind the antenna. With the simplifying
+// assumption of roughly uniform noise distribution, half is a fair
+// midpoint between "best case" (all noise from behind, full F/B credit)
+// and "worst case" (noise from front, zero credit).
+export const FB_NOISE_CREDIT_FRACTION = 0.5
+
+export function txDeltaDb(beforeBreakdown, afterBreakdown) {
+  return wattsToDbW(afterBreakdown.peakEirpW) - wattsToDbW(beforeBreakdown.peakEirpW)
+}
+
+export function rxSnrDeltaDb(beforeBreakdown, afterBreakdown) {
+  const tx = txDeltaDb(beforeBreakdown, afterBreakdown)
+  const fbCredit = FB_NOISE_CREDIT_FRACTION * (afterBreakdown.fbDb - beforeBreakdown.fbDb)
+  return tx + fbCredit
 }
 
 // --- Warnings ---
@@ -152,6 +262,24 @@ export function scenarioWarnings(scenario, breakdown) {
         `of drive. Most HF amps top out around 13 dB — check the amp's ` +
         `drive requirements.`,
     })
+  }
+
+  // Very low horizontal antenna ("cloud warmer") — calls out the common
+  // case where someone's dipole is up at 20 ft on 40m or 80m and they
+  // wonder why DX is hard.
+  const ant = ANTENNA_BY_ID[scenario.antennaId]
+  if (ant?.heightDependent && scenario.heightFt && scenario.freqMhz) {
+    const hLambda = scenario.heightFt / FT_PER_LAMBDA(scenario.freqMhz)
+    if (hLambda < 0.2) {
+      warnings.push({
+        tone: 'info',
+        text:
+          `Horizontal antenna at ${hLambda.toFixed(2)} λ is a "cloud warmer" — ` +
+          `it radiates mostly straight up, fine for regional NVIS but poor for DX. ` +
+          `Raising it to ${(0.5 * FT_PER_LAMBDA(scenario.freqMhz)).toFixed(0)} ft ` +
+          `(λ/2) would help a lot.`,
+      })
+    }
   }
 
   // Severe overall coax loss is worth calling out — a 6 dB feedline is a

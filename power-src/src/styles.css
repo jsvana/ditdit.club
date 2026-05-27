@@ -475,6 +475,65 @@ select.form-input {
   border: 2px solid var(--black);
 }
 
+.results-headline-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray);
+  margin-bottom: 0.5rem;
+}
+
+.results-tone-great .results-headline-label {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.results-secondary {
+  text-align: center;
+  padding: 1rem;
+  border-radius: 8px;
+  background: white;
+  border: 1.5px solid var(--black);
+  margin-bottom: 1.25rem;
+}
+
+.results-secondary-label {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+}
+
+.results-tooltip {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 400;
+  font-size: 0.78rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--gray);
+  margin-top: 0.15rem;
+}
+
+.results-secondary-numbers {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.form-label-extra {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  color: var(--pink-dark);
+}
+
 .results-tone-meh {
   background: var(--gray-lighter);
 }

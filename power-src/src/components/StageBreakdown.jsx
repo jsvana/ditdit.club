@@ -28,6 +28,13 @@ export default function StageBreakdown({ breakdown }) {
     dB: -breakdown.swrDb,
     watts: breakdown.radiatedW,
   })
+  if (Math.abs(breakdown.antGainDbi) > 0.01) {
+    rows.push({
+      label: 'Antenna gain (peak EIRP)',
+      dB: breakdown.antGainDbi,
+      watts: breakdown.peakEirpW,
+    })
+  }
 
   return (
     <div className="stage-breakdown">

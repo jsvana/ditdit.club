@@ -1,5 +1,6 @@
 import React from 'react'
 import { fmtDb, fmtW } from '../utils/calculations.js'
+import { ANTENNA_BY_ID } from '../constants/antennaData.js'
 
 // Renders a horizontal block diagram for one scenario. Loss values flow
 // between blocks on the connecting "cable" segments.
@@ -109,13 +110,28 @@ export default function SystemChain({ scenario, breakdown }) {
       ) : null}
       <Block
         icon={<AntennaIcon />}
-        label="Antenna"
-        sublabel={`SWR ${antennaSwr.toFixed(1)}:1`}
+        label={ANTENNA_BY_ID[scenario.antennaId]?.short ?? 'Antenna'}
+        sublabel={fmtDbi(breakdown.antGainDbi)}
         accent
-        note={`mismatch ${fmtDb(-breakdown.swrDb)}`}
+        note={antennaNote(breakdown, antennaSwr)}
       />
     </div>
   )
+}
+
+function fmtDbi(gain) {
+  return (gain >= 0 ? '+' : '') + gain.toFixed(1) + ' dBi'
+}
+
+function antennaNote(breakdown, antennaSwr) {
+  const parts = [`SWR ${antennaSwr.toFixed(1)}:1`]
+  if (breakdown.swrDb > 0.05) {
+    parts.push(`(${fmtDb(-breakdown.swrDb)})`)
+  }
+  if (breakdown.fbDb > 0) {
+    parts.push(`F/B ${breakdown.fbDb.toFixed(0)} dB`)
+  }
+  return parts.join(' ')
 }
 
 function labelForCoax(id) {

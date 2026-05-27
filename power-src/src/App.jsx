@@ -8,25 +8,33 @@ import StageBreakdown from './components/StageBreakdown.jsx'
 import WarningsBanner from './components/WarningsBanner.jsx'
 
 const DEFAULT_BEFORE = {
-  txPowerW: 5,
+  txPowerW: 100,
   coax1Id: 'rg8x',
-  coax1LengthFt: 25,
+  coax1LengthFt: 50,
   ampEnabled: false,
   ampOutputW: 100,
   coax2Id: 'rg8x',
   coax2LengthFt: 25,
   antennaSwr: 1.5,
+  antennaId: 'vert-elevated',
+  groundType: 'average',
+  heightFt: 30,
+  fbOverride: null,
 }
 
 const DEFAULT_AFTER = {
   txPowerW: 100,
-  coax1Id: 'lmr400',
+  coax1Id: 'rg8x',
   coax1LengthFt: 50,
   ampEnabled: false,
   ampOutputW: 600,
-  coax2Id: 'lmr400',
-  coax2LengthFt: 50,
+  coax2Id: 'rg8x',
+  coax2LengthFt: 25,
   antennaSwr: 1.2,
+  antennaId: 'dipole-horiz',
+  groundType: 'average',
+  heightFt: 35, // a 40m dipole at 35 ft = 0.25λ — not λ/2 = 70 ft
+  fbOverride: null,
 }
 
 const PRESETS = [
@@ -64,6 +72,27 @@ const PRESETS = [
     blurb: '3:1 mismatch vs. a properly tuned antenna',
     before: { ...DEFAULT_BEFORE, txPowerW: 100, antennaSwr: 3.0 },
     after: { ...DEFAULT_BEFORE, txPowerW: 100, antennaSwr: 1.2 },
+  },
+  {
+    id: 'low-vs-high-dipole',
+    name: 'Low dipole → high dipole',
+    blurb: '40m dipole at 25 ft vs. 60 ft',
+    before: { ...DEFAULT_BEFORE, antennaId: 'dipole-horiz', heightFt: 25 },
+    after: { ...DEFAULT_BEFORE, antennaId: 'dipole-horiz', heightFt: 60 },
+  },
+  {
+    id: 'vert-vs-dipole',
+    name: 'Vertical → horizontal dipole',
+    blurb: 'Ground-mounted vertical vs. dipole at λ/2',
+    before: { ...DEFAULT_BEFORE, antennaId: 'vert-buried', groundType: 'average' },
+    after: { ...DEFAULT_BEFORE, antennaId: 'dipole-horiz', heightFt: 70 },
+  },
+  {
+    id: 'dipole-to-yagi',
+    name: 'Dipole → 3-el Yagi',
+    blurb: 'The reason people put up towers',
+    before: { ...DEFAULT_BEFORE, antennaId: 'dipole-horiz', heightFt: 70 },
+    after: { ...DEFAULT_BEFORE, antennaId: 'yagi-3el' },
   },
 ]
 
@@ -169,12 +198,14 @@ export default function App() {
             title="Before"
             scenario={before}
             onChange={setBefore}
+            freqMhz={freqMhz}
           />
           <ScenarioForm
             title="After"
             scenario={after}
             onChange={setAfter}
             accent
+            freqMhz={freqMhz}
           />
         </div>
       </section>
