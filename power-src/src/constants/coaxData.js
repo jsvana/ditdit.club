@@ -30,6 +30,18 @@ export const COAX_TYPES = [
     lossPer100ft: [0.6, 0.9, 1.4, 2.1, 2.6, 3.1, 4.4, 7.5, 9.3, 13.0],
   },
   {
+    id: 'lmr195',
+    name: 'LMR-195',
+    blurb: '0.20" flexible RG-58 replacement — common in GPS/WiFi pigtails',
+    lossPer100ft: [0.48, 0.67, 0.95, 1.34, 1.65, 1.90, 2.55, 4.38, 5.42, 7.62],
+  },
+  {
+    id: 'lmr200',
+    name: 'LMR-200',
+    blurb: '0.20" low-loss jumper — better than RG-58, same diameter',
+    lossPer100ft: [0.43, 0.60, 0.85, 1.21, 1.48, 1.71, 2.29, 3.93, 4.85, 6.81],
+  },
+  {
     id: 'rg8x',
     name: 'RG-8X / Mini-8',
     blurb: '0.24" — popular portable cable, decent through HF',
@@ -46,6 +58,24 @@ export const COAX_TYPES = [
     name: 'RG-213',
     blurb: '0.40" — the classic base-station HF cable',
     lossPer100ft: [0.3, 0.4, 0.6, 1.0, 1.3, 1.5, 2.0, 3.5, 4.5, 6.6],
+  },
+  {
+    id: 'rg393',
+    name: 'RG-393',
+    blurb: '0.39" silver-plated PTFE Mil-Spec — high temp, expensive, similar loss to RG-213',
+    lossPer100ft: [0.31, 0.43, 0.60, 0.86, 1.05, 1.21, 1.62, 2.77, 3.42, 4.79],
+  },
+  {
+    id: 'belden9913',
+    name: 'Belden 9913',
+    blurb: '0.405" semi-solid PE — classic low-loss RG-8 replacement, but wicks water if breached',
+    lossPer100ft: [0.17, 0.24, 0.35, 0.49, 0.60, 0.69, 0.93, 1.60, 1.99, 2.80],
+  },
+  {
+    id: 'belden9913f7',
+    name: 'Belden 9913F7',
+    blurb: '0.405" foam-PE — water-resistant 9913 successor, loss class of LMR-400',
+    lossPer100ft: [0.19, 0.27, 0.38, 0.53, 0.66, 0.76, 1.02, 1.78, 2.21, 3.14],
   },
   {
     id: 'buryflex',
