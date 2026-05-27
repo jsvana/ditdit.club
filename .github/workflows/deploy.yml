@@ -30,6 +30,7 @@ jobs:
             prop-src/package-lock.json
             bandplan-src/package-lock.json
             adif-src/package-lock.json
+            power-src/package-lock.json
 
       - name: Install and build prop app
         working-directory: prop-src
@@ -43,6 +44,10 @@ jobs:
         working-directory: adif-src
         run: npm ci && npm run build
 
+      - name: Install and build power budget app
+        working-directory: power-src
+        run: npm ci && npm run build
+
       - name: Assemble site
         run: |
           mkdir -p _site
@@ -52,6 +57,7 @@ jobs:
           cp -r prop _site/
           cp -r bandplan _site/
           cp -r adif _site/
+          cp -r power _site/
           # Copy static apps
           cp -r trainer _site/
 

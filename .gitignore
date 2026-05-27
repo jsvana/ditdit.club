@@ -2,8 +2,10 @@
 /prop/
 /bandplan/
 /adif/
+/power/
 
 # Dependencies
 prop-src/node_modules/
 bandplan-src/node_modules/
 adif-src/node_modules/
+power-src/node_modules/
