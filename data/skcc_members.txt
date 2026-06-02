@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-06-02 01:08:42 UTC
+# Generated: 2026-06-02 02:08:56 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -21763,6 +21763,7 @@ VA3MA 🔑 Dan SKCC #23179
 VA3MHP 🔑 Mark SKCC #23198
 VA3MTC 🔑 Peter SKCC #25146
 VA3MWF 🔑 Michael SKCC #30464
+VA3NBW 🔑 Nathaniel SKCC #31117
 VA3NE 🔑 Kevin SKCC #28469
 VA3NED 🔑 Andrew SKCC #22785
 VA3NG 🔑 Donald SKCC #26774
@@ -21882,7 +21883,6 @@ VA6JLG 🔑 Jorge SKCC #28694
 VA6JT 🔑 Jose N. Jr. SKCC #21298
 VA6NN 🔑 BRENT SKCC #26735
 VA6OLD 🔑 Mike SKCC #30490
-VA6RX 🔑 Terry SKCC #30647
 VA6STN 🔑 Stanley Frederick SKCC #22516
 VA6TA 🔑 Thomas Charles SKCC #23861
 VA6TI 🔑 Tyler SKCC #26708
@@ -22480,6 +22480,7 @@ VE4JBB 🔑 Jessy SKCC #16454
 VE4JWC 🔑 Johnathon SKCC #6001
 VE4KON 🔑 Brian SKCC #30383
 VE4KRK 🔑 Kirk A SKCC #24279
+VE4MAC 🔑 SKCC #30647
 VE4MG 🔑 Malcolm LeRoy SKCC #13248S
 VE4MN 🔑 James Ernest SKCC #13353
 VE4MR 🔑 Kevin Ray SKCC #7607S
