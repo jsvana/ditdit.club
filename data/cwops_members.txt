@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-06-03 15:18:24 UTC
+# Generated: 2026-06-03 16:18:41 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -2521,7 +2521,6 @@ VK4TJF 🎹 James CWops #1191
 VK5FOC 🎹 Graeme CWops #3397
 VK5GG 🎹 Graeme CWops #3397
 VK6GX 🎹 Phil CWops #2425
-VK6HG 🎹 ROBIN THOMAS RICHARD CWops #1029
 VK6KM 🎹 Peter CWops #3344
 VK6LW 🎹 Kev CWops #3362
 VK6T 🎹 Kev CWops #3362
