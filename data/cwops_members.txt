@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-06-04 22:26:57 UTC
+# Generated: 2026-07-19 13:17:36 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -91,6 +91,7 @@ AC7T 🎹 Douglas A CWops #822
 AC8RG 🎹 WALTER CWops #2843
 AC8W 🎹 STANLEY K CWops #695
 AC9EZ 🎹 ANDREW J CWops #2342
+AC9M 🎹 Joshua R CWops #3963
 AC9XK 🎹 Alexandra A CWops #3750
 AD0AB 🎹 JAMES R CWops #2114
 AD0IU 🎹 Robert A CWops #864
@@ -126,6 +127,7 @@ AE2U 🎹 Michael R CWops #869
 AE4GS 🎹 GARY W CWops #3714
 AE4QQ 🎹 DAVID L CWops #1625
 AE4Y 🎹 KENT O CWops #2002
+AE4YO 🎹 MATTHEW G CWops #1586
 AE5EZ 🎹 Roger L CWops #3413
 AE5JT 🎹 Jeffrey M CWops #3389
 AE6EN 🎹 Kevin J CWops #2251
@@ -212,7 +214,7 @@ CE3FJK 🎹 Fernando CWops #3629
 CG3T 🎹 Yuri CWops #21
 CN8YR 🎹 Mohamed CWops #1656
 CO2IR 🎹 ING. FRANK CWops #1147
-CO6RD 🎹 Reinaldo H. Rodríguez Guzmán CWops #1898
+CO6RD 🎹 Reinaldo H. Rodríguez CWops #1898
 CO8NMN 🎹 Noel CWops #2082
 CO8ZZ 🎹 Raúl CWops #1682
 CR6K 🎹 Contest Call for CWops #2699
@@ -220,6 +222,7 @@ CT1BOH 🎹 JOSE CARLOS CARDOSO CWops #837
 CT1DRB 🎹 David CWops #430
 CT1ILT 🎹 Filipe CWops #2699
 CT7AGZ 🎹 Ken CWops #2126
+CT7ASV 🎹 Tim CWops #3953
 CT7AUP 🎹 David CWops #3356
 CU3AA 🎹 JOAO CWops #1804
 CX6VM 🎹 JORGE CWops #525
@@ -277,6 +280,7 @@ DL1NKB 🎹 BERND CWops #2486
 DL1NKS 🎹 Stefan CWops #2963
 DL1QQ 🎹 Alexandra ' Sandy ' CWops #1581
 DL1VDL 🎹 Hartmut CWops #2802
+DL2AJ 🎹 Dileep CWops #3952
 DL2CC 🎹 Frank CWops #511
 DL2COM 🎹 Leopold CWops #3885
 DL2NEW 🎹 Sven CWops #3126
@@ -304,6 +308,7 @@ DL8LAS 🎹 Andree CWops #3659
 DL8TG 🎹 Klaus-Dieter CWops #2524
 DL8XAB 🎹 Andreas CWops #3899
 DL9ABM 🎹 Stefan CWops #1922
+DL9PK 🎹 Phillip "Phil" CWops #3958
 DM1TT 🎹 n CWops #333
 DM3ZM 🎹 Harald CWops #3609
 DM4CW 🎹 Martin CWops #1870
@@ -343,7 +348,7 @@ EA6EJ 🎹 Iñigo CWops #3276
 EA7JW 🎹 DAVID CWops #1933
 EA8A 🎹 Luis Vicente CWops #1063
 EA8CN 🎹 ANDERS CWops #265
-EA8DNT 🎹 Glen B CWops #2178
+EA8DNT 🎹 CWops #2178
 EA8OM 🎹 Heijo CWops #425
 EA8ZS 🎹 Manuel CWops #907
 EC6PG 🎹 Xisco CWops #3555
@@ -429,7 +434,7 @@ G3YJQ 🎹 Fred CWops #1378
 G3YLA 🎹 Jim CWops #2015
 G3YSX 🎹 Stewart CWops #3891
 G4AXX 🎹 Mark CWops #1057
-G4BAA 🎹 CWops #2965
+G4BAA 🎹 JOHN, S. CWops #2965
 G4BFG 🎹 Ciemon CWops #3429
 G4BSW 🎹 NIGEL CWops #2083
 G4BUE 🎹 Christopher J. CWops #1294
@@ -438,6 +443,7 @@ G4DJX 🎹 ALAN CWops #3083
 G4DRS 🎹 John CWops #1457
 G4DYC 🎹 MICHAEL (Mike) CWops #2116
 G4E 🎹 Martin CWops #1294
+G4ETK 🎹 Chris CWops #3951
 G4FAD 🎹 RICH.J. CWops #547
 G4FNL 🎹 GRAHAM CWops #3423
 G4HLN 🎹 LARRY CWops #3073
@@ -468,6 +474,7 @@ G4TFF 🎹 PETER CWops #3816
 G4UZE 🎹 Chris CWops #2641
 G4WQI 🎹 DEAN M. CWops #3078
 G4XWJ 🎹 Tim CWops #3384
+G4YBU 🎹 TIM CWops #3953
 G4YTK 🎹 Steve CWops #3449
 G5CL 🎹 Ryan CWops #422
 G5END 🎹 Chris CWops #3494
@@ -475,6 +482,7 @@ G5HOW 🎹 Gavin CWops #3621
 G5KIT 🎹 Kit CWops #2080
 G5NLD 🎹 Dennis CWops #3618
 G5RAE 🎹 Graeme CWops #1983
+G5RRR 🎹 Nick CWops #3959
 G5VZ 🎹 Chris CWops #2877
 G7BED 🎹 Chris CWops #3431
 G7KSE 🎹 Alex CWops #3212
@@ -560,6 +568,7 @@ II3MPL 🎹 50 YEAR SEKTION CWops #1548
 IK0HBN 🎹 SANTE CWops #617
 IK0NOJ 🎹 DANIELE (DANY) CWops #1732
 IK0XCB 🎹 CLAUDIO (Clay) CWops #598
+IK0XFD 🎹 GIORDANO CWops #1570
 IK0YGJ 🎹 CARLO CWops #574
 IK0YVV 🎹 MARCO CWops #1505
 IK1HGE 🎹 ROBERTO CWops #2632
@@ -753,6 +762,8 @@ K2CJ 🎹 CARL J CWops #2201
 K2CUB 🎹 SCOTT R CWops #2030
 K2DB 🎹 Paul J CWops #686
 K2DIW 🎹 SETH CWops #2051
+K2DP 🎹 S DAVID CWops #3968
+K2DXO 🎹 Francis D CWops #3945
 K2EJ 🎹 STEVEN E CWops #3180
 K2EJT 🎹 Evan J CWops #3643
 K2GJ 🎹 Richard J CWops #2295
@@ -790,7 +801,7 @@ K2VCO 🎹 VICTOR B CWops #5
 K2VV 🎹 JOHN C CWops #2292
 K2WK 🎹 WALTER CWops #444
 K2XA 🎹 Saul M CWops #347
-K2XX 🎹 Bartolo J CWops #339
+K2XX/SK2026 🎹 Bartolo J CWops #339
 K2YGM 🎹 ROBERT P CWops #2130
 K2YR 🎹 CARL S CWops #2567
 K2YWE 🎹 DAN B CWops #395
@@ -907,6 +918,7 @@ K4WA 🎹 STEVEN R CWops #3251
 K4WJ 🎹 JOHN J CWops #193
 K4WSD 🎹 Allen CWops #3443
 K4WW 🎹 SHELBY E CWops #2017
+K4XU 🎹 RICHARD B CWops #1083
 K4YFH 🎹 James W CWops #1711
 K4YYL 🎹 ARTHUR H CWops #1177
 K4ZA 🎹 DON CWops #298
@@ -998,6 +1010,7 @@ K6NR 🎹 DANA F CWops #2380
 K6NV 🎹 ROBERT H CWops #675
 K6PB 🎹 PETER R CWops #2469
 K6RB 🎹 ROBERT S CWops #3
+K6RC 🎹 DAVID A CWops #2363
 K6RQT 🎹 Ryan C CWops #1172
 K6RR 🎹 ROBERT M CWops #1412
 K6RV 🎹 DONALD L CWops #1877
@@ -1201,6 +1214,7 @@ KC0VKN 🎹 JOSEPH P CWops #635
 KC0ZPS 🎹 Ron CWops #3662
 KC1BMD 🎹 Norman C CWops #3214
 KC1SDD 🎹 Devon M CWops #3768
+KC1SQ 🎹 TODD K CWops #3970
 KC2LSD 🎹 Richard J CWops #2627
 KC3FQF 🎹 Rostislav CWops #2783
 KC3M 🎹 JOHN V CWops #3099
@@ -1227,6 +1241,7 @@ KD2HE 🎹 Victor CWops #2536
 KD2KW 🎹 Kenneth E CWops #2478
 KD2RKN 🎹 Jason L CWops #2919
 KD2ST 🎹 Albert CWops #2711
+KD2UBJ 🎹 Richard J CWops #3954
 KD4AN 🎹 DANIEL H CWops #3168
 KD4EE 🎹 SCOTT A CWops #1330
 KD4OS 🎹 EMMETT W CWops #1188
@@ -1251,6 +1266,7 @@ KE0QKF 🎹 Michael T CWops #3277
 KE0TT 🎹 DAN W CWops #2260
 KE1B 🎹 RICH CWops #735
 KE1J 🎹 LARS O CWops #2037
+KE2AIZ 🎹 Magdalena G CWops #3955
 KE2CWO 🎹 CWops #20006
 KE2D 🎹 Robert C CWops #1796
 KE3X 🎹 KENNAN B CWops #460
@@ -1294,10 +1310,11 @@ KF7QNS 🎹 Helen J CWops #2958
 KF7WX 🎹 CHRISTIAN D CWops #3040
 KF7YHB 🎹 Wyatt L CWops #2564
 KF7Z 🎹 Daniel m CWops #1468
-KF8O 🎹 RONALD E CWops #2230
+KF8O 🎹 CWops #2230
 KF9D 🎹 ROGER E CWops #2068
 KF9LI 🎹 Nathan D CWops #3608
 KF9VV 🎹 JAMES D CWops #2452
+KG1A 🎹 THOMAS J CWops #3966
 KG1V 🎹 GEORGE L CWops #3262
 KG3V 🎹 THOMAS B CWops #1034
 KG4CRJ 🎹 BRIAN J CWops #2378
@@ -1335,10 +1352,8 @@ KI1U 🎹 MICHAEL P CWops #2327
 KI2N 🎹 Mark A CWops #2730
 KI3F 🎹 DENNIS A CWops #2008
 KI4MZC 🎹 Donald J CWops #1539
-KI4POV 🎹 Joseph W CWops #2952
 KI4XH 🎹 John F CWops #1206
 KI5DDO 🎹 Joseph M CWops #2950
-KI5GTR 🎹 Les D CWops #3655
 KI5IO 🎹 Nolan E CWops #2549
 KI6M 🎹 Johannes M CWops #2792
 KI6OY 🎹 LEE R CWops #2013
@@ -1363,6 +1378,7 @@ KK0U 🎹 JAMES M CWops #3067
 KK1CWO 🎹 CWops #20008
 KK1MM 🎹 MICHAEL N CWops #1272
 KK1W 🎹 JAMES A CWops #2479
+KK4DX 🎹 LANCE K CWops #3961
 KK4E 🎹 Don L CWops #3654
 KK4R 🎹 ROBERT T CWops #1953
 KK5NA 🎹 JOSEPH CWops #1523
@@ -1370,6 +1386,7 @@ KK6I 🎹 RONALD S CWops #2135
 KK6M 🎹 DAVID R CWops #2177
 KK6ZHK 🎹 Kenneth R CWops #2686
 KK7A 🎹 JAMES A CWops #1975
+KK7D 🎹 Michael A CWops #3967
 KK7DEU 🎹 Thomas G CWops #3336
 KK7L 🎹 JOHN P CWops #2599
 KK7PW 🎹 Jonathan M CWops #3211
@@ -1414,6 +1431,7 @@ KN5CWO 🎹 CWops #20009
 KN6IPE 🎹 Dennis CWops #2928
 KN6OMN 🎹 DONALD A CWops #3258
 KN6RDC 🎹 Dana CWops #3730
+KN6UDK 🎹 WILLIAM C CWops #3948
 KN6VQ 🎹 Jacques CWops #3748
 KN7A 🎹 TERRILL R CWops #3063
 KN7T 🎹 MARK A CWops #2274
@@ -1634,6 +1652,7 @@ N1DC 🎹 Richard C CWops #1257
 N1DG 🎹 DONALD R CWops #2
 N1EN 🎹 Michael D CWops #1247
 N1FG 🎹 Sydney L CWops #2012
+N1JD 🎹 JOHN P CWops #3962
 N1KB 🎹 Douglas H CWops #3679
 N1KJ 🎹 PETER R CWops #3905
 N1KW 🎹 ROBERT C CWops #1022
@@ -1776,6 +1795,7 @@ N4KHZ 🎹 JOHN S CWops #2620
 N4KS 🎹 KENNETH A CWops #1274
 N4KW 🎹 WALLACE H CWops #1638
 N4LSJ 🎹 Thomas S CWops #3094
+N4NPN 🎹 JOSEPH W CWops #2952
 N4NQ 🎹 SIDNEY B CWops #1611
 N4OI 🎹 Kenneth D CWops #1536
 N4OK 🎹 ROBERT J CWops #3023
@@ -1839,7 +1859,7 @@ N5OE 🎹 CARLIN D CWops #983
 N5OP 🎹 KIMBERLY L CWops #3581
 N5OT 🎹 MARK D CWops #2198
 N5RP 🎹 CHARLES R CWops #1797
-N5RR 🎹 WILLIAM R CWops #226
+N5RR 🎹 Jon CWops #226
 N5RZ 🎹 RALPH E CWops #1221
 N5SGQ 🎹 Alvin D CWops #3634
 N5TJ 🎹 JEFFREY S CWops #3016
@@ -1868,6 +1888,7 @@ N6IET 🎹 Richard A CWops #1466
 N6KI 🎹 Dennis R CWops #1380
 N6KN 🎹 ROCCO J CWops #3015
 N6LRA 🎹 CWops #2244
+N6MIV 🎹 Marlin C CWops #3950
 N6MJ 🎹 DANIEL M CWops #2164
 N6NC 🎹 HENRY L CWops #1290
 N6NF 🎹 THOMAS E CWops #2011
@@ -1888,7 +1909,6 @@ N6ZFO 🎹 WILLIAM F CWops #101
 N7AUE 🎹 JAMES M CWops #3237
 N7BAS 🎹 Barbara A CWops #3479
 N7DX 🎹 ANTHONY C CWops #2764
-N7DZ 🎹 WILLIAM E CWops #3713
 N7EES 🎹 Mikel L CWops #3765
 N7FUL 🎹 Steve CWops #3091
 N7HCN 🎹 JOHN W CWops #1914
@@ -1919,6 +1939,7 @@ N7US 🎹 JAMES E CWops #486
 N7VS 🎹 STEPHEN C CWops #3591
 N7WA 🎹 MICHAEL W CWops #3395
 N7WFO 🎹 Ken CWops #1604
+N7WMN 🎹 DAVID E CWops #3960
 N7WY 🎹 ROBERT W CWops #1406
 N7YT 🎹 WILLIAM D CWops #1271
 N7YY 🎹 Daniel W CWops #1865
@@ -2012,6 +2033,7 @@ NE4EA 🎹 ALTON W CWops #3197
 NE4EI 🎹 DAVID P CWops #2856
 NE5A 🎹 GEORGE D CWops #3033
 NE5ET 🎹 PERRY C CWops #3047
+NE6ET 🎹 Shin I CWops #2835
 NE6NE 🎹 ZHUO CWops #3117
 NE7D 🎹 Rocky A CWops #829
 NE7EE 🎹 Christoph K CWops #2616
@@ -2097,6 +2119,7 @@ NP4Z 🎹 FELIPE J CWops #350
 NQ1B 🎹 Catherine A CWops #3692
 NQ1DX 🎹 CWops #191
 NQ2W 🎹 ANTHONY W CWops #3419
+NQ5A 🎹 Les D CWops #3655
 NQ6N 🎹 MATTHEW M CWops #1013
 NR1R 🎹 REYNOLDS A CWops #841
 NR3N 🎹 ANGEL L CWops #1792
@@ -2188,6 +2211,7 @@ ON6AB 🎹 Bruno CWops #3606
 ON6LY 🎹 Francis (Cis) CWops #2429
 ON6WP 🎹 Paul CWops #1009
 ON7PQ 🎹 PAT CWops #2365
+OO5A 🎹 Erik CWops #3942
 OP4A 🎹 Francis (Cis) CWops #2429
 OT4V 🎹 Danny CWops #2170
 OY1CT 🎹 Carsten CWops #797
@@ -2316,6 +2340,7 @@ SM7GIB 🎹 Mats CWops #3672
 SM7GVF 🎹 KJELL CWops #3865
 SM7IUN 🎹 Björn CWops #2101
 SM7RYR 🎹 Roger CWops #1855
+SM7T 🎹 Kjell CWops #3865
 SM9X 🎹 CWops #2548
 SO5CW 🎹 Fabian CWops #1566
 SP1D 🎹 Robert CWops #2542
@@ -2331,7 +2356,8 @@ SP7AJ 🎹 Arek CWops #3496
 SP7N 🎹 PIOTR CWops #3147
 SP7OGP 🎹 Piotr CWops #3147
 SP9MUF 🎹 Piotr CWops #3762
-SQ2HZ 🎹 _ Andy CWops #3813
+SQ2HZ 🎹 [ Andy CWops #3813
+SQ2MO 🎹 Michał CWops #3956
 SQ5AZY 🎹 Bogdan CWops #3495
 SQ5VCO 🎹 Adam CWops #2781
 SQ6GIT 🎹 Konrad CWops #2045
@@ -2399,6 +2425,7 @@ VA3RRK 🎹 Rowan T CWops #746
 VA3SB 🎹 Serge CWops #1488
 VA3TAR 🎹 Ted CWops #3504
 VA3TMV 🎹 Timothy M CWops #3345
+VA3UZ 🎹 Allan Timothy CWops #3949
 VA3WHU 🎹 Carole A KIng CWops #2773
 VA4ADM 🎹 Paul CWops #3474
 VA4JP 🎹 Jack C CWops #1047
@@ -2414,12 +2441,15 @@ VA7NJI 🎹 Scott CWops #2348
 VA7QCE 🎹 Carole CWops #1913
 VA7ST 🎹 Buddy Erle CWops #1622
 VA7YE 🎹 Denise CWops #3880
+VB7F 🎹 Gabor CWops #3603
+VC3F 🎹 Gabor CWops #3604
 VE1AAC 🎹 Glenn Allison CWops #457
 VE1AOE 🎹 Donald Malcolm CWops #1703
 VE1AQF 🎹 Glenn A CWops #457
 VE1DT 🎹 Gerald Joseph CWops #941
 VE1EM 🎹 Jesse CWops #3522
 VE1IJ 🎹 Glenn Allison CWops #457
+VE1KM 🎹 Jim CWops #3965
 VE1RM 🎹 Gerald CWops #191
 VE2AEJ/SK2025 🎹 Alan Kenneth CWops #336
 VE2BWL 🎹 Guy CWops #859
@@ -2533,9 +2563,9 @@ VL3Q 🎹 Peter CWops #3344
 VO1AAM 🎹 Yuri CWops #21
 VO1BQ 🎹 Joseph C CWops #1325
 VO1CV 🎹 Max CWops #3068
-VO1FX 🎹 CWops #2049
+VO1FX 🎹 ROGER C CWops #2049
 VO1KGZ 🎹 GORDON CWops #3552
-VO1WIN 🎹 Canam Contestine Club CWops #191
+VO1WIN 🎹 Canam Contesting Club CWops #191
 VO2AC 🎹 Christopher Llewellyn CWops #2778
 VP2MVV 🎹 Ken CWops #697
 VP2MXF 🎹 Nigel CWops #166
@@ -2659,6 +2689,7 @@ W2ITT 🎹 Robert F CWops #2948
 W2IY 🎹 MICHAEL J CWops #3031
 W2JAZ 🎹 RICHARD J CWops #2239
 W2KA 🎹 MICHAEL A CWops #3161
+W2KS 🎹 Kenneth L CWops #3964
 W2KU 🎹 Vincent J CWops #3124
 W2LCQ 🎹 EDWARD G CWops #701
 W2LJ 🎹 LAWRENCE J CWops #1005
@@ -2689,6 +2720,7 @@ W2YR 🎹 JOHN P CWops #751
 W2ZRA 🎹 Kevin M CWops #942
 W3ASW 🎹 MICHAEL J CWops #3528
 W3ATT 🎹 BRIAN A CWops #1301
+W3AUV 🎹 John J CWops #1028
 W3BBO 🎹 ROBERT C CWops #1245
 W3BG 🎹 JAMES C CWops #2892
 W3BI 🎹 Richard C CWops #794
@@ -2727,6 +2759,7 @@ W3YY 🎹 ROBERT T CWops #517
 W3ZF 🎹 DANIEL T CWops #3069
 W4ARB 🎹 AARON R CWops #3777
 W4AU 🎹 JOHN D CWops #224
+W4BD 🎹 Marcus CWops #3946
 W4BR 🎹 JOHN M CWops #1273
 W4BUW 🎹 GEORGE M CWops #1023
 W4CC 🎹 James S CWops #1284
@@ -2740,6 +2773,7 @@ W4DKS 🎹 DANIEL K CWops #321
 W4DL 🎹 MICHAEL J CWops #3363
 W4DXX 🎹 ERIC D CWops #1040
 W4EDE 🎹 LEOPOLD J CWops #30
+W4EMW 🎹 EDWARD M CWops #3947
 W4ER 🎹 John D CWops #1189
 W4FMM 🎹 ROBERT B CWops #3353
 W4FOA 🎹 BURNS J CWops #229
@@ -2843,6 +2877,7 @@ W6CWO 🎹 CWops #20016
 W6DER 🎹 Derek C CWops #3186
 W6EU 🎹 JAMES C CWops #317
 W6GA 🎹 GARY J CWops #3861
+W6IZT 🎹 GREGG L CWops #3616
 W6JIM 🎹 JAMES A CWops #2886
 W6JMP 🎹 GENE F CWops #1120
 W6JY 🎹 James S CWops #3850
@@ -2961,7 +2996,6 @@ W9NJY 🎹 ANDREW J CWops #1348
 W9NX 🎹 Dwight K CWops #866
 W9NXM 🎹 JOEL A CWops #1841
 W9PJ 🎹 PAUL F CWops #1359
-W9QF 🎹 MATTHEW G CWops #1586
 W9RE 🎹 MICHAEL J CWops #526
 W9RNY 🎹 MIKE D CWops #2199
 W9SN 🎹 STEVE J CWops #642
@@ -2978,7 +3012,7 @@ W9YK 🎹 E F CWops #2509
 W9ZR 🎹 RANDY C CWops #740
 W9ZSJ 🎹 GEORGE C CWops #3106
 WA0I 🎹 RANDALL T CWops #3299
-WA0USA 🎹 CWops #645
+WA0USA 🎹 Thomas T CWops #645
 WA1BXY 🎹 Donald A CWops #2601
 WA1NTA 🎹 GEORGE E CWops #499
 WA1S 🎹 ANN M CWops #196
@@ -2998,6 +3032,7 @@ WA3AAN 🎹 Grant CWops #2064
 WA3AER 🎹 Theodore H CWops #1879
 WA3GM 🎹 GREGORY J CWops #1827
 WA3JJT 🎹 STEPHEN B CWops #2914
+WA3N 🎹 CHRISTIAN M CWops #3969
 WA3RWP/SK2025 🎹 WALTER W CWops #3142
 WA4IAR 🎹 DAVID R CWops #3383
 WA4JUK 🎹 Joseph W CWops #1702
@@ -3017,6 +3052,7 @@ WA7CPA 🎹 Robin L CWops #3004
 WA7HJV 🎹 JACK R CWops #1239
 WA7KVI 🎹 Wesley CWops #2729
 WA7LNW 🎹 Jack M CWops #2454
+WA7SPY 🎹 GLENN A CWops #3957
 WA8IWK 🎹 ALLEN M CWops #1061
 WA8KAN 🎹 David C CWops #1961
 WA8OJR 🎹 BRUCE W CWops #1850
@@ -3085,6 +3121,7 @@ WC4E 🎹 JEFF CWops #1715
 WC4X 🎹 Ned L CWops #2111
 WC6Y 🎹 ROBERT K CWops #2155
 WC7S 🎹 DALE E CWops #404
+WC9C 🎹 Dean A CWops #3944
 WD0END 🎹 Ronald J CWops #3018
 WD4CFN 🎹 STEVE A CWops #2228
 WD4EX 🎹 VAL L CWops #1546
@@ -3125,6 +3162,7 @@ WJ9B 🎹 WILLIE L CWops #1085
 WK0P 🎹 David J CWops #2197
 WK5N 🎹 JOHN K CWops #2150
 WM3A 🎹 Dale E CWops #3323
+WM3PEN 🎹 CWops #1392
 WM4I 🎹 BEECHER B CWops #1798
 WM4Q 🎹 ROBERT W CWops #3464
 WM6T 🎹 W Tracy CWops #3125
