@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-07-19 19:22:14 UTC
+# Generated: 2026-07-19 20:22:54 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -3151,6 +3151,7 @@ F4JHI 🔑 LAURENT-PIERRE SKCC #26474
 F4JKY 🔑 Ghislain SKCC #28086
 F4JWJ 🔑 Pierre SKCC #28822
 F4JWV 🔑 Sylvain SKCC #29386
+F4JYA 🔑 ARNAUD SKCC #31248
 F4JYD 🔑 Denis SKCC #24055
 F4LSJ 🔑 didier "Did" SKCC #29548
 F4NKX 🔑 JAMES SKCC #31181
