@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-07-20 14:35:27 UTC
+# Generated: 2026-07-20 15:36:08 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -25845,7 +25845,6 @@ W6VXP 🔑 Ted E SKCC #14695
 W6VYC 🔑 DAVID W SKCC #23810
 W6WAW 🔑 Salvatore A SKCC #2801
 W6WCL 🔑 William C SKCC #14495
-W6WF 🔑 LYLE E SKCC #13323
 W6WG 🔑 Ronald J SKCC #2126T
 W6WR 🔑 Patrick L SKCC #23170
 W6WRA 🔑 William R SKCC #7001
@@ -30345,7 +30344,6 @@ ZS6EA 🔑 VIctor Philip SKCC #17170
 ZS6FN 🔑 Frank SKCC #25109
 ZS6HK 🔑 John SKCC #5758
 ZS6IO 🔑 Paul G SKCC #14333
-ZS6JBJ/SK2026 🔑 JOHN SKCC #3808S
 ZS6KK 🔑 SKCC #22186
 ZS6KMD 🔑 Kevin SKCC #16702
 ZS6KVZ 🔑 Kobie SKCC #28368
