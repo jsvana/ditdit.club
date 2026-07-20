@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-07-20 15:36:08 UTC
+# Generated: 2026-07-20 16:36:49 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -29986,7 +29986,6 @@ XQ8FGC 🔑 Didier SKCC #2450
 XU7AKG/SK2025 🔑 Dave SKCC #27546
 XU7AKP 🔑 Franco SKCC #20610
 YB0ANV 🔑 Dadang SKCC #5008
-YB0BNX 🔑 T. TJAHJONO SKCC #12506
 YB0BP 🔑 JUNUS SKCC #1673
 YB0ECT 🔑 R SKCC #1277
 YB0NSI 🔑 Djojo (JOY) SKCC #12489
