@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-07-21 12:50:50 UTC
+# Generated: 2026-07-21 13:51:31 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -587,6 +587,7 @@ IS0AFM 🎹 SIMONE CWops #692
 IS0FQK 🎹 PATRIZIO ETTORE CWops #3316
 IT9BLB 🎹 Giuseppe CWops #2138
 IT9GSF 🎹 FABIO CWops #3796
+IT9IVU 🎹 Daniele CWops #3971
 IT9KCD 🎹 GAETANO G. CWops #3653
 IT9MUO 🎹 Alfonso (Alf) CWops #1569
 IT9ORA 🎹 GIOVANNI B. CWops #3870
