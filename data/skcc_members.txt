@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-07-22 21:15:47 UTC
+# Generated: 2026-07-22 22:16:33 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -16389,6 +16389,7 @@ M8HFO 🔑 Simon S SKCC #26613
 M8JXY 🔑 Ivor SKCC #30518
 M8LVK 🔑 Brian SKCC #28691
 M9BLX 🔑 DAVID SKCC #25704
+M9KEY 🔑 Michael SKCC #20701
 M9MSB 🔑 Makita Serenity SKCC #29679
 M9PHL 🔑 Phil SKCC #21004
 M9WRD 🔑 Luke SKCC #28846
