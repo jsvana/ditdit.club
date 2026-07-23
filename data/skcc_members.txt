@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-07-23 20:32:50 UTC
+# Generated: 2026-07-23 21:33:34 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -4353,6 +4353,7 @@ IN3KXU 🔑 ERICH SKCC #11077
 IN3NJB 🔑 Roberto SKCC #19342
 IN3PPH 🔑 Sandro SKCC #23187
 IN3RWF 🔑 Angelo SKCC #30143
+IN3UFW 🔑 Marco SKCC #31258
 IN3ZWF 🔑 JOSEF (PEPI) SKCC #10466
 IQ1YY 🔑 Torino SKCC #16171
 IS0AFM 🔑 SIMONE SKCC #6661
