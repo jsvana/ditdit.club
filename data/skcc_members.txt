@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-07-24 20:49:51 UTC
+# Generated: 2026-07-24 21:50:36 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -20686,6 +20686,7 @@ OK5NN 🔑 Jiri SKCC #6014T
 OK7AN 🔑 Petr SKCC #4838
 OK8RF 🔑 Manoel SKCC #9886
 OM1AX 🔑 VLADO SKCC #19345
+OM1BUF 🔑 Mikhail SKCC #31262
 OM1DR 🔑 Martin SKCC #28625
 OM3TBG 🔑 Milan SKCC #2205
 OM3TPN 🔑 Milan SKCC #27575
