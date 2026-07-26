@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-07-26 22:24:54 UTC
+# Generated: 2026-07-26 23:25:35 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -2390,6 +2390,7 @@ DD7NT 🔑 Matthias SKCC #10976
 DD8ALO 🔑 Alois SKCC #16598
 DD8EI 🔑 Ludger SKCC #27368
 DF1ALA 🔑 Alan Michael SKCC #24768
+DF1ANG 🔑 Antje SKCC #31270
 DF1BV 🔑 Andreas SKCC #15727
 DF1DV 🔑 Marcus SKCC #16593
 DF1GRA 🔑 Sven-Orjan SKCC #17929
@@ -16178,6 +16179,7 @@ M0KCP 🔑 Rob SKCC #12186
 M0KFH 🔑 Ian SKCC #27534
 M0KHZ 🔑 Kevin SKCC #4449
 M0KIS 🔑 Allan SKCC #7937
+M0KKB 🔑 Stephen M SKCC #18793
 M0KKZ 🔑 Stuart SKCC #26308
 M0KPJ 🔑 Mike SKCC #19993
 M0KTZ 🔑 Vincenzo SKCC #24805
@@ -24575,7 +24577,6 @@ W3SHP 🔑 KEITH D SKCC #26854
 W3SI 🔑 WILLIAM F SKCC #22628S
 W3SKY 🔑 O. Mauricio SKCC #30798
 W3SLD 🔑 Daniel E SKCC #27574
-W3SMK 🔑 STEPHEN M SKCC #18793
 W3SML 🔑 Shannon M SKCC #28767
 W3SOC 🔑 Merwin B SKCC #18724
 W3SQ 🔑 Mel A SKCC #691
