@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-07-29 16:10:21 UTC
+# Generated: 2026-07-29 17:11:03 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -23936,6 +23936,7 @@ W1RSX 🔑 Michael E SKCC #14845
 W1RV 🔑 RICHARD P SKCC #497
 W1RVL 🔑 RALPH V SKCC #15784
 W1SAV 🔑 Walter L SKCC #25305
+W1SCD 🔑 Shaun SKCC #31282
 W1SCW 🔑 Shawn C SKCC #2664
 W1SFJ 🔑 Cory SKCC #31130
 W1SFR 🔑 STEPHEN F SKCC #9103S
