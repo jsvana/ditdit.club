@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-05 12:49:43 UTC
+# Generated: 2026-08-05 13:49:57 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -530,6 +530,7 @@ HA5MA 🎹 Laszlo (Laci) CWops #3286
 HA5NR 🎹 Gabor CWops #2471
 HA6NL 🎹 LASZLO CWops #3400
 HA7AP 🎹 Imre CWops #808
+HA7RJA 🎹 Rob CWops #3975
 HA9RC 🎹 Zoltan CWops #2766
 HA9RT 🎹 JOZSEF CWops #1213
 HB9AJP 🎹 Christoph CWops #3269
