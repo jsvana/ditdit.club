@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-05 16:50:42 UTC
+# Generated: 2026-08-05 17:50:56 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -16024,7 +16024,6 @@ LB7DJ 🔑 Jaran F. SKCC #28270
 LB7UG 🔑 Riyas SKCC #13866
 LB8IG 🔑 Vladislav SKCC #18569
 LB8VA 🔑 Ivar SKCC #29339
-LT4A 🔑 Horacio - CW 'HOC' SKCC #2893C
 LU1AAU 🔑 Ezequiel A. SKCC #27015
 LU1ALY 🔑 SKCC #30324
 LU1AW 🔑 JUAN ANTONIO SKCC #17240
@@ -16054,6 +16053,7 @@ LU4GL 🔑 Ricardo Armando SKCC #425
 LU4VI 🔑 Javier SKCC #5803
 LU4VS 🔑 Sergio SKCC #15259
 LU4XAP 🔑 FERNANDO HECTOR SKCC #19396
+LU5BE 🔑 Horacio SKCC #2893C
 LU5DF 🔑 Osvaldo A. SKCC #17251
 LU5DIT 🔑 JUAN SKCC #423
 LU5ESL 🔑 Lucrecia "Mab" SKCC #31180
