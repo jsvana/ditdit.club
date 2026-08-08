@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-08 11:06:24 UTC
+# Generated: 2026-08-08 12:06:38 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -13908,6 +13908,7 @@ KJ5LMZ 🔑 Daren SKCC #31023
 KJ5LOP 🔑 Seth M SKCC #30250
 KJ5MCI 🔑 Thomas A SKCC #30660
 KJ5NUJ 🔑 Ross SKCC #30741
+KJ5NVF 🔑 Maverick SKCC #31309
 KJ5OCS 🔑 James SKCC #30825
 KJ5R 🔑 DAVID M SKCC #19181
 KJ5RE 🔑 CHARLES A SKCC #17518
@@ -22621,6 +22622,7 @@ VE4AEA 🔑 Lloyd M SKCC #13127S
 VE4AEK 🔑 Stanley Bruce SKCC #4471
 VE4AHN 🔑 Kevin SKCC #11306
 VE4AMS 🔑 Paul SKCC #22618
+VE4ANE 🔑 James H SKCC #31308
 VE4BAW 🔑 Geoff SKCC #20002
 VE4BWG 🔑 James T. SKCC #30519
 VE4CWF 🔑 Christopher W SKCC #10492T
