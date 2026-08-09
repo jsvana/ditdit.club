@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-09 17:13:08 UTC
+# Generated: 2026-08-09 18:13:22 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -18575,6 +18575,7 @@ N6KLA 🔑 Dennis A SKCC #17662
 N6KM 🔑 Brooks A SKCC #25482
 N6KN 🔑 ROCCO J SKCC #6207
 N6KX 🔑 Robert D SKCC #3724
+N6KYL 🔑 Stephen A SKCC #31317
 N6KZ 🔑 JAMES A SKCC #2465S
 N6KZN 🔑 WALTER N SKCC #12321
 N6LBM 🔑 MERRILL A SKCC #10592
