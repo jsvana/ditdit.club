@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-10 18:18:58 UTC
+# Generated: 2026-08-10 19:19:12 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -1295,6 +1295,7 @@ KE8AQW 🎹 Michael D CWops #2883
 KE8BWA 🎹 Andrew R CWops #3056
 KE8EON 🎹 James E CWops #3707
 KE8G 🎹 JAMES J CWops #1616
+KE8LQR 🎹 Katherine E CWops #3976
 KE8NJW 🎹 Jeffrey S CWops #3297
 KE8QFO 🎹 David C CWops #3840
 KE8TBM 🎹 Fred H CWops #3771
