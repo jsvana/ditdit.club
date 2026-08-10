@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-10 13:17:47 UTC
+# Generated: 2026-08-10 14:18:02 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -4672,6 +4672,7 @@ JA0FVU 🔑 Taka SKCC #13456C
 JA0IND 🔑 Jin H SKCC #8240C
 JA1AAA 🔑 KOBAYASHI SKCC #4207
 JA1ADP 🔑 Nobie SKCC #26555
+JA1EUR 🔑 Norio SKCC #31320
 JA1GQC 🔑 TAKASAKI SKCC #26641
 JA1GZV 🔑 Moto Motoaki SKCC #8581
 JA1HAO 🔑 SKCC #3109
