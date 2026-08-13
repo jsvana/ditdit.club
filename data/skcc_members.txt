@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-13 19:36:46 UTC
+# Generated: 2026-08-13 20:37:01 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -3815,6 +3815,7 @@ G7ENA 🔑 DAPHNE SKCC #30945
 G7FVA/SK2023 🔑 Richard SKCC #20259
 G7HNQ 🔑 Doug SKCC #11351
 G7IDB 🔑 David SKCC #19546
+G7IRN 🔑 Mark SKCC #31329
 G7JAF 🔑 Andrew SKCC #23691
 G7JHU 🔑 Steve SKCC #18392
 G7JMZ 🔑 John SKCC #9268
