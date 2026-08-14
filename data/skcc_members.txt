@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-14 13:41:05 UTC
+# Generated: 2026-08-14 14:41:20 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -10831,6 +10831,7 @@ KC8TEO 🔑 LLOYD C SKCC #2739
 KC8THY 🔑 John SKCC #5443
 KC8TPI 🔑 Eugene W SKCC #1666
 KC8TQP 🔑 John P SKCC #1585
+KC8TRN 🔑 Benjamin M SKCC #31332
 KC8TVW 🔑 Steven L SKCC #13101
 KC8TZU 🔑 Richard P SKCC #1795
 KC8UER 🔑 Thomas W SKCC #19267
