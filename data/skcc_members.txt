@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-16 20:55:32 UTC
+# Generated: 2026-08-16 21:55:49 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -22071,6 +22071,7 @@ VA6TI 🔑 Tyler SKCC #26708
 VA6TPM 🔑 Paul SKCC #27761
 VA6TTX 🔑 Paul SKCC #20122
 VA6UTC 🔑 Jason SKCC #16848
+VA6UX 🔑 David C. SKCC #10495T
 VA6YB 🔑 James (Jamie) SKCC #26885
 VA7AAX 🔑 Akshay SKCC #5698
 VA7ADI 🔑 Adrian SKCC #15129
@@ -22129,7 +22130,6 @@ VA7TEV 🔑 Thomas William SKCC #20264
 VA7TIW 🔑 Timothy Yeow Hong SKCC #7456
 VA7TWL 🔑 Tom SKCC #29658
 VA7UNX 🔑 Hugh Patrick SKCC #21396
-VA7UX 🔑 David C. SKCC #10495T
 VA7UZ 🔑 Kishore Kumar SKCC #18033
 VA7VAD 🔑 Nicholas SKCC #20189
 VA7VTT 🔑 Daniel SKCC #23529
