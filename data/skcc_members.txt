@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-17 00:56:30 UTC
+# Generated: 2026-08-17 01:56:46 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -16061,6 +16061,7 @@ LU2YBK 🔑 PABLO CARLOS JAVIER SKCC #28077
 LU3EAQ 🔑 FRANCISCO SKCC #130
 LU3EAR 🔑 Roberto SKCC #25238
 LU3EHR 🔑 Nicolas F SKCC #6690
+LU3HDM 🔑 Marcos  SKCC #31338
 LU3HO 🔑 Ing. Andres Esteban SKCC #16671
 LU3JVO 🔑 Victor SKCC #517
 LU3WG 🔑 Carlos Guillermo "Willi" SKCC #16108
