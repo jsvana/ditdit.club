@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-18 21:18:04 UTC
+# Generated: 2026-08-18 22:18:19 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -2509,6 +2509,7 @@ VE3RIA 🎹 Andrew CWops #1025
 VE3SIF 🎹 Ron CWops #3082
 VE3TM 🎹 Vlad CWops #2543
 VE3TMK 🎹 David CWops #3019
+VE3UEF 🎹 Ron CWops #3082
 VE3UTT 🎹 Art CWops #2647
 VE3VGI 🎹 John Harold CWops #1373
 VE3VTG 🎹 Enzo CWops #2120
@@ -3283,4 +3284,3 @@ ZS1EL 🎹 VIDI CWops #13
 ZS1X 🎹 DIRK CWops #1106
 ZS2M 🎹 Rudi CWops #3420
 ZS6DX 🎹 Rudi CWops #3420
-ZS6MSW 🎹 Michael CWops #3247
