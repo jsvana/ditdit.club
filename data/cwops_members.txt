@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-18 00:02:27 UTC
+# Generated: 2026-08-18 01:03:53 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -437,7 +437,7 @@ G4AXX 🎹 Mark CWops #1057
 G4BAA 🎹 JOHN, S. CWops #2965
 G4BFG 🎹 Ciemon CWops #3429
 G4BSW 🎹 NIGEL CWops #2083
-G4BUE 🎹 Christopher J. CWops #1294
+G4BUE 🎹 Christopher J CWops #1294
 G4CPA 🎹 Geoffrey Sultan CWops #1149
 G4DJX 🎹 ALAN CWops #3083
 G4DRS 🎹 John CWops #1457
@@ -454,7 +454,7 @@ G4ILW 🎹 James CWops #1729
 G4IRN 🎹 John CWops #268
 G4IVV 🎹 Jonathan CWops #3455
 G4IZZ 🎹 Mike CWops #2511
-G4KKU 🎹 Andrew CWops #3562
+G4KKU 🎹 A CWops #3562
 G4KLE 🎹 Mervyn S CWops #3283
 G4KQY 🎹 Michael CWops #2987
 G4LPP 🎹 Philip M CWops #2547
@@ -2495,7 +2495,7 @@ VE3KIU 🎹 David CWops #3077
 VE3KP 🎹 Kenneth Lloyd CWops #1246
 VE3KZ 🎹 Robert CWops #2585
 VE3MA 🎹 Alex CWops #1860
-VE3MGY 🎹 Brian W. CWops #1285
+VE3MGY 🎹 Brian CWops #1285
 VE3MM 🎹 Richard John CWops #1947
 VE3MRX 🎹 William Albert CWops #3480
 VE3MV 🎹 Douglas W CWops #1642
@@ -3272,7 +3272,7 @@ ZL1FOC 🎹 Jacky CWops #3270
 ZL2AIM 🎹 Ian CWops #1174
 ZL2KE 🎹 Steve CWops #1281
 ZL3CW 🎹 Jacky CWops #3270
-ZL4BDG 🎹 Benjamin D CWops #3382
+ZL4BDG 🎹 Ben CWops #3382
 ZM1A 🎹 JACKY CWops #3270
 ZP9MCE 🎹 Manu CWops #3103
 ZR2A 🎹 Ulrich CWops #2470
