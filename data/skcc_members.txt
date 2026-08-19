@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-19 21:23:41 UTC
+# Generated: 2026-08-19 22:23:54 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -3916,6 +3916,7 @@ GM1DLS 🔑 SKCC #14971
 GM1VUT 🔑 Charlie SKCC #13978
 GM3JOB 🔑 G.Rodger (Rod) SKCC #23640
 GM3JW 🔑 John SKCC #24752
+GM3RIC 🔑 Eric SKCC #28804
 GM3YEH 🔑 Barry SKCC #28219
 GM3YKA 🔑 John SKCC #11545
 GM3ZDH 🔑 ROBERT SKCC #6027T
@@ -16501,7 +16502,6 @@ MM6DUV 🔑 Doug SKCC #12891
 MM6EEQ 🔑 SKCC #26296
 MM6ZGT 🔑 Graeme SKCC #16809
 MM7BFL 🔑 Laura K SKCC #28677
-MM7FEB 🔑 SKCC #28804
 MM7HNG 🔑 Colin SKCC #29933
 MM7IVK 🔑 Charles SKCC #30439
 MM7XVA 🔑 Andrew SKCC #31090
