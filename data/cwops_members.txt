@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-22 15:42:10 UTC
+# Generated: 2026-08-22 16:42:24 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -2821,6 +2821,7 @@ W4RN 🎹 MICHAEL D CWops #585
 W4SGN 🎹 Stephen CWops #3502
 W4SIG 🎹 KERRY S CWops #1700
 W4SPR 🎹 Stephen C CWops #2259
+W4SSF 🎹 Stanley E CWops #3979
 W4SV 🎹 WARREN J CWops #3155
 W4TJE 🎹 Thomas J CWops #1577
 W4TM 🎹 ROY C CWops #3769
@@ -3283,4 +3284,3 @@ ZS1ANF 🎹 Oleg S. CWops #3157
 ZS1C 🎹 Raoul CWops #338
 ZS1EL 🎹 VIDI CWops #13
 ZS1X 🎹 DIRK CWops #1106
-ZS2M 🎹 Rudi CWops #3420
