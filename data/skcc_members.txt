@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-25 03:56:03 UTC
+# Generated: 2026-08-25 04:56:17 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -714,6 +714,7 @@ AC1EO 🔑 Christopher J SKCC #30760
 AC1GF 🔑 Robert J SKCC #19399S
 AC1HB 🔑 Louis S SKCC #20070
 AC1HF 🔑 Maurice H SKCC #23177
+AC1JG 🔑 RICHARD A SKCC #31356
 AC1JN 🔑 Dennis E SKCC #23435
 AC1JT 🔑 David J SKCC #22821
 AC1KV 🔑 Danilo SKCC #24660S
@@ -2197,6 +2198,7 @@ BI3ASB 🔑 Ethan SKCC #30445
 BI3EI 🔑 BoSen SKCC #28940
 BI3SVW 🔑 LIU SKCC #28414
 BI3VJL 🔑 Ma SKCC #28343
+BI4APF 🔑 qile SKCC #31355
 BI4JAT 🔑 姜 SKCC #29941
 BI4LBD 🔑 Qingtao SKCC #20612
 BI4LWM 🔑 MAO Shuai SKCC #27878
@@ -16090,6 +16092,7 @@ LU5DF 🔑 Osvaldo A. SKCC #17251
 LU5DIT 🔑 JUAN SKCC #423
 LU5ESL 🔑 Lucrecia "Mab" SKCC #31180
 LU5FYD 🔑 GUSTAVO SKCC #12019
+LU5MMM 🔑 Giannandrea SKCC #31357
 LU5WA 🔑 Ricardo Oscar SKCC #31224
 LU5WAT 🔑 Samuel Ezequiel SKCC #16996
 LU5WE 🔑 Guillermo Gustavo SKCC #10828
