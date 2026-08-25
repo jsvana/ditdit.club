@@ -1,0 +1,202 @@
+{
+ "users": [
+  {
+   "id": 2602338,
+   "callsign": "SP2HF",
+   "fname": "Kevin",
+   "surname": "",
+   "city": "CWO",
+   "state": "",
+   "country": ""
+  },
+  {
+   "id": 3109563,
+   "callsign": "N1DN",
+   "fname": "Phillip Roland",
+   "surname": "",
+   "city": "CWO",
+   "state": "",
+   "country": ""
+  },
+  {
+   "id": 3109630,
+   "callsign": "W1WC",
+   "fname": "David A",
+   "surname": "",
+   "city": "CWO",
+   "state": "SKCC #29498",
+   "country": ""
+  },
+  {
+   "id": 3131331,
+   "callsign": "K0RQ",
+   "fname": "Jake",
+   "surname": "",
+   "city": "CWO",
+   "state": "SKCC #31290",
+   "country": ""
+  },
+  {
+   "id": 3160900,
+   "callsign": "K1PAP",
+   "fname": "Paolo",
+   "surname": "",
+   "city": "CWO",
+   "state": "SKCC #30359",
+   "country": ""
+  },
+  {
+   "id": 3164334,
+   "callsign": "K0RQ",
+   "fname": "Jake",
+   "surname": "",
+   "city": "CWO",
+   "state": "SKCC #31290",
+   "country": ""
+  },
+  {
+   "id": 3168841,
+   "callsign": "AI5BE",
+   "fname": "Timothy P",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3874",
+   "country": ""
+  },
+  {
+   "id": 3171669,
+   "callsign": "K7CO",
+   "fname": "Jon T",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3637",
+   "country": "SKCC #1300"
+  },
+  {
+   "id": 3195490,
+   "callsign": "KM4CFT",
+   "fname": "Jonathan",
+   "surname": "",
+   "city": "CWO",
+   "state": "SKCC #26702",
+   "country": ""
+  },
+  {
+   "id": 3196626,
+   "callsign": "KD9VUK",
+   "fname": "Aidan",
+   "surname": "",
+   "city": "CWO",
+   "state": "",
+   "country": ""
+  },
+  {
+   "id": 3199024,
+   "callsign": "K1YOK",
+   "fname": "Cory",
+   "surname": "",
+   "city": "CWO",
+   "state": "",
+   "country": ""
+  },
+  {
+   "id": 3205643,
+   "callsign": "KK7QAS",
+   "fname": "Josh",
+   "surname": "",
+   "city": "CWO",
+   "state": "SKCC #30466",
+   "country": ""
+  },
+  {
+   "id": 3222359,
+   "callsign": "W3PB",
+   "fname": "Chris",
+   "surname": "",
+   "city": "CWO",
+   "state": "SKCC #27319",
+   "country": ""
+  },
+  {
+   "id": 3223141,
+   "callsign": "KF0VWW",
+   "fname": "Owen",
+   "surname": "",
+   "city": "CWO",
+   "state": "",
+   "country": ""
+  },
+  {
+   "id": 3223959,
+   "callsign": "AC4NK",
+   "fname": "Ryan",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3801",
+   "country": "SKCC #30059"
+  },
+  {
+   "id": 3226545,
+   "callsign": "K5OHY",
+   "fname": "Timothy",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3573",
+   "country": ""
+  },
+  {
+   "id": 3226944,
+   "callsign": "KI7QCF",
+   "fname": "Forrest",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3636",
+   "country": ""
+  },
+  {
+   "id": 3227064,
+   "callsign": "AC9M",
+   "fname": "Joshua",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3963",
+   "country": "SKCC #30532"
+  },
+  {
+   "id": 3227090,
+   "callsign": "KM7EVC",
+   "fname": "Elly",
+   "surname": "",
+   "city": "CWO",
+   "state": "",
+   "country": ""
+  },
+  {
+   "id": 3227101,
+   "callsign": "KM7BUM",
+   "fname": "Darryl",
+   "surname": "",
+   "city": "CWO",
+   "state": "",
+   "country": ""
+  },
+  {
+   "id": 3227130,
+   "callsign": "W5JIA",
+   "fname": "Matt",
+   "surname": "",
+   "city": "CWO",
+   "state": "SKCC #30398",
+   "country": ""
+  },
+  {
+   "id": 3227188,
+   "callsign": "N9HO",
+   "fname": "Justin",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3828",
+   "country": "SKCC #30866"
+  }
+ ]
+}
