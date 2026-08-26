@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-26 21:11:50 UTC
+# Generated: 2026-08-26 22:12:03 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -4924,7 +4924,7 @@ K0CWC 🔑 Charles W SKCC #27173
 K0DBL 🔑 DONALD B SKCC #22766
 K0DC 🔑 JAMES D SKCC #14510
 K0DCB 🔑 Dennis C SKCC #7109
-K0DCR 🔑 Dennis C SKCC #29325C
+K0DCR 🔑 Dennis C SKCC #29325T
 K0DDS 🔑 DELBERT SKCC #24415
 K0DEV 🔑 Sharjeel SKCC #21635
 K0DF 🔑 DANIEL J SKCC #20929
