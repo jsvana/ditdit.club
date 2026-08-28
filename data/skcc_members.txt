@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-27 23:21:28 UTC
+# Generated: 2026-08-28 00:21:41 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -4667,6 +4667,7 @@ IZ8FAV 🔑 Giorgio "Gio" SKCC #4387C
 IZ8FTW 🔑 Fabio SKCC #3669
 IZ8FWN 🔑 Pietro SKCC #29554
 IZ8GCB 🔑 Migliozzi SKCC #18519
+IZ8JBS 🔑 Nino G. SKCC #31361
 IZ8JFL 🔑 Fabio SKCC #16314
 IZ8NXG 🔑 Renato SKCC #6123
 IZ8PPH 🔑 Daniele SKCC #7485
@@ -28584,6 +28585,7 @@ WB5RZR 🔑 JAMES R SKCC #12839
 WB5STU 🔑 Daniel R SKCC #8729
 WB5T 🔑 Cody T SKCC #20888
 WB5TOI 🔑 Clayton C SKCC #16954
+WB5TRI 🔑 SAMMY D SKCC #31362
 WB5UDA 🔑 JAY D SKCC #10158
 WB5UPS 🔑 RON A SKCC #5976
 WB5UTM 🔑 SCOTT SKCC #29789
