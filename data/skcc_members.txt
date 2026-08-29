@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-29 16:33:13 UTC
+# Generated: 2026-08-29 17:33:24 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -3491,6 +3491,7 @@ G0UFV 🔑 Paul B. SKCC #11355
 G0UJD 🔑 Merv SKCC #12862
 G0UMY 🔑 Christopher SKCC #25562
 G0UPD 🔑 Robert SKCC #30563
+G0UTN 🔑 STEVE SKCC #31367
 G0UUT 🔑 Ilan SKCC #8045
 G0UYG 🔑 Andy SKCC #4949
 G0VAR 🔑 Colin SKCC #17268
@@ -25254,6 +25255,7 @@ W4WMA 🔑 WILLIAM M SKCC #9658
 W4WMM 🔑 ALAN W SKCC #26922
 W4WNE 🔑 TERRY L SKCC #2727
 W4WNY 🔑 Steven E SKCC #1166
+W4WOX 🔑 Linda J SKCC #31366
 W4WQ 🔑 Jerry L SKCC #7211
 W4WSV 🔑 Aaron SKCC #29528
 W4WVE 🔑 Jermiah C SKCC #10783
