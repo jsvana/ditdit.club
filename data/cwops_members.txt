@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-08-29 17:33:21 UTC
+# Generated: 2026-08-29 18:34:04 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -1981,7 +1981,6 @@ N9CO 🎹 CHARLES C CWops #357
 N9EEE 🎹 RICHARD S CWops #3113
 N9EP 🎹 EDWARD J CWops #991
 N9EXL 🎹 Lyndel L CWops #2999
-N9FZ 🎹 Cainan M CWops #3412
 N9GG 🎹 ROBERT CWops #2517
 N9HO 🎹 Justin K CWops #3828
 N9IXD 🎹 MARTIN CWops #1393
@@ -2146,6 +2145,7 @@ NT6X 🎹 MICHAEL CWops #167
 NU1D 🎹 Seth M CWops #3821
 NU1O 🎹 CHRISTOPHER J CWops #1670
 NU3A 🎹 KENNETH C CWops #3462
+NU4J 🎹 HARRY W CWops #3412
 NU6N 🎹 Arkady CWops #2152
 NU7M 🎹 Benjamin R CWops #3615
 NU7V 🎹 CHRISTOPHER R CWops #3324
@@ -2435,6 +2435,7 @@ VA3KD 🎹 Thomas CWops #1735
 VA3PM 🎹 Pierre CWops #1617
 VA3RRK 🎹 Rowan T CWops #746
 VA3SB 🎹 Serge CWops #1488
+VA3SP 🎹 Michael E CWops #3982
 VA3TAR 🎹 Ted CWops #3504
 VA3TMV 🎹 Timothy M CWops #3345
 VA3UZ 🎹 Allan Timothy CWops #3949
@@ -2506,6 +2507,7 @@ VE3MV 🎹 Douglas W CWops #1642
 VE3NE 🎹 Lajos CWops #128
 VE3NNT 🎹 William Leslie CWops #1701
 VE3NRT 🎹 Christopher John CWops #3170
+VE3NZ 🎹 Gyorgy CWops #3983
 VE3OBR 🎹 Jukka CWops #616
 VE3OMV 🎹 Maria CWops #3059
 VE3RDE 🎹 Roger CWops #2957
@@ -3282,5 +3284,3 @@ ZL3CW 🎹 Jacky CWops #3270
 ZL4BDG 🎹 Ben CWops #3382
 ZM1A 🎹 JACKY CWops #3270
 ZP9MCE 🎹 Manu CWops #3103
-ZR2A 🎹 Ulrich CWops #2470
-ZS1ANF 🎹 Oleg S. CWops #3157
