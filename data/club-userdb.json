@@ -19,15 +19,6 @@
    "country": ""
   },
   {
-   "id": 3109630,
-   "callsign": "W1WC",
-   "fname": "David A",
-   "surname": "",
-   "city": "CWO",
-   "state": "SKCC #29498",
-   "country": ""
-  },
-  {
    "id": 3131331,
    "callsign": "K0RQ",
    "fname": "Jake",
@@ -197,6 +188,24 @@
    "city": "CWO",
    "state": "CWops #3828",
    "country": "SKCC #30866"
+  },
+  {
+   "id": 3227234,
+   "callsign": "W6JY",
+   "fname": "James",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3850",
+   "country": "SKCC #30291"
+  },
+  {
+   "id": 3227517,
+   "callsign": "KE7G",
+   "fname": "Devan",
+   "surname": "",
+   "city": "CWO",
+   "state": "",
+   "country": ""
   }
  ]
 }
