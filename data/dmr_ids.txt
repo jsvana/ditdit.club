@@ -2,7 +2,6 @@
 # Do not edit; this file is overwritten by dmr-id-sync on blackpearl
 2602338 SP2HF Kevin (CWO)
 3109563 N1DN Phillip Roland (CWO)
-3109630 W1WC David A (CWO, SKCC #29498)
 3131331 K0RQ Jake (CWO, SKCC #31290)
 3160900 K1PAP Paolo (CWO, SKCC #30359)
 3164334 K0RQ Jake (CWO, SKCC #31290)
@@ -22,3 +21,5 @@
 3227101 KM7BUM Darryl (CWO)
 3227130 W5JIA Matt (CWO, SKCC #30398)
 3227188 N9HO Justin (CWO, CWops #3828, SKCC #30866)
+3227234 W6JY James (CWO, CWops #3850, SKCC #30291)
+3227517 KE7G Devan (CWO)
