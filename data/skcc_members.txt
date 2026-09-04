@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-04 04:08:56 UTC
+# Generated: 2026-09-04 05:09:08 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -12500,7 +12500,7 @@ KE9EWO 🔑 Deborah E SKCC #31316
 KE9EX 🔑 WILLIAM M SKCC #367
 KE9FEH 🔑 Lloyd A SKCC #30934
 KE9FIH 🔑 Jamie M SKCC #31075
-KE9GBH 🔑 SKCC #31298
+KE9GBH 🔑 Steven SKCC #31298
 KE9GM 🔑 GREGORY E SKCC #2229
 KE9IX 🔑 FLOYD W SKCC #11636
 KE9SA 🔑 CHARLES A SKCC #19582T
