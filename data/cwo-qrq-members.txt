@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-04 07:40:51 UTC
+# Generated: 2026-09-04 18:40:59 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -108,6 +108,7 @@ KF8CNK 🎥 Conor 📺 [Critical Frequency](https://www.youtube.com/@Critical_Fr
 KG5VNQ 🌊 Justin King AR | ⚓ Justin T QC #24
 KI5DRY ⚓ Lawrence E QC #89
 KI5WEP 🌊 KI5WEP
+KI5ZND ⚓ LUCAS J QC #214
 KI7QCF 🐛 Forrest CWO big daddy | ⚓ FORREST S QC #3
 KJ4M ⚓ EUGENE A QC #211
 KJ5CMP ⚓ ISAIAH L QC #44
