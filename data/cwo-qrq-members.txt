@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-04 18:40:59 UTC
+# Generated: 2026-09-04 19:41:01 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -58,6 +58,7 @@ K1JD ⚓ JOHN G QC #63
 K1KIG ⚓ Kiersten S QC #137
 K1PAP 🇭🇷 Paolo CA
 K1YOK 🌊 Cory SK🌏
+K2MJP ⚓ Matthew J QC #215
 K2MMT 🌊 Chris CA
 K2MZ ⚓ Robert S QC #83
 K3CBK ⚓ Christopher B QC #206
