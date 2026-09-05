@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-05 20:17:59 UTC
+# Generated: 2026-09-05 21:18:11 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -4644,7 +4644,7 @@ IZ5GRS 🔑 Andrea SKCC #5223
 IZ5IOW 🔑 Marco SKCC #5797
 IZ5IOX 🔑 Michele SKCC #4632
 IZ5IPA 🔑 Luca SKCC #27198
-IZ5JLW 🔑 Gabriele SKCC #8717
+IZ5JLW 🔑 Gabriele SKCC #8717C
 IZ5QVV 🔑 Paolo SKCC #17091
 IZ5RAQ 🔑 Fabrizio SKCC #18913
 IZ5RNG 🔑 Massimo SKCC #8412
@@ -14380,7 +14380,7 @@ KK7MMN 🔑 Mike SKCC #27757S
 KK7MPR 🔑 Beau L SKCC #28723
 KK7N 🔑 MICHAEL E SKCC #19569
 KK7NF 🔑 ALAN L SKCC #11T
-KK7NR 🔑 Richard SKCC #28561T
+KK7NR 🔑 Richard SKCC #28561S
 KK7NUB 🔑 Randall SKCC #28701C
 KK7O 🔑 Anthony C SKCC #6181
 KK7OMR 🔑 Greg SKCC #28929
