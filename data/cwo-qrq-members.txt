@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-04 23:41:04 UTC
+# Generated: 2026-09-05 00:41:05 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -99,7 +99,7 @@ KD9VUK 🌊 Aidan
 KE0M ⚓ Joseph QC #117
 KE2FUA ⚓ Daniel J QC #62
 KE5AQD 🌊 Roger TX
-KE7G 🌊 Devan WA
+KE7G 🌊 Devan WA | ⚓ Devan QC #108
 KE8TBM ⚓ Fred H QC #36
 KE8UEX ⚓ SRIRAM QC #65
 KE9BHN 🌊 Paul QC #16 | ⚓ Paul R QC #16
@@ -120,7 +120,6 @@ KK9T ⚓ TIMOTHY L QC #158
 KL7VX 🌊 SteveB
 KM1Z ⚓ FRANCIS M QC #193
 KM4CFT 🌊 Jonathan | ⚓ JONATHAN Z QC #179
-KM7ANM ⚓ Devan QC #108
 KM7BUM 🌊 Darryl WA
 KM7CIB ⚓ Jack M QC #177
 KM7COJ 🌊 Joshua WA #28 | ⚓ Joshua L QC #28
