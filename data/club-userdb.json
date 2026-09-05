@@ -100,6 +100,15 @@
    "country": ""
   },
   {
+   "id": 3210446,
+   "callsign": "K8CES",
+   "fname": "Jesus",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3832",
+   "country": "SKCC #30465"
+  },
+  {
    "id": 3222359,
    "callsign": "W3PB",
    "fname": "Chris",
@@ -206,6 +215,15 @@
    "city": "CWO",
    "state": "",
    "country": ""
+  },
+  {
+   "id": 3227677,
+   "callsign": "KK7D",
+   "fname": "Michael",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3967",
+   "country": "SKCC #30453"
   }
  ]
 }
