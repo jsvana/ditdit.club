@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-06 21:23:37 UTC
+# Generated: 2026-09-06 22:23:50 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -17761,6 +17761,7 @@ N4BKY 🔑 Rebecca L SKCC #28636
 N4BM 🔑 Randall H SKCC #23714C
 N4BNO 🔑 JAMES R SKCC #4135
 N4BQ 🔑 Robert SKCC #25105
+N4BRI 🔑 SAMUEL H SKCC #31387
 N4BUA 🔑 Richard R SKCC #4928
 N4CBS 🔑 Larry D SKCC #16511
 N4CCB 🔑 CLIFTON C SKCC #12370
