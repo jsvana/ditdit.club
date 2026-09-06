@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-05 23:41:21 UTC
+# Generated: 2026-09-06 04:41:25 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -21,6 +21,7 @@ AE7I ⚓ CRAIG M QC #150
 AE8I 🌊 Ken OH
 AI4ZD ⚓ Zach QC #203
 AI5BE 🪲 Tim MS 🪲 | ⚓ Timothy P QC #12
+AI6I ⚓ JADEN J QC #216
 AJ1DM ⚓ John D QC #118
 AJ6QL ⚓ JOERG QC #131
 AJ7JO 🌊 Devin MT
