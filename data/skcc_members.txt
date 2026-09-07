@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-07 19:28:24 UTC
+# Generated: 2026-09-07 20:28:42 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -2575,6 +2575,7 @@ DL2ZBO 🔑 SKCC #11991
 DL2ZM 🔑 SEBASTIAN SKCC #13143
 DL3ASM 🔑 Martin Lothar SKCC #10380
 DL3BY 🔑 Stefan SKCC #24974
+DL3DCM 🔑 Michael SKCC #31391
 DL3EEE 🔑 Wolfgang -Otto- SKCC #17412
 DL3GJ 🔑 Grzegorz "Greg" SKCC #15874
 DL3HQN 🔑 Ingolf SKCC #8170
@@ -26858,6 +26859,7 @@ W9DOC 🔑 John S SKCC #17980
 W9DQ 🔑 Phillip T SKCC #5056
 W9DUP 🔑 SKCC #26513C
 W9DUT 🔑 Jude V SKCC #1321
+W9DV 🔑 WILLIAM D SKCC #31390
 W9DWR 🔑 DAVID W SKCC #27069T
 W9DXR 🔑 ROBERT M SKCC #19910
 W9EB 🔑 JAN G SKCC #7081
