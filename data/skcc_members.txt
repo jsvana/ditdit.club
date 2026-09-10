@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-10 19:47:21 UTC
+# Generated: 2026-09-10 20:47:35 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -17842,7 +17842,7 @@ N4EMP 🔑 Eddie M SKCC #13643
 N4ENT 🔑 EDWARD L SKCC #4723
 N4EO 🔑 Jason R SKCC #1855
 N4ETC 🔑 EDEN T SKCC #19673
-N4ETZ 🔑 SKCC #26211
+N4ETZ 🔑 DENNIS R SKCC #26211
 N4EU 🔑 ALEXANDER N SKCC #162
 N4EUQ 🔑 Daniel P SKCC #10680
 N4EWF 🔑 Edgar W SKCC #21761T
