@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-10 12:45:33 UTC
+# Generated: 2026-09-10 13:45:47 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -21632,6 +21632,7 @@ SV2AJX 🔑 Paschalis SKCC #12932
 SV2BBK 🔑 Theofanis SKCC #15909
 SV2BFI 🔑 Kosmas SKCC #25117
 SV2CLJ 🔑 Thomas SKCC #14928
+SV2CUI 🔑 GEORGE SKCC #31403
 SV2CXW 🔑 George SKCC #23412
 SV2DSJ 🔑 Panagiotis(Panos) SKCC #14901
 SV2FPU 🔑 GIANNI SKCC #24734
