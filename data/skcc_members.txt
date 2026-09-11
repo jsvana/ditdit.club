@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-11 11:51:07 UTC
+# Generated: 2026-09-11 12:51:26 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -2491,6 +2491,7 @@ DK0SU 🔑 University of Stuttgart SKCC #21555T
 DK1EY 🔑 Thomas SKCC #11309
 DK1MEB 🔑 Herbert SKCC #21734
 DK1WU 🔑 Johannes (HANS) SKCC #11455
+DK1ZM 🔑 Ralf SKCC #31405
 DK2AMS 🔑 Lars SKCC #19179
 DK2AT 🔑 Dieter SKCC #25515
 DK2BU/SK2022 🔑 Uwe SKCC #13636
@@ -14347,6 +14348,7 @@ KK6ZHK 🔑 Kenneth R SKCC #17642
 KK6ZIZ 🔑 Brian M SKCC #14810
 KK6ZLY 🔑 Edwin A SKCC #17679
 KK7A 🔑 JAMES A SKCC #23951
+KK7AWE 🔑 Adam SKCC #31404
 KK7AZD 🔑 Cynthia W SKCC #27327
 KK7BDS 🔑 R S SKCC #25041
 KK7BL 🔑 Jerry A SKCC #724C
