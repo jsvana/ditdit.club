@@ -1,5 +1,6 @@
 # DMR ID to callsign mapping, generated from https://www.ditdit.club/data/members.txt
 # Do not edit; this file is overwritten by dmr-id-sync on blackpearl
+2348768 G4BFG Ciemon (CWO, CWops #3429, SKCC #28107)
 2602338 SP2HF Kevin (CWO)
 3109563 N1DN Phillip Roland (CWO)
 3131331 K0RQ Jake (CWO, SKCC #31290)
