@@ -1,6 +1,15 @@
 {
  "users": [
   {
+   "id": 2348768,
+   "callsign": "G4BFG",
+   "fname": "Ciemon",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3429",
+   "country": "SKCC #28107"
+  },
+  {
    "id": 2602338,
    "callsign": "SP2HF",
    "fname": "Kevin",
