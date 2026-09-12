@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-12 11:56:30 UTC
+# Generated: 2026-09-12 12:56:41 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -2244,6 +2244,7 @@ CM6AW 🔑 Yainiel SKCC #24283
 CM6SQ 🔑 Nelson SKCC #23719S
 CM7ZA 🔑 Ariel SKCC #18619
 CN8CE 🔑 Zidane SKCC #17655
+CN8MEA 🔑 Mohamed SKCC #31408
 CN8WW 🔑 SAAID SKCC #9635
 CN8YR 🔑 Mohamed SKCC #9372
 CN8ZY 🔑 (Jalil) ABDELJALIL SKCC #26353
@@ -2624,6 +2625,7 @@ DL5KUD 🔑 Joachim SKCC #19145
 DL5LC 🔑 Andreas SKCC #6422
 DL5MB 🔑 Martin SKCC #25423
 DL5MFC 🔑 Wolfgang SKCC #23411
+DL5PF 🔑 SKCC #31409
 DL5XJ 🔑 Nick SKCC #17115
 DL6BCX 🔑 Hermann SKCC #11768
 DL6DBN 🔑 Frank SKCC #30470
