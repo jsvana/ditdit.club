@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-14 22:09:01 UTC
+# Generated: 2026-09-14 23:09:14 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -22051,7 +22051,7 @@ VA3SQ 🔑 John D SKCC #8977
 VA3STB 🔑 Ted SKCC #27272
 VA3STL 🔑 Alan SKCC #2505
 VA3SVZ 🔑 Scott SKCC #23454
-VA3TAR 🔑 Ted SKCC #28462T
+VA3TAR 🔑 Ted SKCC #28462S
 VA3TBQ 🔑 Terrance "Terry" SKCC #26796
 VA3TDS 🔑 Todd SKCC #21117
 VA3TDX 🔑 Anthony SKCC #16803
