@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-15 15:13:07 UTC
+# Generated: 2026-09-15 16:13:21 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -2225,6 +2225,7 @@ BX5AH 🔑 Ray SKCC #24688
 BX8AAD 🔑 Gene A. SKCC #12537
 CA3AHT 🔑 Alonso SKCC #30662
 CA3MOV 🔑 SKCC #7274
+CA5DPO 🔑 Francisco SKCC #31420
 CE1AT 🔑 Boris SKCC #10522
 CE2LCH 🔑 Luis Ernesto SKCC #13073
 CE3DPV 🔑 David Alejandro SKCC #20741
