@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-17 21:35:00 UTC
+# Generated: 2026-09-17 22:35:13 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -604,6 +604,7 @@ IW5EFO 🎹 DANIELE "Dan" CWops #1574
 IZ2FME 🎹 Michele CWops #2151
 IZ3ASA 🎹 Rodolfo (Rudy) CWops #3088
 IZ5CFN 🎹 Alessandro CWops #3766
+IZ5JLW 🎹 Gabriele CWops #3992
 IZ8JAI 🎹 Domenico CWops #3712
 JA1GQC 🎹 TAKASAKI CWops #1204
 JA1GZV 🎹 Moto Motoaki CWops #1014
@@ -3283,4 +3284,3 @@ ZF2EE 🎹 Gary L CWops #1240
 ZF2MJ 🎹 Daniel CWops #2164
 ZF2SC 🎹 SCOTT CWops #1698
 ZF9CW 🎹 Stan H CWops #272
-ZL1A 🎹 Jacky CWops #3270
