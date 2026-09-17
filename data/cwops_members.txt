@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-17 00:21:04 UTC
+# Generated: 2026-09-17 01:22:14 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -139,7 +139,7 @@ AE7EF 🎹 DAVID F CWops #3660
 AE7EU 🎹 Martin A CWops #2725
 AE7I 🎹 CRAIG M CWops #875
 AE7US 🎹 ROCKY D CWops #1781
-AE8Q 🎹 EDWARD T CWops #3478
+AE8Q 🎹 Ed T CWops #3478
 AF1E 🎹 JOSEPH G CWops #2605
 AF1Z 🎹 Mark W CWops #258
 AF2F 🎹 Vlad G CWops #3097
@@ -658,6 +658,7 @@ K0GUZ 🎹 Stephen L CWops #1889
 K0HD 🎹 John M CWops #2968
 K0HX 🎹 Stanley V CWops #1721
 K0II 🎹 FRANKLIN B CWops #3717
+K0IM 🎹 ERIK J CWops #3333
 K0INN 🎹 Thomas W CWops #1704
 K0IR 🎹 RALPH E CWops #519
 K0JP 🎹 JACK C CWops #1047
@@ -731,7 +732,7 @@ K1MMB 🎹 Joseph F CWops #1716
 K1MT 🎹 DAVID J CWops #2581
 K1MZM 🎹 Alan L CWops #3045
 K1NOK 🎹 Robert J CWops #764
-K1NW 🎹 BRIAN K CWops #3783
+K1NW 🎹 BRIAN CWops #3783
 K1NY 🎹 GERALD D CWops #1929
 K1OA 🎹 SCOTT A CWops #736
 K1OJ 🎹 OWEN F CWops #2398
@@ -1044,7 +1045,7 @@ K7AJM 🎹 ARTHUR J CWops #1730
 K7AZT 🎹 Paul J CWops #1621
 K7BG 🎹 MATTHEW S CWops #3447
 K7CO 🎹 JON T CWops #3637
-K7DRQ 🎹 Quentin L CWops #3210
+K7DRQ 🎹 Quentin CWops #3210
 K7EFW 🎹 Nathanael E CWops #3274
 K7EK 🎹 GARY E CWops #997
 K7ENH 🎹 JEROME A CWops #2960
@@ -1311,7 +1312,7 @@ KF0NWC 🎹 James D CWops #3900
 KF3B 🎹 ALAN D CWops #2754
 KF4A 🎹 DONALD E CWops #1666
 KF4HAW 🎹 DAVID H CWops #3135
-KF6C 🎹 BRIAN D CWops #2834
+KF6C 🎹 Hirotaka CWops #2834
 KF6COZ 🎹 Albert R CWops #2938
 KF6I 🎹 ROBERT J CWops #3919
 KF6NCX 🎹 Larry J CWops #3183
@@ -1532,7 +1533,7 @@ KZ4KG 🎹 JEFFREY W CWops #3764
 KZ5D 🎹 JOSEPH A CWops #12
 KZ5H 🎹 Seth I CWops #3667
 KZ5Z 🎹 JONATHAN V CWops #3842
-LA1IO 🎹 Halvor CWops #2651
+LA1IO/SK2026 🎹 Halvor CWops #2651
 LA4HIA 🎹 ØISTEIN RUNE CWops #3917
 LA4XX 🎹 Hjalmar "Hal" CWops #989
 LA6PH 🎹 John CWops #2448
@@ -1660,7 +1661,6 @@ N1BS 🎹 BRIAN R CWops #3673
 N1CC 🎹 Miguel A CWops #2817
 N1CCK 🎹 Nick CWops #2710
 N1CEO 🎹 Peter L CWops #3744
-N1CFO 🎹 ERIK J CWops #3333
 N1DC 🎹 Richard C CWops #1257
 N1DG 🎹 DONALD R CWops #2
 N1EN 🎹 Michael D CWops #1247
@@ -2928,7 +2928,7 @@ W6VO 🎹 BRADFORD S CWops #2305
 W6WG 🎹 Ronald J CWops #2173
 W6XU 🎹 Joshua C CWops #712
 W6YA 🎹 James H CWops #72
-W6YR 🎹 JOSEPH M CWops #1990
+W6YR 🎹 CWops #1990
 W7AQB 🎹 Jared C CWops #3774
 W7AVO 🎹 Masumi CWops #1200
 W7CT 🎹 JAMES B CWops #287
@@ -3177,7 +3177,7 @@ WI6X 🎹 James E CWops #3482
 WI7M 🎹 Andrew H CWops #3826
 WI9P 🎹 REED L CWops #3483
 WJ0C 🎹 STEVEN D CWops #2997
-WJ1B 🎹 HAROLD R CWops #752
+WJ1B/SK2026 🎹 HAROLD R CWops #752
 WJ2O 🎹 David G CWops #1093
 WJ6O 🎹 David W CWops #482
 WJ7S 🎹 John R CWops #1582
