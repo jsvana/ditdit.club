@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-16 20:44:18 UTC
+# Generated: 2026-09-17 17:08:54 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -124,7 +124,7 @@ KM4CFT 🌊 Jonathan | ⚓ JONATHAN Z QC #179
 KM7BUM 🌊 Darryl WA
 KM7CIB ⚓ Jack M QC #177
 KM7COJ 🌊 Joshua WA #28 | ⚓ Joshua L QC #28
-KM7EVC 🌊 Elly
+KM7EVC 🌳 Elly
 KN2D ⚓ KENNETH B QC #77
 KN3A ⚓ SCOTT A QC #30
 KO4FX ⚓ Ethan T QC #196
