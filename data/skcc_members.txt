@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-18 17:39:34 UTC
+# Generated: 2026-09-18 18:40:17 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -21842,7 +21842,6 @@ UZ5DX 🔑 Dmytro SKCC #4344C
 VA1DAN 🔑 Eldon Daniel (Dan) SKCC #30364
 VA1DM 🔑 Donald B. SKCC #8441
 VA1NIC 🔑 SKCC #27968
-VA1RST 🔑 Roger C SKCC #22355
 VA1WM 🔑 SKCC #411
 VA2AFH 🔑 Emmanuel SKCC #11479
 VA2ASF 🔑 Loic SKCC #5775
@@ -23288,6 +23287,7 @@ VO1BB 🔑 William J SKCC #4529T
 VO1BQ 🔑 Joseph C SKCC #27379
 VO1DI 🔑 Christopher Boyd SKCC #24172
 VO1DTW 🔑 DARREN SKCC #27548
+VO1FX 🔑 ROGER C SKCC #22355
 VO1FZ 🔑 Douglas W. SKCC #7123
 VO1GXG 🔑 SKCC #3423
 VO1HO 🔑 Darryl J SKCC #6384
