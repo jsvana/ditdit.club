@@ -1,6 +1,15 @@
 {
  "users": [
   {
+   "id": 2260769,
+   "callsign": "YO3ARG",
+   "fname": "Petre",
+   "surname": "",
+   "city": "CWO",
+   "state": "SKCC #31215",
+   "country": ""
+  },
+  {
    "id": 2348768,
    "callsign": "G4BFG",
    "fname": "Ciemon",
@@ -13,15 +22,6 @@
    "id": 2602338,
    "callsign": "SP2HF",
    "fname": "Kevin",
-   "surname": "",
-   "city": "CWO",
-   "state": "",
-   "country": ""
-  },
-  {
-   "id": 3109563,
-   "callsign": "N1DN",
-   "fname": "Phillip Roland",
    "surname": "",
    "city": "CWO",
    "state": "",
@@ -82,15 +82,6 @@
    "country": "SKCC #26702"
   },
   {
-   "id": 3196626,
-   "callsign": "KD9VUK",
-   "fname": "Aidan",
-   "surname": "",
-   "city": "CWO",
-   "state": "",
-   "country": ""
-  },
-  {
    "id": 3199024,
    "callsign": "K1YOK",
    "fname": "Cory",
@@ -118,6 +109,24 @@
    "country": "SKCC #30465"
   },
   {
+   "id": 3215209,
+   "callsign": "K0QG",
+   "fname": "Bill",
+   "surname": "",
+   "city": "CWO",
+   "state": "CWops #3987",
+   "country": "SKCC #9086"
+  },
+  {
+   "id": 3219819,
+   "callsign": "KM7CIB",
+   "fname": "Jack",
+   "surname": "",
+   "city": "CWO",
+   "state": "",
+   "country": ""
+  },
+  {
    "id": 3222359,
    "callsign": "W3PB",
    "fname": "Chris",
@@ -127,12 +136,30 @@
    "country": ""
   },
   {
+   "id": 3222723,
+   "callsign": "W2ELS",
+   "fname": "Laron",
+   "surname": "",
+   "city": "CWO",
+   "state": "",
+   "country": ""
+  },
+  {
    "id": 3223141,
    "callsign": "KF0VWW",
    "fname": "Owen",
    "surname": "",
    "city": "CWO",
    "state": "",
+   "country": ""
+  },
+  {
+   "id": 3223585,
+   "callsign": "N7HNT",
+   "fname": "Devin",
+   "surname": "",
+   "city": "CWO",
+   "state": "SKCC #31295",
    "country": ""
   },
   {
@@ -177,7 +204,7 @@
    "fname": "Elly",
    "surname": "",
    "city": "CWO",
-   "state": "",
+   "state": "SKCC #31425",
    "country": ""
   },
   {
@@ -208,15 +235,6 @@
    "country": "SKCC #30866"
   },
   {
-   "id": 3227234,
-   "callsign": "W6JY",
-   "fname": "James",
-   "surname": "",
-   "city": "CWO",
-   "state": "CWops #3850",
-   "country": "SKCC #30291"
-  },
-  {
    "id": 3227517,
    "callsign": "KE7G",
    "fname": "Devan",
@@ -233,6 +251,15 @@
    "city": "CWO",
    "state": "CWops #3967",
    "country": "SKCC #30453"
+  },
+  {
+   "id": 3227697,
+   "callsign": "NN6G",
+   "fname": "Chris",
+   "surname": "",
+   "city": "CWO",
+   "state": "",
+   "country": ""
   },
   {
    "id": 3227750,
