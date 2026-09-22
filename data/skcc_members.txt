@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-22 01:56:56 UTC
+# Generated: 2026-09-22 02:57:08 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -952,6 +952,7 @@ AC9EZ 🔑 ANDREW J SKCC #10658T
 AC9FB 🔑 Augustus L SKCC #21703
 AC9FF 🔑 GERARD A SKCC #8665
 AC9FL 🔑 Michael R SKCC #12264T
+AC9FM 🔑 ERNEST E SKCC #31432
 AC9FX 🔑 James M SKCC #12718
 AC9GT 🔑 Daniel W SKCC #13803
 AC9HJ 🔑 Paul T SKCC #12272
