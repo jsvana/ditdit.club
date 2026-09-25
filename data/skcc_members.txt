@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-25 04:12:48 UTC
+# Generated: 2026-09-25 05:12:59 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -13967,6 +13967,7 @@ KJ5IUZ 🔑 Scott A SKCC #29460
 KJ5JAU 🔑 Ievgen SKCC #29385
 KJ5LOP 🔑 Seth M SKCC #30250
 KJ5MCI 🔑 Thomas A SKCC #30660
+KJ5NFF 🔑 Peter SKCC #31440
 KJ5NUJ 🔑 Ross SKCC #30741
 KJ5NVF 🔑 Maverick SKCC #31309
 KJ5OCS 🔑 James SKCC #30825
