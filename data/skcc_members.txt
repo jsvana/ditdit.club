@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-25 02:12:23 UTC
+# Generated: 2026-09-25 03:12:35 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -4789,7 +4789,6 @@ JI1HSV 🔑 Richard G. SKCC #17585
 JI1JDI 🔑 Shintaro SKCC #26378
 JI1KBF 🔑 Mela SKCC #14013
 JI1RXQ 🔑 Hiroyuki SKCC #26707
-JI2MED 🔑 MANABU SKCC #6423
 JI3CJP 🔑 Kanji SKCC #7339T
 JI3SBA 🔑 TSUYOSHI SKCC #9551
 JI3UVB 🔑 Kazushi-Kazu SKCC #12444
