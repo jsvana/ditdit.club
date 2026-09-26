@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-25 15:11:01 UTC
+# Generated: 2026-09-26 00:11:07 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -137,6 +137,7 @@ KQ4DUX ⚓ Jay B QC #37
 KQ4EIC 🌊 Ethan |  | FL
 KQ4MHE ⚓ Michael QC #122
 KQ4MVW ⚓ Marshall G QC #64
+KQ4WJP ⚓ Kristoffer C QC #223
 KR4EBK ⚓ Andrew J QC #29
 KR4FLM ⚓ Hunter C QC #98
 KR4FTN ⚓ Maggie QC #180
