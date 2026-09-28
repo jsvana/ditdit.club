@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-28 21:32:47 UTC
+# Generated: 2026-09-28 22:33:00 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -21025,6 +21025,7 @@ PA0XAW 🔑 Age SKCC #17300
 PA0ZAV 🔑 Jan SKCC #27729
 PA1ALV 🔑 Hans SKCC #28158
 PA1AMP 🔑 Alexander M. SKCC #27634
+PA1AP 🔑 Onno SKCC #31447
 PA1BD 🔑 Dirk SKCC #10507
 PA1CX 🔑 Christian SKCC #17095
 PA1DMG 🔑 Marc SKCC #23442
