@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-26 00:11:07 UTC
+# Generated: 2026-09-28 16:11:47 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -194,7 +194,7 @@ NQ5A ⚓ Les D QC #38
 NQ8J ⚓ ERIC A QC #84
 NR4A ⚓ SAMUEL D QC #51
 NU1D ⚓ Seth M QC #68
-NU4J ⚓ HARRY W QC #32
+NU4J ⚓ Cainan M QC #32
 OE3KME ⚓ Martin QC #104
 OH1HAQ ⚓ HANNU QC #220
 SP2HF 🌅 Kevin 🇵🇱 | ⚓ Kevin QC #178
