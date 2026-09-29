@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-29 20:37:47 UTC
+# Generated: 2026-09-29 21:38:01 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -2897,6 +2897,7 @@ W5TN 🎹 DAVID M CWops #2353
 W5TUF 🎹 James R CWops #1609
 W5UTW 🎹 Charles J CWops #1901
 W5UXH 🎹 CHARLES M CWops #314
+W5WWW 🎹 RONALD F CWops #3999
 W5XX 🎹 Malcolm P CWops #2375
 W5ZR 🎹 BRANAN B CWops #23
 W6AEA 🎹 GEORGE H CWops #1478
@@ -3283,4 +3284,3 @@ YO3LW 🎹 Cristian (CRIS) CWops #2205
 YO4AAC 🎹 GEORGE CWops #2881
 YO5OHO 🎹 Cristin "Chris" CWops #1079
 YP3X 🎹 CONTEST CALLSIGN CWops #3405
-ZA1EM 🎹 Elvira CWops #3076
