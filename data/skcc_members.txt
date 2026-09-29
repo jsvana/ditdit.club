@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-09-29 18:37:24 UTC
+# Generated: 2026-09-29 19:37:38 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -20340,7 +20340,7 @@ NR5NN 🔑 James B SKCC #8118
 NR5P 🔑 Nathan L SKCC #8485
 NR6M 🔑 Colleen Y SKCC #27417
 NR6T 🔑 Clinton J SKCC #20849
-NR7K 🔑 william R SKCC #27970
+NR7K 🔑 william R SKCC #27970C
 NR7N/SK2025 🔑 Lance G SKCC #22482
 NR7O 🔑 Ron R SKCC #22465
 NR7R 🔑 MARK B SKCC #11549
@@ -21894,7 +21894,7 @@ VA2PHK 🔑 Patrick SKCC #23444
 VA2PLN 🔑 Pierre-Luc SKCC #19443
 VA2QCH 🔑 Andrew SKCC #20243
 VA2QDB 🔑 Dominique SKCC #21491
-VA2RKV 🔑 Ryan SKCC #26450
+VA2RKV 🔑 Ryan SKCC #26450C
 VA2SIB 🔑 Sebastien SKCC #22707
 VA2SME 🔑 Sébastien SKCC #7256
 VA2SNL 🔑 Steve SKCC #12664
