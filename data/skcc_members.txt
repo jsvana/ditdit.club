@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-02 19:53:21 UTC
+# Generated: 2026-10-02 20:53:35 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -4509,6 +4509,7 @@ IU7QCI 🔑 Fabio Andrea SKCC #26744
 IU7RAL 🔑 Alessandro SKCC #30419
 IU7RAW 🔑 Giorgio SKCC #28682
 IU7RBN 🔑 Marco SKCC #29189C
+IU7WPL 🔑 Ivo Girolamo SKCC #31458
 IU8ACL 🔑 LUIGI SKCC #17806
 IU8OJT 🔑 Marco SKCC #25106
 IU8OQY 🔑 Fortunato Mario SKCC #30859
