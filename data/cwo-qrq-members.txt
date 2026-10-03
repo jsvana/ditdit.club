@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-02 04:12:47 UTC
+# Generated: 2026-10-03 17:13:10 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -127,7 +127,6 @@ KM4CFT 🌊 Jonathan  CO | ⚓ JONATHAN Z QC #179
 KM7BUM 🌊 Darryl  WA
 KM7CIB 🌊 Jack | | ⚓ Jack M QC #177
 KM7COJ 🌊 Joshua--WA/QRQ28/BKG141 | ⚓ Joshua L QC #28
-KM7EVC 🌳 Elly  OR
 KM7EZN ⚓ David J QC #219
 KN2D ⚓ KENNETH B QC #77
 KN3A ⚓ SCOTT A QC #30
@@ -232,6 +231,7 @@ W6JSV 🤓 Jay
 W6JY ⚓ James S QC #10
 W6PUG 🌊 Darin CA | ⚓ Darin QC #15
 W6ZBA ⚓ Matthias G QC #125
+W7ELY 🌳 Elly  OR
 W7LHT ⚓ Zachary J QC #31
 W7MBR ⚓ DAVID R QC #169
 W7RF ⚓ DANIEL A QC #149
