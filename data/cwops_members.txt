@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-04 11:01:41 UTC
+# Generated: 2026-10-04 12:01:53 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -2224,6 +2224,7 @@ OK4RM 🎹 Jindrich CWops #2787
 OK5M 🎹 Contest Call - CWops #2499
 OK5MM 🎹 Vít CWops #2499
 OK5O 🎹 Rudolf CWops #2891
+OK5S 🎹 CWops #3111
 OK8IEY 🎹 Jules CWops #3656
 OL8R 🎹 Petr CWops #2830
 OM0CS 🎹 KAMIL CWops #1194
