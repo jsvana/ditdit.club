@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-05 11:06:43 UTC
+# Generated: 2026-10-05 12:06:55 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -2315,7 +2315,6 @@ RX6FJ 🎹 Igor CWops #3527
 SA0BXV 🎹 CWops #1849
 SA1CCQ 🎹 Eduardas CWops #2789
 SA6BGR 🎹 Per-Eric(Pelle) CWops #1773
-SA6G 🎹 Lars-Goran CWops #173
 SC3N 🎹 Anders CWops #265
 SC6O 🎹 Bengt CWops #3519
 SD0W 🎹 Mats CWops #2125
@@ -2353,9 +2352,7 @@ SM5IMO 🎹 DAN CWops #1854
 SM5SIC 🎹 Göran Ingemar CWops #2094
 SM6BGA 🎹 Hans CWops #456
 SM6CNN 🎹 Anders CWops #176
-SM6CUK 🎹 Lars-Goran CWops #173
 SM6DHF 🎹 Goran CWops #3471
-SM6F 🎹 Lars-Goran CWops #173
 SM6FKF 🎹 FREDY CWops #999
 SM6JWR 🎹 Klas CWops #2163
 SM6LRR 🎹 Mats CWops #1820
@@ -3287,3 +3284,4 @@ YO3LR 🎹 CRISTIAN CWops #2527
 YO3LW 🎹 Cristian (CRIS) CWops #2205
 YO4AAC 🎹 GEORGE CWops #2881
 YO5OHO 🎹 Cristin "Chris" CWops #1079
+YP3X 🎹 CONTEST CALLSIGN CWops #3405
