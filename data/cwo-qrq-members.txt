@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-03 17:13:10 UTC
+# Generated: 2026-10-05 22:13:44 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -107,7 +107,6 @@ KE8TBM ⚓ Fred H QC #36
 KE8UEX ⚓ SRIRAM QC #65
 KE9BHN 🌊 Paul  / QC16 | ⚓ Paul R QC #16
 KF0DQU ⚓ Joseph J QC #153
-KF0VWW 🌊 OwenMN
 KF8CNK 🎥 Conor 📺 [Critical Frequency](https://www.youtube.com/@Critical_Frequency)
 KG5VNQ 🌊 Justin King |  | AR | ⚓ Justin T QC #24
 KI5DRY ⚓ Lawrence E QC #89
