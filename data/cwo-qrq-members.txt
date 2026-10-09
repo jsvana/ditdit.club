@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-05 22:13:44 UTC
+# Generated: 2026-10-09 02:14:37 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -81,6 +81,7 @@ K6NF ⚓ Carol A QC #130
 K6TTA ⚓ JEFF S QC #75
 K7CO 🌊 Jon | ⚓ JON T QC #195
 K7SF ⚓ STEPHEN P QC #224
+K7TRT ⚓ David A QC #226
 K7XH ⚓ MICHAEL B QC #134
 K8CES ❄️ Zeus  MI 📺 [Jesus (K8CES)](https://www.youtube.com/@ZeusK8CES) | ⚓ Jesus QC #11
 K8DK ⚓ DOUGLAS N QC #78
@@ -95,6 +96,7 @@ KC3C ⚓ TIMOTHY R QC #164
 KC3WOA 🌊 Abe
 KD0NZL 🌊 | Matt | BKG# 556
 KD4ZFS ⚓ JON R QC #185
+KD5REW ⚓ DONALD R QC #225
 KD7J ⚓ Jeffry E QC #34
 KD7RT 🌊 DUGBO  CA #3608 | ⚓ Douglas S QC #26
 KD9WI 🌊 Aidan
