@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-09 02:14:37 UTC
+# Generated: 2026-10-09 19:14:51 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -102,7 +102,7 @@ KD7RT 🌊 DUGBO  CA #3608 | ⚓ Douglas S QC #26
 KD9WI 🌊 Aidan
 KE0M ⚓ Joseph QC #117
 KE2FUA ⚓ Daniel J QC #62
-KE2ICI 🌊 Dylan  NY
+KE3P 🌊 Dylan  NY
 KE5AQD 🌊 Roger  TX
 KE7G 🌊 Devan  WA | ⚓ Devan QC #108
 KE8TBM ⚓ Fred H QC #36
