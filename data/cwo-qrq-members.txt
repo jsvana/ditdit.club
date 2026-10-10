@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-09 19:14:51 UTC
+# Generated: 2026-10-10 14:15:04 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -73,6 +73,7 @@ K4WG ⚓ GENE L QC #210
 K4ZSR ⚓ Zachary QC #181
 K5OGR ⚓ William J QC #187
 K5OHY 🌊 Tim 📺 [Tim - K5OHY](https://www.youtube.com/@Tim-K5OHY) | ⚓ Timothy D QC #13
+K5QEA ⚓ SAMMY A QC #227
 K5RM ⚓ JOHN R QC #213
 K5TR ⚓ GEORGE P QC #207
 K5ZM ⚓ IAN M QC #120
