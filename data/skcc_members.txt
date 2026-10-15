@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-15 16:58:21 UTC
+# Generated: 2026-10-15 17:58:37 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -4064,7 +4064,6 @@ HA8AP 🔑 Antal (Toni) SKCC #14691
 HA8EN 🔑 LAJOS SKCC #5603
 HA8KW 🔑 Ferenc 'Feco' SKCC #3447T
 HA8LNA 🔑 Attila SKCC #27936
-HA8MT 🔑 Baracsi SKCC #3110
 HA8TI 🔑 Janos SKCC #15396
 HA8ZE 🔑 Ferenc SKCC #12039
 HA9MCQ 🔑 ISTVAN Steve (Pisti) SKCC #9094
@@ -16507,6 +16506,7 @@ M7NIR 🔑 Peter SKCC #30040
 M7NML 🔑 Namal SKCC #28338
 M7NNQ/SK2024 🔑 Peter SKCC #27559
 M7OCT 🔑 Samantha J SKCC #21549
+M7OUH 🔑 SKCC #31489
 M7RET 🔑 Paul K SKCC #30046
 M7RWF 🔑 Paul SKCC #23622
 M7SPN 🔑 Stephen SKCC #30811
@@ -20982,6 +20982,7 @@ ON8RAT 🔑 Marco SKCC #19707
 ON8RR 🔑 ROGER SKCC #14713
 ON8WR 🔑 Ward SKCC #13203T
 ON9CLU 🔑 Charly SKCC #17034
+ON9EEE 🔑 Ferenc "Fero" SKCC #3110
 OP4A 🔑 Francis (Cis) SKCC #19367
 OP5K 🔑 Roland (Roy) SKCC #15921
 OR4K 🔑 Mario SKCC #10645
@@ -21384,6 +21385,7 @@ PY4CE 🔑 Celso SKCC #17755
 PY4DH 🔑 Marco Antonio SKCC #11724
 PY4KM 🔑 Thiago Parreira Marcilio Favilla SKCC #26018
 PY4LS 🔑 Jose SKCC #27859
+PY4PDW 🔑 Pedro SKCC #31490
 PY4RDG 🔑 Rodrigo SKCC #19749
 PY4RR 🔑 Ricardo SKCC #16998
 PY5DK 🔑 DIRCEU SKCC #17121
