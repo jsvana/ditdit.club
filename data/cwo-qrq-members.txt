@@ -1,5 +1,5 @@
 # Merged Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-10 14:15:04 UTC
+# Generated: 2026-10-16 20:16:44 UTC
 # Sources (in priority order):
 #   1. cwo
 #   2. qrq-crew
@@ -233,6 +233,7 @@ W6JSV 🤓 Jay
 W6JY ⚓ James S QC #10
 W6PUG 🌊 Darin CA | ⚓ Darin QC #15
 W6ZBA ⚓ Matthias G QC #125
+W7BDJ ⚓ Brad QC #228
 W7ELY 🌳 Elly  OR
 W7LHT ⚓ Zachary J QC #31
 W7MBR ⚓ DAVID R QC #169
