@@ -1,5 +1,5 @@
 # SKCC Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-17 03:15:54 UTC
+# Generated: 2026-10-17 04:16:08 UTC
 # Do not edit manually - this file is auto-generated
 
 2E0IJP 🔑 Colin SKCC #24798
@@ -16499,6 +16499,7 @@ M7IAF 🔑 Jonathan SKCC #31239
 M7JDV 🔑 SKCC #25055
 M7KPO 🔑 Karl SKCC #24540
 M7KQD 🔑 Andi SKCC #30850
+M7KXB 🔑 kevin SKCC #31494
 M7LBY 🔑 Clive SKCC #28246
 M7LLB 🔑 Frank SKCC #30175
 M7LYL 🔑 Christina SKCC #30127
@@ -22258,6 +22259,7 @@ VA7ZW 🔑 Brian Wright SKCC #16887
 VE0CNM 🔑 HMCS Sackville SKCC #29265
 VE0MMA 🔑 VE0MMA SKCC #30290C
 VE0NL 🔑 Yvon Gaetan SKCC #5177
+VE1AEN 🔑 Victor J SKCC #31495
 VE1AJK 🔑 SKCC #17306
 VE1ARN 🔑 Robert (Bob) SKCC #20271
 VE1AS 🔑 Terrance Glen SKCC #3466
