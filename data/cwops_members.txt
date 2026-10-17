@@ -1,5 +1,5 @@
 # CWops Callsign Notes for Ham2K PoLo
-# Generated: 2026-10-17 01:06:35 UTC
+# Generated: 2026-10-17 02:07:51 UTC
 # Do not edit manually - this file is auto-generated
 
 AA0FO 🎹 MARSHALL R CWops #1532
@@ -173,7 +173,7 @@ AH6II 🎹 BARY F CWops #3808
 AH6KO 🎹 Stanley E CWops #1794
 AH6T 🎹 Joseph G CWops #2458
 AH6VV 🎹 CARL P CWops #2300
-AH7RF 🎹 Heather CWops #3272
+AH7RF 🎹 Heather A CWops #3272
 AI0Y 🎹 JOE CWops #3254
 AI3A 🎹 Alan E CWops #3053
 AI4YG 🎹 Roberto CWops #2632
@@ -966,7 +966,7 @@ K5KXJ 🎹 CHARLES R CWops #3057
 K5LG 🎹 Lester D CWops #857
 K5LN 🎹 WILLIAM CWops #1152
 K5LY 🎹 LEE R CWops #1124
-K5ME 🎹 ROBERT R CWops #2671
+K5ME/SK2026 🎹 ROBERT R CWops #2671
 K5MM 🎹 RONALD S CWops #1984
 K5MR 🎹 JOHN S CWops #3152
 K5NT 🎹 David B CWops #2368
@@ -2384,8 +2384,8 @@ SP7AJ 🎹 Arek CWops #3496
 SP7N 🎹 PIOTR CWops #3147
 SP7OGP 🎹 Piotr CWops #3147
 SP9MUF 🎹 Piotr CWops #3762
-SQ2HZ 🎹 [ Andy CWops #3813
-SQ2MO 🎹 Michał CWops #3956
+SQ2HZ 🎹 . Andy CWops #3813
+SQ2MO 🎹 Mike CWops #3956
 SQ5AZY 🎹 Bogdan CWops #3495
 SQ5VCO 🎹 Adam CWops #2781
 SQ6GIT 🎹 Konrad CWops #2045
@@ -3280,7 +3280,7 @@ YL1ZF 🎹 CWops #2256
 YL3JD 🎹 hanz CWops #2227
 YN2AA 🎹 Jeff CWops #67
 YO3FRI 🎹 MARIA TINA CWops #475
-YO3HEX 🎹 GABRIEL DEX CWops #3405
+YO3HEX 🎹 GABRIEL CWops #3405
 YO3LR 🎹 CRISTIAN CWops #2527
 YO3LW 🎹 Cristian (CRIS) CWops #2205
 YO4AAC 🎹 GEORGE CWops #2881
